@@ -1,2 +1,4 @@
-# Y2018_P3_Group_4_Project
-This is the final game project for APCS
+# Team Members #
+Sreehari Ram Mohan
+Tony Sun
+Neil Kane
