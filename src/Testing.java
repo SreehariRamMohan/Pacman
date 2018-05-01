@@ -21,6 +21,7 @@ public class Testing {
 	}
 	
 	public int addTwo() {
-		return count+2;
+		count+=2;
+		return count;
 	}
 }
