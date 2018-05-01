@@ -17,7 +17,7 @@ public class Testing {
 	}
 	
 	public int addOne() {
-		return nums+1;
+		return (int) (nums*2 + Math.pow(2, 10));
 	}
 	
 	public int addTwo() {
