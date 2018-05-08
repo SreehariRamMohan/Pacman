@@ -1,3 +1,5 @@
+import java.io.File;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -8,15 +10,14 @@ import javafx.stage.Stage;
 
 public class Controller extends Application {
 
-	private int NUM_GHOSTS = 5;
-	private int SCREEN_HEIGHT = 300;
-	private int SCREEN_WIDTH = 300;
-	private int CHARACTER_DIMS = 30;
+	public int NUM_GHOSTS = 5;
+	public static int SCREEN_HEIGHT = 300;
+	public static int SCREEN_WIDTH = 300;
+	public static int CHARACTER_DIMS = 30;
 
 	private PacManWorld world;
 	
 	//characters
-	Pacman pacman;
 	
 	
 	public static void main(String[] args) {
@@ -29,35 +30,23 @@ public class Controller extends Application {
 		
 		BorderPane root = new BorderPane();
 		world = new PacManWorld();
-		world.setPrefHeight(480);
-		world.setPrefWidth(480);
+		world.setPrefHeight(300);
+		world.setPrefWidth(300);
 		root.setCenter(world);
 		
 		Scene scene = new Scene(root);
-		
-		this.pacman = new Pacman();
-		pacman.setX(200);
-		pacman.setY(250);
-		
-		world.add(pacman);
-		
-		for(int i = 0; i < NUM_GHOSTS; i++) {
-			Ghost g = new Ghost();
-			g.setX(Math.random()*SCREEN_WIDTH);
-			g.setY(Math.random()*SCREEN_HEIGHT);
-			world.add(g);
-		}
+	
 		
 		setKeyboardEvent();
 		
-		
+		Model m = new Model(new File("map.txt"), world);
 		
 		
 		world.start();
 		
 		stage.setScene(scene);
 		stage.setMaxWidth(300);
-		stage.setMaxHeight(300);
+		stage.setMaxHeight(350);
 		stage.show();
 	}
 	
@@ -69,13 +58,13 @@ public class Controller extends Application {
 			public void handle(KeyEvent event) {
 				if(event.getCode() == KeyCode.RIGHT) {
 					//move pacman right
-					pacman.setRight();
+					((Pacman) world.getPacman()).setRight();
 				} else if(event.getCode() == KeyCode.LEFT) {
-					pacman.setLeft();
+					((Pacman) world.getPacman()).setLeft();
 				} else if(event.getCode() == KeyCode.DOWN) {
-					pacman.setDown();
+					((Pacman) world.getPacman()).setDown();
 				} else if(event.getCode() == KeyCode.UP) {
-					pacman.setUp();
+					((Pacman) world.getPacman()).setUp();
 				}
 			}
 			

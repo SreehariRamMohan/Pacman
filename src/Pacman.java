@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 
 public class Pacman extends Character{
+	
 	private int lives;
 	
 	public Pacman() {

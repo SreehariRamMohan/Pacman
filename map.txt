@@ -1,0 +1,11 @@
+300 300
+----------
+|EGEEGEEE|
+|EEE|EEEE|
+|E|E|EEEE|
+|E|EEEEEE|
+|E|E--EEE|
+|EEEEEEEE|
+|EEE|EEEE|
+|EEP|EEEE|
+----------
