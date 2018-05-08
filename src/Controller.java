@@ -20,6 +20,7 @@ public class Controller extends Application {
 	//characters
 	
 	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
