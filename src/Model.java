@@ -64,14 +64,15 @@ public class Model {
 				} else if(arr[col].equals("P")) {
 					characters[row][col] = new Pacman();
 					world.setPacman(characters[row][col]);
+					
 				} else if(arr[col].equals("G")) {
 					characters[row][col] = new Ghost();
 					world.storeGhost(characters[row][col]);
 				}
 				
 				if(characters[row][col] != null) {
-					characters[row][col].setX(col*30);
-					characters[row][col].setY(row*30);
+					characters[row][col].setX(col*Controller.CHARACTER_DIMS);
+					characters[row][col].setY(row*Controller.CHARACTER_DIMS);
 					world.add(characters[row][col]);
 				}
  			}

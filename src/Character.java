@@ -2,8 +2,10 @@ import javafx.scene.paint.Color;
 
 public abstract class Character extends Actor {
 
-	private int x;
-	private int y;
+
+	
+	private double ERROR = 1;
+	
 	private String direction = null;
 	private int speed;
 	
@@ -21,9 +23,24 @@ public abstract class Character extends Actor {
 		getWorld().remove(this);
 	}
 	
-	public void moveTo(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public boolean isInCenter() {
+		double x = this.getX();
+		double y = this.getY();
+		
+		if( (((x + this.getWidth()/2)%Controller.CHARACTER_DIMS) - Controller.CHARACTER_DIMS/2) < ERROR && (((y + this.getHeight()/2)%Controller.CHARACTER_DIMS) - Controller.CHARACTER_DIMS/2) < ERROR ) {
+			
+			int col = (int) (this.getX()/Controller.CHARACTER_DIMS);
+			int row = (int) (this.getY()/Controller.CHARACTER_DIMS);
+			
+			this.setCoordinate(col*Controller.CHARACTER_DIMS, row*Controller.CHARACTER_DIMS);
+			
+			System.out.println("Pacman is in the center");
+			
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 	public int getSpeed() {
@@ -52,6 +69,11 @@ public abstract class Character extends Actor {
 	
 	public void setRight() {
 		direction = RIGHT;
+	}
+
+	public void setCoordinate(double x, double y) {
+		setX(x);
+		setY(y);
 	}
 	
 }

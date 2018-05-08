@@ -56,6 +56,11 @@ public class Controller extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
+				
+				if(!((Pacman)world.getPacman()).isInCenter()) {
+					return;
+				}
+				
 				if(event.getCode() == KeyCode.RIGHT) {
 					//move pacman right
 					((Pacman) world.getPacman()).setRight();

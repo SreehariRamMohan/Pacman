@@ -34,6 +34,7 @@ public class Pacman extends Character{
 			this.move(0, -getSpeed());
 			this.setRotate(270);
 		}
+		
 	}
 	
 	public void decrementLives() {
