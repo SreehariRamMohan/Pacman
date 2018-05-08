@@ -9,10 +9,10 @@ import javafx.stage.Stage;
 public class Controller extends Application {
 
 	private int NUM_GHOSTS = 5;
-	private int SCREEN_HEIGHT = 480;
-	private int SCREEN_WIDTH = 480;
-	private int CHARACTER_DIMS = 15;
-	
+	private int SCREEN_HEIGHT = 300;
+	private int SCREEN_WIDTH = 300;
+	private int CHARACTER_DIMS = 30;
+
 	private PacManWorld world;
 	
 	//characters
@@ -56,6 +56,8 @@ public class Controller extends Application {
 		world.start();
 		
 		stage.setScene(scene);
+		stage.setMaxWidth(300);
+		stage.setMaxHeight(300);
 		stage.show();
 	}
 	
