@@ -1,3 +1,4 @@
+import javafx.scene.image.Image;
 
 public class Ghost extends Character{
 	
@@ -6,7 +7,7 @@ public class Ghost extends Character{
 	private Pacman pac;
 	
 	public Ghost() {
-		//this.setImage(); Make the Ghost have an image. Later make it depend on color
+		this.setImage(new Image("imgs/ghost.png")); 
 		setSpeed(10);
 	}
 	

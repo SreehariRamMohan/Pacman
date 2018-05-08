@@ -1,9 +1,10 @@
+import javafx.scene.image.Image;
 
 public class Pacman extends Character{
 	private int lives;
 	
 	public Pacman() {
-		//this.setImage() Add image later
+		this.setImage(new Image("imgs/pacMan.png"));
 		lives = 3;
 		setSpeed(10);
 	}
