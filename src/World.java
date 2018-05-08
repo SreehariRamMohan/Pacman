@@ -29,7 +29,7 @@ public abstract class World extends Pane {
 						((Actor) n).act(now);
 					}
 				}
-				
+								
 			}
 		};
 		
