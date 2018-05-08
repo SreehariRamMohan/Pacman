@@ -32,8 +32,8 @@ public abstract class Actor extends ImageView {
 		return list;
 	}
 
-	public World getWorld() {
-		return (World)(getParent());
+	public PacManWorld getWorld() {
+		return (PacManWorld)(getParent());
 	}
 	
 	public <A extends Actor> A getOneIntersectingObject(java.lang.Class<A> cls) {

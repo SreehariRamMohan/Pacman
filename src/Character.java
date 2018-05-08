@@ -23,6 +23,18 @@ public abstract class Character extends Actor {
 		getWorld().remove(this);
 	}
 	
+	public int[] getRowCol() {
+		int col = (int) (this.getX()/Controller.CHARACTER_DIMS);
+		int row = (int) (this.getY()/Controller.CHARACTER_DIMS);
+		return new int[] {row, col};
+	}
+	
+	public static int[] getRowCol(double x, double y) {
+		int col = (int) (x/Controller.CHARACTER_DIMS);
+		int row = (int) (y/Controller.CHARACTER_DIMS);
+		return new int[] {row, col};
+	}
+	
 	public boolean isInCenter() {
 		double x = this.getX();
 		double y = this.getY();

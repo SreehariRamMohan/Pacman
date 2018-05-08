@@ -5,9 +5,8 @@ public class PacManWorld extends World {
 
 	private Score score;
 	private Actor pacman;
-	
 	private List<Actor> ghosts;
-
+	private Model model;
 	
 	public PacManWorld() {
 		score = new Score();
@@ -22,6 +21,14 @@ public class PacManWorld extends World {
 	public void act(long now) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setModel(Model m) {
+		this.model = m;
+	}
+	
+	public Model getModel() {
+		return model;
 	}
 	
 	public int getScore() {

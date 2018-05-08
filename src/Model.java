@@ -19,15 +19,12 @@ public class Model {
 	private Actor[][] food;
 	
 	public Model(File f, PacManWorld world) {
-		
 		//read horizontal, and vertical cells from the .txt file.
 		//read in pacman location, ghost location, wall locations		
 		characters = new Actor[10][10];
 		food = new Actor[10][10];
 		this.world = world;
 		loadMapFromFile(f);
-		
-		
 	}
 
 	/**
@@ -82,6 +79,14 @@ public class Model {
 		}
 		
 		
+	}
+	
+	public Actor objectAt(int row, int col) {
+		if(row >= 0 && row < characters.length && col >= 0 && col < characters[row].length) {
+			return characters[row][col];
+		} else {
+			return null ;	
+		}
 	}
 	
 	public void saveState() {
