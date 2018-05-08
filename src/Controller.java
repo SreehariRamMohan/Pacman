@@ -1,5 +1,8 @@
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -10,6 +13,12 @@ public class Controller extends Application {
 	private int SCREEN_WIDTH = 480;
 	private int CHARACTER_DIMS = 15;
 	
+	private PacManWorld world;
+	
+	//characters
+	Pacman pacman;
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -19,14 +28,14 @@ public class Controller extends Application {
 		stage.setTitle("Pac Man");
 		
 		BorderPane root = new BorderPane();
-		PacManWorld world = new PacManWorld();
+		world = new PacManWorld();
 		world.setPrefHeight(480);
 		world.setPrefWidth(480);
 		root.setCenter(world);
 		
 		Scene scene = new Scene(root);
 		
-		Pacman pacman = new Pacman();
+		this.pacman = new Pacman();
 		pacman.setX(200);
 		pacman.setY(250);
 		
@@ -39,16 +48,36 @@ public class Controller extends Application {
 			world.add(g);
 		}
 		
+		setKeyboardEvent();
+		
+		
+		
+		
 		world.start();
 		
 		stage.setScene(scene);
 		stage.show();
-		
-		
-		
-		
-		
-		
+	}
+	
+	public void setKeyboardEvent() {
+		world.requestFocus();
+		world.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				if(event.getCode() == KeyCode.RIGHT) {
+					//move pacman right
+					pacman.setRight();
+				} else if(event.getCode() == KeyCode.LEFT) {
+					pacman.setLeft();
+				} else if(event.getCode() == KeyCode.DOWN) {
+					pacman.setDown();
+				} else if(event.getCode() == KeyCode.UP) {
+					pacman.setUp();
+				}
+			}
+			
+		});
 	}
 	
 	

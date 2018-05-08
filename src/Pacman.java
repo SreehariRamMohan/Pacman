@@ -6,18 +6,33 @@ public class Pacman extends Character{
 	public Pacman() {
 		this.setImage(new Image("imgs/pacMan.png"));
 		lives = 3;
-		setSpeed(10);
+		setSpeed(3);
 	}
 	
 	public Pacman(int lives) {
 		//this.setImage() Add image later
 		this.lives = lives;
-		setSpeed(10);
+		setSpeed(3);
 	}
 	
 	@Override
 	public void act(long now) {
-		// TODO Auto-generated method stub
+		//move in current direction
+		if(this.getDirection() == null) {
+			//start of game do nothing until player moves.
+		} else if(this.getDirection().equals(Character.RIGHT)) {
+			this.move(getSpeed(), 0);
+			this.setRotate(0);
+		} else if(this.getDirection().equals(Character.LEFT)) {
+			this.move(-getSpeed(), 0);
+			this.setRotate(180);
+		} else if(this.getDirection().equals(Character.DOWN)) {
+			this.move(0, getSpeed());
+			this.setRotate(90);
+		} else if(this.getDirection().equals(Character.UP)) {
+			this.move(0, -getSpeed());
+			this.setRotate(270);
+		}
 	}
 	
 	public void decrementLives() {

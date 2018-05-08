@@ -4,13 +4,13 @@ public abstract class Character extends Actor {
 
 	private int x;
 	private int y;
-	private String direction;
+	private String direction = null;
 	private int speed;
 	
-	public final String up = "UP";
-	public final String down = "DOWN";
-	public final String left = "LEFT";
-	public final String right = "RIGHT";
+	public static final String UP = "UP";
+	public static final String DOWN = "DOWN";
+	public static final String LEFT = "LEFT";
+	public static final String RIGHT = "RIGHT";
 	
 	@Override
 	public void act(long now) {
@@ -39,19 +39,19 @@ public abstract class Character extends Actor {
 	}
 	
 	public void setUp() {
-		direction = up;
+		direction = UP;
 	}
 	
 	public void setDown() {
-		direction = down;
+		direction = DOWN;
 	}
 	
 	public void setLeft() {
-		direction = left;
+		direction = LEFT;
 	}
 	
 	public void setRight() {
-		direction = right;
+		direction = RIGHT;
 	}
 	
 }
