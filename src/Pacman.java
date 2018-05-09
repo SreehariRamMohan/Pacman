@@ -36,6 +36,8 @@ public class Pacman extends Character{
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
+				
+				this.setDirection(this.getPreviousDirection());
 			} else {
 				//safe to move since we won't hit a wall.
 				this.setRotate(0);
@@ -56,6 +58,9 @@ public class Pacman extends Character{
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
+				
+				this.setDirection(this.getPreviousDirection());
+
 			} else {
 				//safe to move since we won't hit a wall.
 				this.setRotate(180);
@@ -75,6 +80,9 @@ public class Pacman extends Character{
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
+				
+				this.setDirection(this.getPreviousDirection());
+
 			} else {
 				//safe to move since we won't hit a wall.
 				this.setRotate(90);
@@ -94,6 +102,9 @@ public class Pacman extends Character{
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
+				
+				this.setDirection(this.getPreviousDirection());
+
 			} else {
 				//safe to move since we won't hit a wall.
 				this.setRotate(270);

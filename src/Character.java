@@ -6,7 +6,7 @@ public abstract class Character extends Actor {
 	private double ERROR = 0.001;
 	
 	private String direction = null;
-	
+	private String previousDirection = null;
 	
 	private int speed;
 	
@@ -69,22 +69,27 @@ public abstract class Character extends Actor {
 	}
 	
 	public void setDirection(String dir) {
+		this.previousDirection = this.getDirection();
 		this.direction = dir;
 	}
 	
 	public void setUp() {
+		this.previousDirection = this.getDirection();
 		direction = UP;
 	}
 	
 	public void setDown() {
+		this.previousDirection = this.getDirection();
 		direction = DOWN;
 	}
 	
 	public void setLeft() {
+		this.previousDirection = this.getDirection();
 		direction = LEFT;
 	}
 	
 	public void setRight() {
+		this.previousDirection = this.getDirection();
 		direction = RIGHT;
 	}
 
@@ -92,6 +97,16 @@ public abstract class Character extends Actor {
 		setX(x);
 		setY(y);
 	}
+
+	public String getPreviousDirection() {
+		return previousDirection;
+	}
+
+	public void setPreviousDirection(String previousDirection) {
+		this.previousDirection = previousDirection;
+	}
+	
+	
 	
 	
 	
