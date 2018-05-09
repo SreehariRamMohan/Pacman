@@ -3,7 +3,7 @@ import java.util.Stack;
 import javafx.scene.paint.Color;
 
 public abstract class Character extends Actor {
-	private double ERROR = 1;
+	private double ERROR = 0.001;
 	
 	private String direction = null;
 	

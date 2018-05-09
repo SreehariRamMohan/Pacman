@@ -18,10 +18,6 @@ public class Pacman extends Character{
 	
 	@Override
 	public void act(long now) {
-		
-
-		
-		
 		//move in current direction
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
