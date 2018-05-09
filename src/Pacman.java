@@ -32,13 +32,13 @@ public class Pacman extends Character{
 			int[] pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY());
 			int row = pos[0];
 			int col = pos[1];
-			this.setRotate(0);
 			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
 			} else {
 				//safe to move since we won't hit a wall.
+				this.setRotate(0);
 				this.move(getSpeed(), 0);
 			}
 			
@@ -52,13 +52,13 @@ public class Pacman extends Character{
 			int[] pos = Character.getRowCol(this.getX() - Controller.CHARACTER_DIMS, this.getY());
 			int row = pos[0];
 			int col = pos[1];
-			this.setRotate(180);
 			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
 			} else {
 				//safe to move since we won't hit a wall.
+				this.setRotate(180);
 				this.move(-getSpeed(), 0);
 			}
 		} else if(this.getDirection().equals(Character.DOWN)) {
@@ -71,13 +71,13 @@ public class Pacman extends Character{
 			int[] pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS);
 			int row = pos[0];
 			int col = pos[1];
-			this.setRotate(90);
 			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
 			} else {
 				//safe to move since we won't hit a wall.
+				this.setRotate(90);
 				this.move(0, getSpeed());
 			}
 		} else if(this.getDirection().equals(Character.UP)) {
@@ -90,13 +90,13 @@ public class Pacman extends Character{
 			int[] pos = Character.getRowCol(this.getX(), this.getY() - Controller.CHARACTER_DIMS);
 			int row = pos[0];
 			int col = pos[1];
-			this.setRotate(270);
 			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
 				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
 			} else {
 				//safe to move since we won't hit a wall.
+				this.setRotate(270);
 				this.move(0, -getSpeed());
 			}
 		}
