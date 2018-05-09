@@ -1,12 +1,14 @@
+import java.util.Stack;
+
 import javafx.scene.paint.Color;
 
 public abstract class Character extends Actor {
-
-
-	
 	private double ERROR = 1;
 	
 	private String direction = null;
+	
+	private Stack<String> stack = new Stack();
+	
 	private int speed;
 	
 	public static final String UP = "UP";
@@ -67,6 +69,10 @@ public abstract class Character extends Actor {
 		return direction;
 	}
 	
+	public void setDirection(String dir) {
+		this.direction = dir;
+	}
+	
 	public void setUp() {
 		direction = UP;
 	}
@@ -86,6 +92,22 @@ public abstract class Character extends Actor {
 	public void setCoordinate(double x, double y) {
 		setX(x);
 		setY(y);
+	}
+	
+	public String pop() {
+		return stack.pop();
+	}
+	
+	public void push(String dir) {
+		stack.push(dir);
+	}
+	
+	public String peek() {
+		return stack.peek();
+	}
+	
+	public boolean isStackEmpty() {
+		return stack.isEmpty();
 	}
 	
 }

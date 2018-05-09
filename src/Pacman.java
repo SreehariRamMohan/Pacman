@@ -18,6 +18,16 @@ public class Pacman extends Character{
 	
 	@Override
 	public void act(long now) {
+		
+
+		if(!isInCenter()) {
+			return;
+		} else {
+			if(!isStackEmpty()) {
+				this.setDirection(pop());
+			}
+		}
+		
 		//move in current direction
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
