@@ -20,13 +20,7 @@ public class Pacman extends Character{
 	public void act(long now) {
 		
 
-		if(!isInCenter()) {
-			return;
-		} else {
-			if(!isStackEmpty()) {
-				this.setDirection(pop());
-			}
-		}
+		
 		
 		//move in current direction
 		if(this.getDirection() == null) {

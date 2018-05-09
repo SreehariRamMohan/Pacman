@@ -7,7 +7,6 @@ public abstract class Character extends Actor {
 	
 	private String direction = null;
 	
-	private Stack<String> stack = new Stack();
 	
 	private int speed;
 	
@@ -94,20 +93,6 @@ public abstract class Character extends Actor {
 		setY(y);
 	}
 	
-	public String pop() {
-		return stack.pop();
-	}
 	
-	public void push(String dir) {
-		stack.push(dir);
-	}
-	
-	public String peek() {
-		return stack.peek();
-	}
-	
-	public boolean isStackEmpty() {
-		return stack.isEmpty();
-	}
 	
 }

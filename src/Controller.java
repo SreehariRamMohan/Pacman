@@ -59,35 +59,22 @@ public class Controller extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 				
+				if(!((Pacman)world.getPacman()).isInCenter()) {
+					return;
+				}
+				
 				if(event.getCode() == KeyCode.RIGHT) {
 					//move pacman right
-					if( ((Pacman) world.getPacman()).getDirection() == null) {
-						((Pacman) world.getPacman()).setRight();
-					} else {
-						//add to stack
-						((Pacman) world.getPacman()).push(Character.RIGHT);
-					}
+					((Pacman) world.getPacman()).setRight();
 				} else if(event.getCode() == KeyCode.LEFT) {
-					if( ((Pacman) world.getPacman()).getDirection() == null) {
-						((Pacman) world.getPacman()).setLeft();
-					} else {
-						//add to stack
-						((Pacman) world.getPacman()).push(Character.LEFT);
-					}
+					((Pacman) world.getPacman()).setLeft();
+
 				} else if(event.getCode() == KeyCode.DOWN) {
-					if( ((Pacman) world.getPacman()).getDirection() == null) {
-						((Pacman) world.getPacman()).setDown();
-					} else {
-						//add to stack
-						((Pacman) world.getPacman()).push(Character.DOWN);
-					}
+					((Pacman) world.getPacman()).setDown();
+
 				} else if(event.getCode() == KeyCode.UP) {
-					if( ((Pacman) world.getPacman()).getDirection() == null) {
-						((Pacman) world.getPacman()).setUp();
-					} else {
-						//add to stack
-						((Pacman) world.getPacman()).push(Character.UP);
-					}
+					((Pacman) world.getPacman()).setUp();
+
 				}
 			}
 			
