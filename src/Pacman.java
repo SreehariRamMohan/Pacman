@@ -129,4 +129,5 @@ public class Pacman extends Character{
 	public void onEat() {
 		//Does something when something is eaten
 	}
+
 }
