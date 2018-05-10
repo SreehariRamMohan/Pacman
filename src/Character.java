@@ -3,11 +3,10 @@ import java.util.Stack;
 import javafx.scene.paint.Color;
 
 public abstract class Character extends Actor {
-	private double ERROR = 1;
+	private double ERROR = 0.001;
 	
 	private String direction = null;
-	
-	private Stack<String> stack = new Stack();
+	private String previousDirection = null;
 	
 	private int speed;
 	
@@ -47,9 +46,7 @@ public abstract class Character extends Actor {
 			int row = (int) (this.getY()/Controller.CHARACTER_DIMS);
 			
 			this.setCoordinate(col*Controller.CHARACTER_DIMS, row*Controller.CHARACTER_DIMS);
-			
-			System.out.println("Pacman is in the center");
-			
+						
 			return true;
 		} else {
 			return false;
@@ -70,22 +67,27 @@ public abstract class Character extends Actor {
 	}
 	
 	public void setDirection(String dir) {
+		this.previousDirection = this.getDirection();
 		this.direction = dir;
 	}
 	
 	public void setUp() {
+		this.previousDirection = this.getDirection();
 		direction = UP;
 	}
 	
 	public void setDown() {
+		this.previousDirection = this.getDirection();
 		direction = DOWN;
 	}
 	
 	public void setLeft() {
+		this.previousDirection = this.getDirection();
 		direction = LEFT;
 	}
 	
 	public void setRight() {
+		this.previousDirection = this.getDirection();
 		direction = RIGHT;
 	}
 
@@ -93,21 +95,62 @@ public abstract class Character extends Actor {
 		setX(x);
 		setY(y);
 	}
-	
-	public String pop() {
-		return stack.pop();
+
+	public String getPreviousDirection() {
+		return previousDirection;
+	}
+
+	public void setPreviousDirection(String previousDirection) {
+		this.previousDirection = previousDirection;
 	}
 	
-	public void push(String dir) {
-		stack.push(dir);
+	public boolean safeMove(String direction, Character c) {
+		int[] pos = null;
+		if(direction.equals(Character.UP)) {
+			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
+		} else if(direction.equals(Character.DOWN)) {
+			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS);
+		} else if(direction.equals(Character.LEFT)) {
+			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
+		} else { //direction = RIGHT
+			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY() );
+		}
+		int row = pos[0];
+		int col = pos[1];
+		
+		if((getWorld().getModel().objectAt(row, col) instanceof Wall)) {
+			//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
+			Wall w = (Wall) getWorld().getModel().objectAt(row, col);
+			
+			if(direction.equals(Character.UP)) {
+				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
+			} else if(direction.equals(Character.DOWN)) {
+				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
+			} else if(direction.equals(Character.LEFT)) {
+				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
+			} else { //direction = RIGHT
+				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
+			}
+			
+			return false;
+
+			
+		} else {
+			//safe to move since we won't hit a wall.
+			
+			if(direction.equals(Character.UP)) {
+				this.move(0, -getSpeed());
+			} else if(direction.equals(Character.DOWN)) {
+				this.move(0, getSpeed());
+			} else if(direction.equals(Character.LEFT)) {
+				this.move(-getSpeed(), 0);
+			} else { //direction = RIGHT
+				this.move(getSpeed(), 0);
+			}	
+			return true;
+		}
 	}
 	
-	public String peek() {
-		return stack.peek();
-	}
 	
-	public boolean isStackEmpty() {
-		return stack.isEmpty();
-	}
 	
 }

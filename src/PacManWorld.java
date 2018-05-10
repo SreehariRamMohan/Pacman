@@ -8,6 +8,8 @@ public class PacManWorld extends World {
 	private List<Actor> ghosts;
 	private Model model;
 	
+	private int level = 1;
+	
 	public PacManWorld() {
 		score = new Score();
 		ghosts = new ArrayList<>();
@@ -49,6 +51,16 @@ public class PacManWorld extends World {
 	
 	public List<Actor> getGhosts() {
 		return ghosts;
+	}
+
+
+	public int getLevel() {
+		return level;
+	}
+
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 }
