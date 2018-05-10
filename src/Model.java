@@ -30,6 +30,7 @@ public class Model {
 		//read in pacman location, ghost location, wall locations		
 		characters = new Actor[10][10];
 		food = new Actor[10][10];
+		
 		this.world = world;
 		loadMapFromFile(f);
 	}
@@ -51,6 +52,13 @@ public class Model {
 		String[] dims = line.split(" ");
 		int width = Integer.parseInt(dims[0]);
 		int height = Integer.parseInt(dims[1]);
+		
+		characters = new Actor[width/Controller.CHARACTER_DIMS][height/Controller.CHARACTER_DIMS];
+		food = new Actor[width/Controller.CHARACTER_DIMS][height/Controller.CHARACTER_DIMS];
+		
+		this.world.setPrefWidth(width);
+		this.world.setPrefHeight(height);
+		
 		System.out.println("Width is " + width + " and height is " + height);
 		
 		int row = 0;

@@ -58,14 +58,14 @@ public class Controller extends Application {
 		
 		setKeyboardEvent();
 		
-		Model m = new Model(new File("map.txt"), world);
+		Model m = new Model(new File("map3.txt"), world);
 		world.setModel(m);
 		
 		world.start();
 		
 		stage.setScene(scene);
-		stage.setMaxWidth(300);
-		stage.setMaxHeight(350);
+		stage.setMaxWidth(630);
+		stage.setMaxHeight(680);
 		stage.show();
 	}
 	

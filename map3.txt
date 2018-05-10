@@ -9,7 +9,7 @@ E----R---E|E---R----E
 EEEE|R|EEEGEEE|R|EEEE
 -----R|E--E--E|R-----
 EEEEEREE|GGG|EEREEEEE
------R|E--E--E|R-----
+-----R|E-----E|R-----
 EEEE|R|EEEEEEE|R|EEEE
 E----R|E-----E|R----E
 E|RRRRRRRR|RRRRRRRR|E
