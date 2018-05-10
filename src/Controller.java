@@ -18,13 +18,12 @@ public class Controller extends Application {
 	public static int SCREEN_HEIGHT = 300;
 	public static int SCREEN_WIDTH = 300;
 	public static int CHARACTER_DIMS = 30;
-
 	private PacManWorld world;
 	
+	private Text scoreText;
+	private Text liveText;
+	
 	//characters
-	
-	
-	
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -43,8 +42,11 @@ public class Controller extends Application {
 		Scene scene = new Scene(root);
 	
 		BorderPane topBox = new BorderPane();
-		Text scoreText = new Text("Score: 0");
-		Text liveText = new Text("Lives: 3");
+		scoreText = new Text("Score: 0");
+		liveText = new Text("Lives: 3");
+		world.setScoreText(scoreText);
+		world.setLiveText(liveText);
+		
 		
 		scoreText.setFont(Font.font(24));
 		liveText.setFont(Font.font(24));
@@ -56,7 +58,7 @@ public class Controller extends Application {
 		
 		setKeyboardEvent();
 		
-		Model m = new Model(new File("map.txt"), world);
+		Model m = new Model(new File("map2.txt"), world);
 		world.setModel(m);
 		
 		world.start();

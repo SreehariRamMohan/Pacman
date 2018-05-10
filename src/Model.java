@@ -61,7 +61,6 @@ public class Model {
 				} else if(arr[col].equals("P")) {
 					characters[row][col] = new Pacman();
 					world.setPacman(characters[row][col]);
-					
 				} else if(arr[col].equals("G")) {
 					characters[row][col] = new Ghost();
 					world.storeGhost(characters[row][col]);

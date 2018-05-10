@@ -1,21 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.text.Text;
+
 public class PacManWorld extends World {
 
-	private Score score;
+	private int score;
 	private Actor pacman;
 	private List<Actor> ghosts;
 	private Model model;
-	
 	private int level = 1;
 	
+	private Text scoreText;
+	private Text liveText;
+	
 	public PacManWorld() {
-		score = new Score();
 		ghosts = new ArrayList<>();
-		score.setX(40);
-		score.setY(50);
-		getChildren().add(score);
 	}
 	
 	
@@ -31,10 +31,6 @@ public class PacManWorld extends World {
 	
 	public Model getModel() {
 		return model;
-	}
-	
-	public Score getScore() {
-		return score;
 	}
 	
 	public void setPacman(Actor pac) {
@@ -61,6 +57,38 @@ public class PacManWorld extends World {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+
+	public void updateScore(int newScore) {
+		String newText = "Score: " + newScore;
+		scoreText.setText(newText);
+	}
+
+
+	public void setScoreText(Text scoreText) {
+		this.scoreText = scoreText;
+	}
+
+
+
+	public Text getLiveText() {
+		return liveText;
+	}
+
+
+	public void setLiveText(Text liveText) {
+		this.liveText = liveText;
+	}
+
+
+	public int getScore() {
+		return score;
+	}
+
+
+	public void setScore(int score) {
+		this.score = score;
 	}
 
 }
