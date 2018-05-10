@@ -1,11 +1,11 @@
 300 300
 ----------
-|EGEEGEEE|
-|EEE|EEEE|
-|E|E|EEEE|
-|E|EEEEEE|
-|E|E--EEE|
-|EEEEEEEE|
-|EEE|EEEE|
-|EEP|EEEE|
+|EGEEGE|E|
+|EEE|EE|E|
+|E|E|EE|E|
+|E|EEE-EE|
+|E|E-EEEE|
+|EE|EEEEE|
+|EEE|EE-E|
+|EEPEEEEE|
 ----------

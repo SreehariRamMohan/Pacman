@@ -10,6 +10,8 @@ public class Ghost extends Character{
 	
 	private String[] dirChoices = {"UP", "DOWN", "LEFT", "RIGHT"};
 	
+	private int actCounter = 0; 
+	
 	public Ghost() {
 		this.setImage(new Image("imgs/ghost.png")); 
 		setSpeed(3);
@@ -21,6 +23,15 @@ public class Ghost extends Character{
 	
 	public int chooseRandomIndex() {
 		return (int)(Math.random() * dirChoices.length);
+	}
+	
+	public boolean shouldTurn(int chance, int num) {
+		int rand = 1 + (int) (Math.random() * (num)); // 1 - num
+		if(rand <= chance) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	@Override
@@ -46,22 +57,21 @@ public class Ghost extends Character{
 		return pac;
 	}
 	
+	
+	
 	public void autoPlayNextMove() {
 		if(getWorld().getLevel() == 1) {
-			//level 1 is easy, the pac man move randomly
-			if(this.isInCenter()) {
+			/**
+			 * Level 1 is simple, the pac-man simply moves randomly around the board
+			 */
+			boolean wasItSafe = this.safeMove(direction, this);
+			
+			if(!wasItSafe) {
+				//change the directio
+				
 				direction = dirChoices[chooseRandomIndex()];
-			} else {
-				if(direction.equals("UP")) {
-					this.move(0, -getSpeed());
-				} else if(direction.equals("DOWN")) {
-					this.move(0, getSpeed());
-				} else if(direction.equals("RIGHT")) {
-					this.move(getSpeed(), 0);
-				} else {
-					this.move(-getSpeed(), 0);
-				}
 			}
+			
 		}
 	}
 	

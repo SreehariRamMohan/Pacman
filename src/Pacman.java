@@ -21,94 +21,21 @@ public class Pacman extends Character{
 		//move in current direction
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
-		} else if(this.getDirection().equals(Character.RIGHT)) {
-			
-			/*
-			 * Collision Logic ~ needs more improvements but it does the job for now
-			 * ~Sreehari
-			 */
-			
-			//check if the position the Pacman Will Move to is a wall.
-			int[] pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY());
-			int row = pos[0];
-			int col = pos[1];
-			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
-				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
-				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
-				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
-				
-				this.setDirection(this.getPreviousDirection());
-			} else {
-				//safe to move since we won't hit a wall.
+		} else if(this.getDirection().equals(Character.RIGHT)) {	
+			if(this.safeMove(RIGHT, this)) {
 				this.setRotate(0);
-				this.move(getSpeed(), 0);
 			}
-			
 		} else if(this.getDirection().equals(Character.LEFT)) {
-			/*
-			 * Collision Logic ~ needs more improvements but it does the job for now
-			 * ~Sreehari
-			 */
-			
-			//check if the position the Pacman Will Move to is a wall.
-			int[] pos = Character.getRowCol(this.getX() - Controller.CHARACTER_DIMS, this.getY());
-			int row = pos[0];
-			int col = pos[1];
-			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
-				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
-				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
-				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
-				
-				this.setDirection(this.getPreviousDirection());
-
-			} else {
-				//safe to move since we won't hit a wall.
+			if(this.safeMove(LEFT, this)) {
 				this.setRotate(180);
-				this.move(-getSpeed(), 0);
 			}
 		} else if(this.getDirection().equals(Character.DOWN)) {
-			/*
-			 * Collision Logic ~ needs more improvements but it does the job for now
-			 * ~Sreehari
-			 */
-			
-			//check if the position the Pacman Will Move to is a wall.
-			int[] pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS);
-			int row = pos[0];
-			int col = pos[1];
-			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
-				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
-				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
-				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
-				
-				this.setDirection(this.getPreviousDirection());
-
-			} else {
-				//safe to move since we won't hit a wall.
+			if(this.safeMove(DOWN, this)) {
 				this.setRotate(90);
-				this.move(0, getSpeed());
 			}
 		} else if(this.getDirection().equals(Character.UP)) {
-			/*
-			 * Collision Logic ~ needs more improvements but it does the job for now
-			 * ~Sreehari
-			 */
-			
-			//check if the position the Pacman Will Move to is a wall.
-			int[] pos = Character.getRowCol(this.getX(), this.getY() - Controller.CHARACTER_DIMS);
-			int row = pos[0];
-			int col = pos[1];
-			if((getWorld().getModel().objectAt(row, col) instanceof Wall) && this.getIntersectingObjects(Wall.class).size() != 0) {
-				//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
-				Wall w = (Wall) getWorld().getModel().objectAt(row, col);
-				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
-				
-				this.setDirection(this.getPreviousDirection());
-
-			} else {
-				//safe to move since we won't hit a wall.
+			if(this.safeMove(UP, this)) {
 				this.setRotate(270);
-				this.move(0, -getSpeed());
 			}
 		}
 		

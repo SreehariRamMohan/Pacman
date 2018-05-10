@@ -2,10 +2,14 @@ import java.io.File;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class Controller extends Application {
@@ -38,6 +42,17 @@ public class Controller extends Application {
 		
 		Scene scene = new Scene(root);
 	
+		BorderPane topBox = new BorderPane();
+		Text scoreText = new Text("Score: 0");
+		Text liveText = new Text("Lives: 3");
+		
+		scoreText.setFont(Font.font(24));
+		liveText.setFont(Font.font(24));
+		
+		topBox.setLeft(scoreText);
+		topBox.setRight(liveText);
+		
+		root.setTop(topBox);
 		
 		setKeyboardEvent();
 		
