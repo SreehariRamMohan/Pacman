@@ -12,6 +12,7 @@ public class Ghost extends Character {
 	
 	private int actCounter = 0; 
 	
+	
 	public Ghost() {
 		this.setImage(new Image("imgs/ghost.png")); 
 		setSpeed(3);
@@ -56,8 +57,6 @@ public class Ghost extends Character {
 	public Pacman getPacman() {
 		return pac;
 	}
-	
-	
 	
 	public void autoPlayNextMove() {
 		if(getWorld().getLevel() == 1) {

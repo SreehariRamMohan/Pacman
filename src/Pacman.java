@@ -4,6 +4,8 @@ public class Pacman extends Character{
 	
 	private int lives;
 	
+	private static int trackPoint = 0;
+	
 	public Pacman() {
 		this.setImage(new Image("imgs/pacMan.png"));
 		lives = 3;
@@ -47,8 +49,24 @@ public class Pacman extends Character{
 			food.onEat();
 		}
 		 
+		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
+			Ghost ghost = this.getOneIntersectingObject(Ghost.class);
+			if(ghost.isEdible()) {
+				int increment = (int) Math.pow(2, trackPoint);
+				trackPoint++;
+				getWorld().setScore(getWorld().getScore() + increment*200);
+				getWorld().updateScore(getWorld().getScore());
+				getWorld().remove(ghost);
+			} else {
+				getWorld().remove(this);
+				System.exit(0);
+			}
+		}
 		
-		
+	}
+	
+	public static void setTrackPoint(int p) {
+		trackPoint = p;
 	}
 	
 	public void decrementLives() {

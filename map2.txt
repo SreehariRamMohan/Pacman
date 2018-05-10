@@ -1,7 +1,7 @@
 300 300
 ----------
 |RGRRGRRR|
-|RRR|RRRR|
+|RRR|RURR|
 |E|E|ERRE|
 |U|EEEEEE|
 |E|E--EEE|
