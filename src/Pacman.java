@@ -111,6 +111,16 @@ public class Pacman extends Character{
 			}
 		}
 		
+		if(this.getIntersectingObjects(RegFood.class).size() != 0) {
+			RegFood food = this.getOneIntersectingObject(RegFood.class);
+			food.onEat();
+		} else if(this.getIntersectingObjects(EatGhostPowerUp.class).size() != 0) {
+			EatGhostPowerUp food = this.getOneIntersectingObject(EatGhostPowerUp.class);
+			food.onEat();
+		}
+		 
+		
+		
 	}
 	
 	public void decrementLives() {

@@ -41,7 +41,7 @@ public class Controller extends Application {
 		
 		setKeyboardEvent();
 		
-		Model m = new Model(new File("map.txt"), world);
+		Model m = new Model(new File("map2.txt"), world);
 		world.setModel(m);
 		
 		world.start();

@@ -1,6 +1,6 @@
 import javafx.scene.image.Image;
 
-public class Ghost extends Character{
+public class Ghost extends Character {
 	
 	private boolean isEdible;
 	private boolean isAutoPlay;

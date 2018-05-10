@@ -65,6 +65,10 @@ public class Model {
 				} else if(arr[col].equals("G")) {
 					characters[row][col] = new Ghost();
 					world.storeGhost(characters[row][col]);
+				} else if(arr[col].equals("R")) {
+					characters[row][col] = new RegFood();
+				} else if(arr[col].equals("U")) {
+					characters[row][col] = new EatGhostPowerUp();
 				}
 				
 				if(characters[row][col] != null) {

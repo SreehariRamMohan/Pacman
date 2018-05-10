@@ -11,7 +11,7 @@ public class PacManWorld extends World {
 	public PacManWorld() {
 		score = new Score();
 		ghosts = new ArrayList<>();
-		score.setX(50);
+		score.setX(40);
 		score.setY(50);
 		getChildren().add(score);
 	}
@@ -31,8 +31,8 @@ public class PacManWorld extends World {
 		return model;
 	}
 	
-	public int getScore() {
-		return score.getValue();
+	public Score getScore() {
+		return score;
 	}
 	
 	public void setPacman(Actor pac) {
