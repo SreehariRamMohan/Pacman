@@ -30,6 +30,16 @@ public class Pacman extends Character{
 			return;
 		}
 		
+		//allow the pacman to edge loop
+		if(this.getX() > getWorld().getWidth()) {
+			this.setCoordinate(0, this.getY());
+		} else if((this.getX() + this.getWidth()) < 0) {
+			this.setCoordinate(this.getWorld().getWidth(), this.getY());
+		}
+		
+		
+		
+		
 		//move in current direction
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
