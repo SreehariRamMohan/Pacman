@@ -76,4 +76,8 @@ public abstract class World extends Pane {
 	public boolean isKeyDown(KeyCode key) {
 		return keySet.contains(key);
 	}
+	
+	public void pause() {
+		stop();
+	}
 }

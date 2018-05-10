@@ -1,3 +1,6 @@
+import java.util.Timer;
+import java.util.TimerTask;
+
 import javafx.scene.image.Image;
 
 public class Pacman extends Character{
@@ -20,7 +23,7 @@ public class Pacman extends Character{
 	
 	@Override
 	public void act(long now) {
-		
+			
 		if(this.hasQue() && this.isInCenter() && this.safeMove(this.getQuedDir(), this)) {
 			this.setDirection(this.getQuedDir());
 			this.removeQuedTurn();
@@ -160,14 +163,40 @@ public class Pacman extends Character{
 	
 	@Override
 	public void die() {
+		
 		decrementLives();
 		
-		if(lives <= 0) {
-			System.out.println("*****YOU LOSE*****");
+		if(lives >= 0) {
+			resetGame();
 		} else {
-			//reset pacman to initial position and reset ghosts before resuming play
-			
+			System.out.println("*****YOU LOSE*****");
+			//show pacman death animation.
 		}
+	}
+	
+	public void resetGame() {
+		
+		getWorld().pause();
+		
+		Timer timer = new Timer();
+		
+		timer.schedule(new TimerTask() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				getWorld().start();
+			}
+			
+		}, 1000);
+		
+		this.setCoordinate(this.getWorld().getModel().pacmanInitialPosition[1] * Controller.CHARACTER_DIMS, this.getWorld().getModel().pacmanInitialPosition[0] * Controller.CHARACTER_DIMS);
+		
+		for(int i = 0; i < this.getWorld().getGhosts().size(); i++) {
+			Ghost g = (Ghost) this.getWorld().getGhosts().get(i);
+			g.setCoordinate(this.getWorld().getModel().ghostInitialPositions.get(i)[1] * Controller.CHARACTER_DIMS, this.getWorld().getModel().ghostInitialPositions.get(i)[0]  * Controller.CHARACTER_DIMS);
+		}
+	
 	}
 
 }

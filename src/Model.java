@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -17,6 +18,12 @@ public class Model {
 	
 	//array to store food, and powerups
 	private Actor[][] food;
+	
+	/**
+	 * Fields to store the initial positions of Pacman & ghosts
+	 */
+	int[] pacmanInitialPosition = new int[2];
+	ArrayList<int[]> ghostInitialPositions = new ArrayList<int[]>();
 	
 	public Model(File f, PacManWorld world) {
 		//read horizontal, and vertical cells from the .txt file.
@@ -60,10 +67,18 @@ public class Model {
 					characters[row][col] = new Wall();;
 				} else if(arr[col].equals("P")) {
 					characters[row][col] = new Pacman();
+					
 					world.setPacman(characters[row][col]);
+					
+					
+					pacmanInitialPosition[0] = row;
+					pacmanInitialPosition[1] = col;
+					
 				} else if(arr[col].equals("G")) {
 					characters[row][col] = new Ghost();
+					
 					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("R")) {
 					characters[row][col] = new RegFood();
 				} else if(arr[col].equals("U")) {

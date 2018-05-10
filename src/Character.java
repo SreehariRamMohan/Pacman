@@ -17,8 +17,15 @@ public abstract class Character extends Actor {
 	public static final String LEFT = "LEFT";
 	public static final String RIGHT = "RIGHT";
 	
+	public static boolean isPaused = true;
+	
 	@Override
 	public void act(long now) {
+		
+		if(isPaused) {
+			return;
+		}
+		
 		// TODO Auto-generated method stub
 	}
 	
