@@ -33,6 +33,7 @@ public class Controller extends Application {
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Pac Man");
 		
+		
 		BorderPane root = new BorderPane();
 		world = new PacManWorld();
 		world.setPrefHeight(300);

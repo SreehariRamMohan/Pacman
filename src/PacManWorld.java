@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 public class PacManWorld extends World {
@@ -16,6 +22,7 @@ public class PacManWorld extends World {
 	
 	public PacManWorld() {
 		ghosts = new ArrayList<>();
+		this.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 	}
 	
 	
