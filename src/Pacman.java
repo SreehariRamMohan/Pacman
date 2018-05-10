@@ -58,8 +58,8 @@ public class Pacman extends Character{
 				getWorld().updateScore(getWorld().getScore());
 				getWorld().remove(ghost);
 			} else {
-				getWorld().remove(this);
-				System.exit(0);
+				System.out.println("GAME OVER");
+				//getWorld().remove(this);
 			}
 		}
 		
