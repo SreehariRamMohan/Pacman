@@ -14,7 +14,7 @@ public class Pacman extends Character{
 	
 	public Pacman(int lives) {
 		//this.setImage() Add image later
-		this.lives = lives;
+		this.lives = 3;
 		setSpeed(3);
 	}
 	
@@ -48,14 +48,56 @@ public class Pacman extends Character{
 			}
 		}
 		
+		//collision with food
+		
 		if(this.getIntersectingObjects(RegFood.class).size() != 0) {
-			RegFood food = this.getOneIntersectingObject(RegFood.class);
-			food.onEat();
+			
+			//we need to make sure that the food we take is on our row, col position.
+						
+			for(RegFood food : this.getIntersectingObjects(RegFood.class)) {
+				int[] pos = Character.getRowCol(food.getX(), food.getY());
+				int row = pos[0];
+				int col = pos[1];
+				
+				int[] myPos = Character.getRowCol(this.getX(), this.getY());
+				int myRow = myPos[0];
+				int myCol = myPos[1];
+				
+				//the food only counts iff we are at it's row, col position.
+				
+				if(row == myRow && col == myCol) {
+					//pacman has now eaten this food.
+					food.onEat();
+					//can now safely break out since we are only allowing one eat() per act();
+					break;
+				}
+			}
+			
 		} else if(this.getIntersectingObjects(EatGhostPowerUp.class).size() != 0) {
-			EatGhostPowerUp food = this.getOneIntersectingObject(EatGhostPowerUp.class);
-			food.onEat();
+			//we need to make sure that the food we take is on our row, col position.
+			
+			for(EatGhostPowerUp food : this.getIntersectingObjects(EatGhostPowerUp.class)) {
+				int[] pos = Character.getRowCol(food.getX(), food.getY());
+				int row = pos[0];
+				int col = pos[1];
+				
+				int[] myPos = Character.getRowCol(this.getX(), this.getY());
+				int myRow = myPos[0];
+				int myCol = myPos[1];
+				
+				//the food only counts iff we are at it's row, col position.
+				
+				if(row == myRow && col == myCol) {
+					//pacman has now eaten this food.
+					food.onEat();
+					//can now safely break out since we are only allowing one eat() per act();
+					break;
+				}
+			}
+			
 		}
 		 
+		//collision with ghosts
 		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
 			Ghost ghost = this.getOneIntersectingObject(Ghost.class);
 			if(ghost.isEdible()) {
@@ -67,6 +109,9 @@ public class Pacman extends Character{
 			} else {
 				System.out.println("GAME OVER");
 				//getWorld().remove(this);
+				
+				die();
+				
 			}
 		}
 		
@@ -78,6 +123,9 @@ public class Pacman extends Character{
 	
 	public void decrementLives() {
 		lives--;
+		
+		//update the lives of pacman with the label on the screen.
+		getWorld().getLivesText().setText("Lives: " + this.getLives());
 	}
 	
 	public int getLives() {
@@ -90,6 +138,18 @@ public class Pacman extends Character{
 	
 	public void onEat() {
 		//Does something when something is eaten
+	}
+	
+	@Override
+	public void die() {
+		decrementLives();
+		
+		if(lives <= 0) {
+			System.out.println("*****YOU LOSE*****");
+		} else {
+			//reset pacman to initial position and reset ghosts before resuming play
+			
+		}
 	}
 
 }

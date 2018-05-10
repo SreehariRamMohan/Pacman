@@ -60,35 +60,41 @@ public class PacManWorld extends World {
 	}
 
 
+	
+	public Text getLivesText() {
+		return this.liveText;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Methods for updating the score
+	 */
 	public void updateScore(int newScore) {
 		String newText = "Score: " + newScore;
 		scoreText.setText(newText);
 	}
-
-
 	public void setScoreText(Text scoreText) {
 		this.scoreText = scoreText;
 	}
-
-
-
 	public Text getLiveText() {
 		return liveText;
 	}
-
-
 	public void setLiveText(Text liveText) {
 		this.liveText = liveText;
 	}
-
-
 	public int getScore() {
 		return score;
 	}
-
-
 	public void setScore(int score) {
 		this.score = score;
 	}
-
 }
