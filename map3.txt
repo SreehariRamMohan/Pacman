@@ -1,0 +1,22 @@
+630 630
+E-------------------E
+E|RRRRRRRR|RRRRRRRR|E
+E|U--R---R|R---R--U|E
+E|RRRRRRRRRRRRRRRRR|E
+E|R--R|R-----R|R--R|E
+E|RRRR|RRR|RRR|RRRR|E
+E----R---E|E---R----E
+EEEE|R|EEEGEEE|R|EEEE
+-----R|E--E--E|R-----
+EEEEEREE|GGG|EEREEEEE
+-----R|E--E--E|R-----
+EEEE|R|EEEEEEE|R|EEEE
+E----R|E-----E|R----E
+E|RRRRRRRR|RRRRRRRR|E
+E|R--R---R|R---R--R|E
+E|UR|RRRRRPRRRRR|RU|E
+E--R|R|R-----R|R|R--E
+E|RRRR|RRR|RRR|RRRR|E
+E|R------R|R------R|E
+E|RRRRRRRRRRRRRRRRR|E
+E-------------------E
