@@ -6,7 +6,9 @@ public abstract class Character extends Actor {
 	private double ERROR = 0.001;
 	
 	private String direction = null;
-	private String previousDirection = null;
+	
+	private boolean turnInQue = false;
+	private String quedTurn;
 	
 	private int speed;
 	
@@ -67,27 +69,22 @@ public abstract class Character extends Actor {
 	}
 	
 	public void setDirection(String dir) {
-		this.previousDirection = this.getDirection();
 		this.direction = dir;
 	}
 	
 	public void setUp() {
-		this.previousDirection = this.getDirection();
 		direction = UP;
 	}
 	
 	public void setDown() {
-		this.previousDirection = this.getDirection();
 		direction = DOWN;
 	}
 	
 	public void setLeft() {
-		this.previousDirection = this.getDirection();
 		direction = LEFT;
 	}
 	
 	public void setRight() {
-		this.previousDirection = this.getDirection();
 		direction = RIGHT;
 	}
 
@@ -96,13 +93,7 @@ public abstract class Character extends Actor {
 		setY(y);
 	}
 
-	public String getPreviousDirection() {
-		return previousDirection;
-	}
-
-	public void setPreviousDirection(String previousDirection) {
-		this.previousDirection = previousDirection;
-	}
+	
 	
 	public boolean safeMove(String direction, Character c) {
 		int[] pos = null;
@@ -115,6 +106,7 @@ public abstract class Character extends Actor {
 		} else { //direction = RIGHT
 			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY() );
 		}
+		
 		int row = pos[0];
 		int col = pos[1];
 		
@@ -151,6 +143,22 @@ public abstract class Character extends Actor {
 		}
 	}
 	
+	public void queTurn(String dir) {
+		this.turnInQue = true;
+		this.quedTurn = dir;
+	}
+	
+	public boolean hasQue() {
+		return turnInQue;
+	}
+	
+	public String getQuedDir() {
+		return this.quedTurn;
+	}
+	
+	public void removeQuedTurn() {
+		this.turnInQue = false;
+	}
 	
 	
 }

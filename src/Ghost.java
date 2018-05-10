@@ -81,4 +81,6 @@ public class Ghost extends Character {
 	public void toggleAutoPlay() {
 		isAutoPlay = !isAutoPlay;
 	}
+	
+
 }

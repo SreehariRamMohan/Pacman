@@ -139,22 +139,25 @@ public class Controller extends Application {
 				
 				if(world.isKeyDown(KeyCode.UP)){
 					if(((Pacman)world.getPacman()).isInCenter()) {
-						((Pacman)world.getPacman()).setUp();
+						((Pacman)world.getPacman()).queTurn("UP");
 					}
 				}
 				else if(world.isKeyDown(KeyCode.DOWN)) {
 					if(((Pacman)world.getPacman()).isInCenter()) {
-						((Pacman)world.getPacman()).setDown();
+//						((Pacman)world.getPacman()).setDown();
+						((Pacman)world.getPacman()).queTurn("DOWN");
 					}
 				}
 				else if(world.isKeyDown(KeyCode.LEFT)) {
 					if(((Pacman)world.getPacman()).isInCenter()) {
-						((Pacman)world.getPacman()).setLeft();
+//						((Pacman)world.getPacman()).setLeft();
+						((Pacman)world.getPacman()).queTurn("LEFT");
 					}
 				}
 				else if(world.isKeyDown(KeyCode.RIGHT)) {
 					if(((Pacman)world.getPacman()).isInCenter()) {
-						((Pacman)world.getPacman()).setRight();
+//						((Pacman)world.getPacman()).setRight();
+						((Pacman)world.getPacman()).queTurn("RIGHT");
 					}
 				}
 				

@@ -20,6 +20,13 @@ public class Pacman extends Character{
 	
 	@Override
 	public void act(long now) {
+		
+		if(this.hasQue() && this.isInCenter() && this.safeMove(this.getQuedDir(), this)) {
+			this.setDirection(this.getQuedDir());
+			this.removeQuedTurn();
+			return;
+		}
+		
 		//move in current direction
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
