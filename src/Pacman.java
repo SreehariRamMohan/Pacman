@@ -99,20 +99,38 @@ public class Pacman extends Character{
 		 
 		//collision with ghosts
 		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
-			Ghost ghost = this.getOneIntersectingObject(Ghost.class);
-			if(ghost.isEdible()) {
-				int increment = (int) Math.pow(2, trackPoint);
-				trackPoint++;
-				getWorld().setScore(getWorld().getScore() + increment*200);
-				getWorld().updateScore(getWorld().getScore());
-				getWorld().remove(ghost);
-			} else {
-				System.out.println("GAME OVER");
-				//getWorld().remove(this);
+			
+			//we need to make sure that the ghost we take is on our row, col position.
+			
+			for(Ghost ghost : this.getIntersectingObjects(Ghost.class)) {
+				int[] pos = Character.getRowCol(ghost.getX(), ghost.getY());
+				int row = pos[0];
+				int col = pos[1];
 				
-				die();
+				int[] myPos = Character.getRowCol(this.getX(), this.getY());
+				int myRow = myPos[0];
+				int myCol = myPos[1];
 				
-			}
+				//the food only counts iff we are at it's row, col position.
+				
+				if(row == myRow && col == myCol) {
+					//pacman has now eaten this food.
+					if(ghost.isEdible()) {
+						int increment = (int) Math.pow(2, trackPoint);
+						trackPoint++;
+						getWorld().setScore(getWorld().getScore() + increment*200);
+						getWorld().updateScore(getWorld().getScore());
+						getWorld().remove(ghost);
+					} else {
+						//System.out.println("GAME OVER");
+						//getWorld().remove(this);
+						
+						System.out.println("@ - Calling die()");
+						
+						die();
+					}
+				}
+			}			
 		}
 		
 	}
