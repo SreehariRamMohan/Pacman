@@ -1,5 +1,4 @@
 import java.util.Stack;
-
 import javafx.scene.paint.Color;
 
 public abstract class Character extends Actor {
@@ -103,6 +102,10 @@ public abstract class Character extends Actor {
 	
 	
 	public boolean safeMove(String direction, Character c) {
+		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
+		int oldRow = oldPos[0];
+		int oldCol = oldPos[1];
+		
 		int[] pos = null;
 		if(direction.equals(Character.UP)) {
 			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
@@ -146,24 +149,32 @@ public abstract class Character extends Actor {
 			} else { //direction = RIGHT
 				this.move(getSpeed(), 0);
 			}	
+			
+			//update the sprite position in the 2D array
+			if(row != oldRow || col != oldCol) {
+				getWorld().getModel().setCharacterAt(row, col, this);
+				getWorld().getModel().setCharacterAt(oldRow, oldCol, null);
+			}
+			
+			
 			return true;
 		}
 	}
 	
-	public void queTurn(String dir) {
+	public void queueTurn(String dir) {
 		this.turnInQue = true;
 		this.quedTurn = dir;
 	}
 	
-	public boolean hasQue() {
+	public boolean hasQueue() {
 		return turnInQue;
 	}
 	
-	public String getQuedDir() {
+	public String getQueuedDirection() {
 		return this.quedTurn;
 	}
 	
-	public void removeQuedTurn() {
+	public void removeQueuedDirection() {
 		this.turnInQue = false;
 	}
 	

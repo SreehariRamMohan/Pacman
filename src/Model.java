@@ -115,6 +115,12 @@ public class Model {
 		}
 	}
 	
+	public void setCharacterAt(int row, int col, Character c) {
+		if(row >= 0 && row < characters.length && col >= 0 && col < characters[row].length) {
+			characters[row][col] = c;
+		}
+	}
+	
 	public void saveState() {
 		
 	}

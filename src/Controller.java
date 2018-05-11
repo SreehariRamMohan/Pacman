@@ -76,90 +76,18 @@ public class Controller extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
-				
-				/*if(!((Pacman)world.getPacman()).isInCenter()) {
-					return;
+			
+				if(event.getCode() == KeyCode.UP){
+					((Pacman)world.getPacman()).queueTurn("UP");
 				}
-				if(event.getCode() == KeyCode.RIGHT) {
-					//move pacman right
-					((Pacman) world.getPacman()).setRight();
-				} else if(event.getCode() == KeyCode.LEFT) {
-					((Pacman) world.getPacman()).setLeft();
-
-				} else if(event.getCode() == KeyCode.DOWN) {
-					((Pacman) world.getPacman()).setDown();
-
-				} else if(event.getCode() == KeyCode.UP) {
-					((Pacman) world.getPacman()).setUp();
-
-				}*/
-				
-				//System.out.println(((Pacman)world.getPacman()).getDirection());
-				
-				if(event.getCode() == KeyCode.RIGHT) {
-					world.addKeyCode(KeyCode.RIGHT);
-					world.removeKey(KeyCode.LEFT);
-					world.removeKey(KeyCode.UP);
-					world.removeKey(KeyCode.DOWN);
-				} else if(event.getCode() == KeyCode.LEFT) {
-					world.addKeyCode(KeyCode.LEFT);
-					world.removeKey(KeyCode.RIGHT);
-					world.removeKey(KeyCode.UP);
-					world.removeKey(KeyCode.DOWN);
-				} else if(event.getCode() == KeyCode.UP) {
-					world.addKeyCode(KeyCode.UP);
-					world.removeKey(KeyCode.LEFT);
-					world.removeKey(KeyCode.RIGHT);
-					world.removeKey(KeyCode.DOWN);
-				} else if(event.getCode() == KeyCode.DOWN) {
-					world.addKeyCode(KeyCode.DOWN);
-					world.removeKey(KeyCode.LEFT);
-					world.removeKey(KeyCode.UP);
-					world.removeKey(KeyCode.RIGHT);
+				else if(event.getCode() == KeyCode.DOWN) {
+					((Pacman)world.getPacman()).queueTurn("DOWN");
 				}
-				
-//				if(((Pacman)world.getPacman()).getDirection() == "LEFT" ||
-//						((Pacman)world.getPacman()).getDirection() == "RIGHT"){
-//					if(world.isKeyDown(KeyCode.LEFT)){
-//						((Pacman)world.getPacman()).setLeft();
-//					}
-//					if(world.isKeyDown(KeyCode.RIGHT)) {
-//						((Pacman)world.getPacman()).setRight();
-//					}
-//				}
-//				
-//				else if(((Pacman)world.getPacman()).getDirection() == "UP" || 
-//						((Pacman)world.getPacman()).getDirection() == "DOWN"){
-//					if(world.isKeyDown(KeyCode.UP)) {
-//						((Pacman)world.getPacman()).setUp();
-//					}
-//					if(world.isKeyDown(KeyCode.DOWN)) {
-//						((Pacman)world.getPacman()).setDown();
-//					}
-//				}
-				
-				if(world.isKeyDown(KeyCode.UP)){
-					if(((Pacman)world.getPacman()).isInCenter()) {
-						((Pacman)world.getPacman()).queTurn("UP");
-					}
+				else if(event.getCode() == KeyCode.LEFT) {
+					((Pacman)world.getPacman()).queueTurn("LEFT");
 				}
-				else if(world.isKeyDown(KeyCode.DOWN)) {
-					if(((Pacman)world.getPacman()).isInCenter()) {
-//						((Pacman)world.getPacman()).setDown();
-						((Pacman)world.getPacman()).queTurn("DOWN");
-					}
-				}
-				else if(world.isKeyDown(KeyCode.LEFT)) {
-					if(((Pacman)world.getPacman()).isInCenter()) {
-//						((Pacman)world.getPacman()).setLeft();
-						((Pacman)world.getPacman()).queTurn("LEFT");
-					}
-				}
-				else if(world.isKeyDown(KeyCode.RIGHT)) {
-					if(((Pacman)world.getPacman()).isInCenter()) {
-//						((Pacman)world.getPacman()).setRight();
-						((Pacman)world.getPacman()).queTurn("RIGHT");
-					}
+				else if(event.getCode() == KeyCode.RIGHT) {
+					((Pacman)world.getPacman()).queueTurn("RIGHT");
 				}
 				
 			}
