@@ -100,6 +100,31 @@ public abstract class Character extends Actor {
 	}
 
 	
+	public boolean canMove(String direction, Character c) {
+		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
+		int oldRow = oldPos[0];
+		int oldCol = oldPos[1];
+		
+		int[] pos = null;
+		if(direction.equals(Character.UP)) {
+			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
+		} else if(direction.equals(Character.DOWN)) {
+			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS);
+		} else if(direction.equals(Character.LEFT)) {
+			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
+		} else { //direction = RIGHT
+			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY() );
+		}
+		
+		int row = pos[0];
+		int col = pos[1];
+		
+		if((getWorld().getModel().objectAt(row, col) instanceof Wall)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	public boolean safeMove(String direction, Character c) {
 		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
@@ -124,15 +149,15 @@ public abstract class Character extends Actor {
 			//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 			Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 			
-			if(direction.equals(Character.UP)) {
-				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
-			} else if(direction.equals(Character.DOWN)) {
-				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
-			} else if(direction.equals(Character.LEFT)) {
-				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
-			} else { //direction = RIGHT
-				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
-			}
+//			if(direction.equals(Character.UP)) {
+//				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
+//			} else if(direction.equals(Character.DOWN)) {
+//				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
+//			} else if(direction.equals(Character.LEFT)) {
+//				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
+//			} else { //direction = RIGHT
+//				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
+//			}
 			
 			return false;
 

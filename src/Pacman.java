@@ -35,25 +35,26 @@ public class Pacman extends Character{
 
 		edgeLoop();
 
-		if(this.hasQueue() && this.isInCenter() && this.safeMove(this.getQueuedDirection(), this)) {
+		if(this.hasQueue() && this.isInCenter() && this.canMove(this.getQueuedDirection(), this)) {
 			this.setDirection(this.getQueuedDirection());
 			this.removeQueuedDirection();
-		}
+		} 
+			
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
-		} else if(this.getDirection().equals(Character.RIGHT)) {	
+		} else if(this.getDirection().equals(Character.RIGHT) && this.canMove(RIGHT, this)) {	
 			if(this.safeMove(RIGHT, this)) {
 				this.setRotate(0);
 			}
-		} else if(this.getDirection().equals(Character.LEFT)) {
+		} else if(this.getDirection().equals(Character.LEFT) && this.canMove(LEFT, this)) {
 			if(this.safeMove(LEFT, this)) {
 				this.setRotate(180);
 			}
-		} else if(this.getDirection().equals(Character.DOWN)) {
+		} else if(this.getDirection().equals(Character.DOWN) && this.canMove(DOWN, this)) {
 			if(this.safeMove(DOWN, this)) {
 				this.setRotate(90);
 			}
-		} else if(this.getDirection().equals(Character.UP)) {
+		} else if(this.getDirection().equals(Character.UP) && this.canMove(UP, this)) {
 			if(this.safeMove(UP, this)) {
 				this.setRotate(270);
 			}
