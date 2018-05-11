@@ -29,6 +29,7 @@ public class Pacman extends Character{
 	@Override
 	public void act(long now) {
 
+		
 		animateMouth();
 		
 		
@@ -36,28 +37,31 @@ public class Pacman extends Character{
 		edgeLoop();
 
 		if(this.hasQueue() && this.isInCenter() && this.canMove(this.getQueuedDirection(), this)) {
+			System.out.println("De Que " + this.getQueuedDirection());
+			
+			
 			this.setDirection(this.getQueuedDirection());
 			this.removeQueuedDirection();
+			
+			//this.getWorld().getModel().printModel();
+
 		} 
 			
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
-		} else if(this.getDirection().equals(Character.RIGHT) && this.canMove(RIGHT, this)) {	
-			if(this.safeMove(RIGHT, this)) {
-				this.setRotate(0);
-			}
+		} 	
+		else if(this.getDirection().equals(Character.RIGHT) && this.canMove(RIGHT, this)) {	
+			this.safeMove(RIGHT, this);
+			this.setRotate(0);
 		} else if(this.getDirection().equals(Character.LEFT) && this.canMove(LEFT, this)) {
-			if(this.safeMove(LEFT, this)) {
-				this.setRotate(180);
-			}
+			this.safeMove(LEFT, this);
+			this.setRotate(180);
 		} else if(this.getDirection().equals(Character.DOWN) && this.canMove(DOWN, this)) {
-			if(this.safeMove(DOWN, this)) {
-				this.setRotate(90);
-			}
+			this.safeMove(DOWN, this);
+			this.setRotate(90);
 		} else if(this.getDirection().equals(Character.UP) && this.canMove(UP, this)) {
-			if(this.safeMove(UP, this)) {
-				this.setRotate(270);
-			}
+			this.safeMove(UP, this);
+			this.setRotate(270);
 		}
 
 

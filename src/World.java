@@ -28,7 +28,7 @@ public abstract class World extends Pane {
 					if(n instanceof Actor) {
 						((Actor) n).act(now);
 					}
-				}
+				}				
 								
 			}
 		};

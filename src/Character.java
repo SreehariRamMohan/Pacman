@@ -2,7 +2,7 @@ import java.util.Stack;
 import javafx.scene.paint.Color;
 
 public abstract class Character extends Actor {
-	private double ERROR = 0.001;
+	private double ERROR = 3;
 	
 	private String direction = null;
 	
@@ -109,12 +109,13 @@ public abstract class Character extends Actor {
 		if(direction.equals(Character.UP)) {
 			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
 		} else if(direction.equals(Character.DOWN)) {
-			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS);
+			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
 		} else if(direction.equals(Character.LEFT)) {
 			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
 		} else { //direction = RIGHT
-			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY() );
+			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY() );
 		}
+		
 		
 		int row = pos[0];
 		int col = pos[1];
@@ -135,13 +136,15 @@ public abstract class Character extends Actor {
 		if(direction.equals(Character.UP)) {
 			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
 		} else if(direction.equals(Character.DOWN)) {
-			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS);
+			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
 		} else if(direction.equals(Character.LEFT)) {
 			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
 		} else { //direction = RIGHT
-			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS, this.getY() );
+			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY() );
 		}
 		
+		
+
 		int row = pos[0];
 		int col = pos[1];
 		

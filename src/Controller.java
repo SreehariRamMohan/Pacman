@@ -90,6 +90,9 @@ public class Controller extends Application {
 					((Pacman)world.getPacman()).queueTurn("RIGHT");
 				}
 				
+				System.out.println("Que has " + ((Pacman) world.getPacman()).getQueuedDirection());
+				
+				
 			}
 			
 		});
