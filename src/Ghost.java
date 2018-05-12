@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import javafx.scene.image.Image;
 
 public class Ghost extends Character {
@@ -67,9 +69,34 @@ public class Ghost extends Character {
 			
 			if(!wasItSafe) {
 				//change the directio
-				
 				direction = dirChoices[chooseRandomIndex()];
 			}
+			
+			
+			/**
+			 * DON'T Delete! This is the Ghost AI for path-finding
+			 * 
+			 * Please Help fix!
+			 * 
+			 * ~ Sreehari
+			 */
+			
+			System.out.println("------------------------------GHOST AI-------------------------");
+			System.out.println("Next best move for ghost at " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
+			
+			int[] ghostPos = Character.getRowCol(this.getX(), this.getY());
+			int currRow = ghostPos[0];
+			int currCol = ghostPos[1];
+			
+			int[] pacManPos = Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY());
+			
+			int goalRow = pacManPos[0];
+			int goalCol = pacManPos[1];
+			
+			
+			System.out.println(ShortestPathUtils.getNextOptimalTurn(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+			System.out.println("------------------------------GHOST AI-------------------------");
+
 			
 		}
 	}

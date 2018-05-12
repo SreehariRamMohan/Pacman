@@ -146,6 +146,13 @@ public class Model {
 		
 	}
 	
+	public int getNumRows() {
+		return this.characters.length;
+	}
+	
+	public int getNumCols() {
+		return this.characters[0].length;
+	}
 	
 	public void saveState() {
 		

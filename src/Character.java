@@ -152,16 +152,6 @@ public abstract class Character extends Actor {
 			//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
 			Wall w = (Wall) getWorld().getModel().objectAt(row, col);
 			
-//			if(direction.equals(Character.UP)) {
-//				this.setCoordinate(w.getX(), w.getY() + Controller.CHARACTER_DIMS);
-//			} else if(direction.equals(Character.DOWN)) {
-//				this.setCoordinate(w.getX(), w.getY() - Controller.CHARACTER_DIMS);
-//			} else if(direction.equals(Character.LEFT)) {
-//				this.setCoordinate(w.getX() + Controller.CHARACTER_DIMS, w.getY());
-//			} else { //direction = RIGHT
-//				this.setCoordinate(w.getX() - Controller.CHARACTER_DIMS, w.getY());
-//			}
-			
 			return false;
 
 			

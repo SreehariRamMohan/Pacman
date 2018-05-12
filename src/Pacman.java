@@ -32,8 +32,6 @@ public class Pacman extends Character{
 		
 		animateMouth();
 		
-		
-
 		edgeLoop();
 
 		if(this.hasQueue() && this.isInCenter() && this.canMove(this.getQueuedDirection(), this)) {
