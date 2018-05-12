@@ -14,11 +14,11 @@ public class ShortestPathUtils {
 	 */
 	public static String getNextOptimalTurn(int ghostCurrRow, int ghostCurrCol, int pacmanRow, int pacmanCol, Model m) {
 		Integer[][] relativeDistancesFromStart = new Integer[m.getNumRows()][m.getNumCols()];
-		Integer[][] rel = shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, relativeDistancesFromStart, m, 0);
+		shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, relativeDistancesFromStart, m, 0);
 
 		//back-track from end -> start going from bigger i's until we hit i = 0.
 
-		int i = rel[pacmanRow][pacmanCol];
+		int i = relativeDistancesFromStart[pacmanRow][pacmanCol];
 		int currRow = pacmanRow;
 		int currCol = ghostCurrCol;
 		Stack<String> chronologicalMoves = new Stack();
@@ -29,25 +29,25 @@ public class ShortestPathUtils {
 
 			//try all directions: left, right, top, bottom and see which one has descending relative cost.
 
-			if(hasPath(currRow, currCol - 1, rel) && rel[currRow][currCol - 1] == (i - 1)) { //left
+			if(hasPath(currRow, currCol - 1, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //left
 				currRow = currRow;
 				currCol = currCol - 1;
-				chronologicalMoves.push("LEFT");
-			}
-			else if(hasPath(currRow, currCol + 1, rel) && rel[currRow][currCol - 1] == (i - 1)) { //right
-				currRow = currRow;
-				currCol = currCol + 1;
 				chronologicalMoves.push("RIGHT");
 			}
-			else if(hasPath(currRow - 1, currCol, rel) && rel[currRow][currCol - 1] == (i - 1)) { //top
+			else if(hasPath(currRow, currCol + 1, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //right
+				currRow = currRow;
+				currCol = currCol + 1;
+				chronologicalMoves.push("LEFT");
+			}
+			else if(hasPath(currRow - 1, currCol, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //top
 				currRow = currRow - 1;
 				currCol = currCol;
-				chronologicalMoves.push("TOP");
+				chronologicalMoves.push("BOTTM");
 			}
-			else if(hasPath(currRow + 1, currCol, rel) && rel[currRow][currCol - 1] == (i - 1)) { //bottom
+			else if(hasPath(currRow + 1, currCol, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //bottom
 				currRow = currRow + 1;
 				currCol = currCol;
-				chronologicalMoves.push("BOTTOM");
+				chronologicalMoves.push("TOP");
 			}
 			
 			i--;
@@ -57,11 +57,11 @@ public class ShortestPathUtils {
 
 	}
 
-	public static Integer[][] shortestPath(int currentRow, int currentCol, int destinationRow, int destinationCol, Integer[][] relativeDistancesFromStart, Model m, int i)  {
+	public static void shortestPath(int currentRow, int currentCol, int destinationRow, int destinationCol, Integer[][] relativeDistancesFromStart, Model m, int i)  {
 		if(currentRow == destinationRow && currentCol == destinationCol) {
 			//we're done creating the [][] of relative distances, so we can return and find the shortest path.
 			relativeDistancesFromStart[currentRow][currentCol] = i;
-			return relativeDistancesFromStart;
+			return;
 		} else {
 			relativeDistancesFromStart[currentRow][currentCol] = i;
 
@@ -77,8 +77,6 @@ public class ShortestPathUtils {
 			if(hasPath(currentRow + 1, currentCol, m)) { //bottom open
 				shortestPath(currentRow + 1, currentCol, destinationRow, destinationCol, relativeDistancesFromStart, m, i + 1);	
 			} 
-
-			return relativeDistancesFromStart;
 		}
 	}
 
