@@ -65,23 +65,9 @@ public class Ghost extends Character {
 			/**
 			 * Level 1 is simple, the pac-man simply moves randomly around the board
 			 */
-			boolean wasItSafe = this.safeMove(direction, this);
-			
-			if(!wasItSafe) {
-				//change the directio
-				direction = dirChoices[chooseRandomIndex()];
-			}
 			
 			
-			/**
-			 * DON'T Delete! This is the Ghost AI for path-finding
-			 * 
-			 * Please Help fix!
-			 * 
-			 * ~ Sreehari
-			 */
-			
-			System.out.println("------------------------------GHOST AI-------------------------");
+			//change the directio
 			System.out.println("Next best move for ghost at " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
 			
 			int[] ghostPos = Character.getRowCol(this.getX(), this.getY());
@@ -93,9 +79,18 @@ public class Ghost extends Character {
 			int goalRow = pacManPos[0];
 			int goalCol = pacManPos[1];
 			
+			System.out.println("Pacman at: " + Arrays.toString(pacManPos));
+			System.out.println("Ghost at: " + Arrays.toString(ghostPos));
+
 			
-			System.out.println(ShortestPathUtils.getNextOptimalTurn(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
-			System.out.println("------------------------------GHOST AI-------------------------");
+			this.setDirection(ShortestPathUtils.getNextOptimalTurn(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+			System.out.println("Ghost should move " + this.getDirection());
+			
+			
+			this.normalMove(this.getDirection(), this);
+			
+			
+			
 
 			
 		}

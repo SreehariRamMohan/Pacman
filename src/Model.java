@@ -88,9 +88,9 @@ public class Model {
 					world.storeGhost(characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("R")) {
-					characters[row][col] = new RegFood();
+					food[row][col] = new RegFood();
 				} else if(arr[col].equals("U")) {
-					characters[row][col] = new EatGhostPowerUp();
+					food[row][col] = new EatGhostPowerUp();
 				}
 				
 				if(characters[row][col] != null) {
@@ -157,4 +157,5 @@ public class Model {
 	public void saveState() {
 		
 	}
+	
 }

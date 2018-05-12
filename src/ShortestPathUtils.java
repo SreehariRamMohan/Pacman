@@ -1,92 +1,148 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Stack;
 
 public class ShortestPathUtils {
 
+	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 1;
+	private static int numPathsFound = 0;
+	private static ArrayList<ArrayList<int[]>> allPaths = new ArrayList<>();
+
 	/*
-	 * Lee's algorithm
-	 * 
-	 * ~ Created May 11 10:30 PM ~ Sreehari 
-	 * Version 001
-	 * 
-	 * Psuedocode & Examples utilized for this code
-	 * https://en.wikipedia.org/wiki/Lee_algorithm
-	 * https://stackoverflow.com/questions/28889273/how-to-find-the-shortest-path-in-2d-array-with-multiple-endpoints
+	 * DFS - Dept first algorithm for path-finding
 	 */
 	public static String getNextOptimalTurn(int ghostCurrRow, int ghostCurrCol, int pacmanRow, int pacmanCol, Model m) {
-		Integer[][] relativeDistancesFromStart = new Integer[m.getNumRows()][m.getNumCols()];
-		shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, relativeDistancesFromStart, m, 0);
+		numPathsFound = 0;
+		allPaths.clear();
+		
+		boolean[][] visitedList = new boolean[m.getNumRows()][m.getNumCols()];
+		
+		ArrayList<int[]> oneOfThePaths = new ArrayList<>();
+		oneOfThePaths.add(new int[]{ghostCurrRow, ghostCurrCol});
+		shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, visitedList, m, oneOfThePaths);
 
-		//back-track from end -> start going from bigger i's until we hit i = 0.
-
-		int i = relativeDistancesFromStart[pacmanRow][pacmanCol];
-		int currRow = pacmanRow;
-		int currCol = ghostCurrCol;
-		Stack<String> chronologicalMoves = new Stack();
-		//because we are going in reverse order, the next move that the pacman should be will be the last item added to to the stack.
-
-		while(i > 0) {
-
-
-			//try all directions: left, right, top, bottom and see which one has descending relative cost.
-
-			if(hasPath(currRow, currCol - 1, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //left
-				currRow = currRow;
-				currCol = currCol - 1;
-				chronologicalMoves.push("RIGHT");
-			}
-			else if(hasPath(currRow, currCol + 1, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //right
-				currRow = currRow;
-				currCol = currCol + 1;
-				chronologicalMoves.push("LEFT");
-			}
-			else if(hasPath(currRow - 1, currCol, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //top
-				currRow = currRow - 1;
-				currCol = currCol;
-				chronologicalMoves.push("BOTTM");
-			}
-			else if(hasPath(currRow + 1, currCol, relativeDistancesFromStart) && relativeDistancesFromStart[currRow][currCol - 1] == (i - 1)) { //bottom
-				currRow = currRow + 1;
-				currCol = currCol;
-				chronologicalMoves.push("TOP");
-			}
-			
-			i--;
+	
+//		System.out.println("Paths Found");
+//		for(ArrayList<int[]> path: allPaths) {
+//			for(int[] node : path) {
+//				System.out.print(Arrays.toString(node) + " -> ");
+//			}
+//			System.out.println();
+//
+//		}
+		
+		ArrayList<int[]> optimalPath = findMostOptimal(allPaths);
+	
+		System.out.println("Optimal Path");
+		for(int[] node : optimalPath) {
+			System.out.print(Arrays.toString(node) + " -> ");
+		}
+		System.out.println();
+		
+		int[] nextMove = null;
+		
+		if(optimalPath.size() <= 1) {
+			nextMove = new int[]{ghostCurrRow, ghostCurrCol};
+		} else {
+			nextMove = new int[]{optimalPath.get(1)[0], optimalPath.get(1)[1]};
 		}
 		
-		return chronologicalMoves.pop();
+		int dx = nextMove[1] - ghostCurrCol;
+		int dy = nextMove[0] - ghostCurrRow;
+		
+		if(dx < 0 && dy == 0) {
+			return "LEFT";
+		} else if(dx > 0 && dy == 0) {
+			return "RIGHT";
+		} else if(dx == 0 && dy < 0) {
+			return "TOP";
+		} else {
+			return "BOTTOM";
+		}
+		
+		
 
+		
+	}
+	
+	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {
+		int smallest = Integer.MAX_VALUE;
+		ArrayList<int[]> toPick = null; 
+		for(ArrayList<int[]> candidate : allPaths) {
+			if(candidate.size() < smallest) {
+				toPick = candidate;
+				smallest = candidate.size();
+			}
+		}
+		return toPick;
 	}
 
-	public static void shortestPath(int currentRow, int currentCol, int destinationRow, int destinationCol, Integer[][] relativeDistancesFromStart, Model m, int i)  {
+
+	public static void shortestPath(int currentRow, int currentCol, int destinationRow, int destinationCol, boolean[][] visited, Model m, ArrayList<int[]> oneOfThePaths)  {
+		
+		if(numPathsFound >= NUMBER_OF_PATHS_TO_FIND_IN_DFS) {
+			return;
+		} 
+
+		visited[currentRow][currentCol] = true;
+		
 		if(currentRow == destinationRow && currentCol == destinationCol) {
 			//we're done creating the [][] of relative distances, so we can return and find the shortest path.
-			relativeDistancesFromStart[currentRow][currentCol] = i;
-			return;
+//			System.out.println("Reached an end");
+			
+//			for(int[] pair : oneOfThePaths) {
+//				System.out.print(Arrays.toString(pair) + "_");
+//			}
+//			System.out.println();
+			numPathsFound++;
+			
+			allPaths.add((ArrayList<int[]>) oneOfThePaths.clone());
+
 		} else {
-			relativeDistancesFromStart[currentRow][currentCol] = i;
-
-			if(hasPath(currentRow, currentCol - 1, m)) { //left open
-				shortestPath(currentRow, currentCol - 1, destinationRow, destinationCol, relativeDistancesFromStart, m, i + 1);
+			
+			if(isInBounds(currentRow, currentCol - 1, visited) && !visited[currentRow][currentCol - 1] && hasPath(currentRow, currentCol - 1, m)) { //left open
+//				System.out.println("Trying left");
+				
+				int[] thisLocation = new int[] {currentRow, currentCol - 1};
+				oneOfThePaths.add(thisLocation);
+				shortestPath(currentRow, currentCol - 1, destinationRow, destinationCol, visited, m, oneOfThePaths);
+				oneOfThePaths.remove(thisLocation);
 			}
-			if(hasPath(currentRow, currentCol + 1, m)) { //right open
-				shortestPath(currentRow, currentCol + 1, destinationRow, destinationCol, relativeDistancesFromStart, m, i + 1);
-			} 
-			if(hasPath(currentRow - 1, currentCol, m)) { //top open
-				shortestPath(currentRow - 1, currentCol, destinationRow, destinationCol, relativeDistancesFromStart, m, i + 1);
-			} 
-			if(hasPath(currentRow + 1, currentCol, m)) { //bottom open
-				shortestPath(currentRow + 1, currentCol, destinationRow, destinationCol, relativeDistancesFromStart, m, i + 1);	
-			} 
-		}
-	}
+			if(isInBounds(currentRow, currentCol + 1, visited) && !visited[currentRow][currentCol + 1] && hasPath(currentRow, currentCol + 1, m)) { //right open
+//				System.out.println("Trying right");
 
-	public static boolean hasPath(int r, int col, Integer[][] rel) {
-		return r >= 0 && r < rel.length && col >= 0 && col < rel[0].length && rel[r][col] != null;
+				int[] thisLocation = new int[] {currentRow, currentCol + 1};
+				oneOfThePaths.add(thisLocation);
+				shortestPath(currentRow, currentCol + 1, destinationRow, destinationCol, visited, m, oneOfThePaths);
+				oneOfThePaths.remove(thisLocation);
+			}
+			if(isInBounds(currentRow - 1, currentCol, visited) && !visited[currentRow - 1][currentCol] && hasPath(currentRow - 1, currentCol, m)) { //top open
+//				System.out.println("Trying top");
+
+				int[] thisLocation = new int[] {currentRow - 1, currentCol};
+				oneOfThePaths.add(thisLocation);
+				shortestPath(currentRow - 1, currentCol, destinationRow, destinationCol, visited, m, oneOfThePaths);
+				oneOfThePaths.remove(thisLocation);
+			}
+			if(isInBounds(currentRow + 1, currentCol, visited) && !visited[currentRow + 1][currentCol] && hasPath(currentRow + 1, currentCol, m)) { //bottom open
+//				System.out.println("Trying bottom");
+
+				int[] thisLocation = new int[] {currentRow + 1, currentCol};
+				oneOfThePaths.add(thisLocation);
+				shortestPath(currentRow + 1, currentCol, destinationRow, destinationCol, visited, m, oneOfThePaths);
+				oneOfThePaths.remove(thisLocation);
+			}			
+		}
+		visited[currentRow][currentCol] = false;
+	}
+	
+	public static boolean isInBounds(int r, int col, boolean[][] visited) {
+		return r >= 0 && r < visited.length && col >= 0 && col < visited[r].length;
 	}
 
 
 	public static boolean hasPath(int row, int col, Model m) {
-		return row >= 0 && row < m.getNumRows() && col >= 0 && col < m.getNumCols() && (m.objectAt(row, col) == null);
+		return ((m.objectAt(row, col) == null) || m.objectAt(row, col) instanceof Pacman || m.objectAt(row, col) instanceof Ghost);
 	}
 
 }
