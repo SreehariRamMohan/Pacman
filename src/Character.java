@@ -4,10 +4,10 @@ import javafx.scene.paint.Color;
 public abstract class Character extends Actor {
 	private double ERROR = 3;
 	
-	private String direction = "STARTING";
+	private String direction = STATIONARY;
 	
 	private boolean turnInQue = false;
-	private String quedTurn;
+	private String quedTurn = Character.STATIONARY;
 	
 	private int speed;
 	
@@ -15,6 +15,7 @@ public abstract class Character extends Actor {
 	public static final String DOWN = "DOWN";
 	public static final String LEFT = "LEFT";
 	public static final String RIGHT = "RIGHT";
+	public static final String STATIONARY = "STATIONARY";
 	
 	public static boolean isPaused = true;
 	
@@ -30,11 +31,6 @@ public abstract class Character extends Actor {
 		getWorld().remove(this);
 	}
 	
-	public int[] getRowCol() {
-		int col = (int) (this.getX()/Controller.CHARACTER_DIMS);
-		int row = (int) (this.getY()/Controller.CHARACTER_DIMS);
-		return new int[] {row, col};
-	}
 	
 	public static int[] getRowCol(double x, double y) {
 		int col = (int) (x/Controller.CHARACTER_DIMS);
@@ -44,13 +40,19 @@ public abstract class Character extends Actor {
 	
 	public boolean isInCenter() {
 		double x = this.getX();
-		double y = this.getY();
+		double y = this.getY();		
+				
 		
-		if( (((x + this.getWidth()/2)%Controller.CHARACTER_DIMS) - Controller.CHARACTER_DIMS/2) < ERROR && (((y + this.getHeight()/2)%Controller.CHARACTER_DIMS) - Controller.CHARACTER_DIMS/2) < ERROR ) {
+		if( Math.abs((((x + this.getWidth()/2)%Controller.CHARACTER_DIMS) - Controller.CHARACTER_DIMS/2)) <= ERROR && 
+				Math.abs((((y + this.getHeight()/2)%Controller.CHARACTER_DIMS) - Controller.CHARACTER_DIMS/2)) <= ERROR ) {
+				
+			//we need to re-center accurately
+			int[] pos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 			
-			int col = (int) (this.getX()/Controller.CHARACTER_DIMS);
-			int row = (int) (this.getY()/Controller.CHARACTER_DIMS);
-			
+			int row = pos[0];
+			int col = pos[1];
+					
+			//auto-set character to center
 			this.setCoordinate(col*Controller.CHARACTER_DIMS, row*Controller.CHARACTER_DIMS);
 						
 			return true;
@@ -58,6 +60,13 @@ public abstract class Character extends Actor {
 			return false;
 		}
 		
+	}
+	
+	public void centerGhostInCell() {
+		int[] pos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
+		int row = pos[0];
+		int col = pos[1];
+		this.setCoordinate(col*Controller.CHARACTER_DIMS, row*Controller.CHARACTER_DIMS);
 	}
 	
 	public int getSpeed() {
@@ -96,120 +105,59 @@ public abstract class Character extends Actor {
 		setX(x);
 		setY(y);
 	}
+	
+	public boolean isStationary() {
+		return this.getDirection().equals(Character.STATIONARY);
+	}
 
 	
-	public boolean canMove(String direction, Character c) {
-		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
-		int oldRow = oldPos[0];
-		int oldCol = oldPos[1];
+	//checks for walls and other stuff to make sure the character can make a move in the direction
+	public boolean canMove(String direction) {
 		
-		int[] pos = null;
-		if(direction.equals(Character.UP)) {
-			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
-		} else if(direction.equals(Character.DOWN)) {
-			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
-		} else if(direction.equals(Character.LEFT)) {
-			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
-		} else { //direction = RIGHT
-			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY() );
+		if(direction.equals(STATIONARY)) {
+			return false;
 		}
 		
-		
+		int[] pos = getFutureRowColFromDirection(direction);
 		int row = pos[0];
 		int col = pos[1];
-		
+		//wall is blocking our path
 		if((getWorld().getModel().objectAt(row, col) instanceof Wall)) {
-			int col1 = (int) (this.getX()/Controller.CHARACTER_DIMS);
-			int row1 = (int) (this.getY()/Controller.CHARACTER_DIMS);
-			//if(this.getDirection().equals("RIGHT")) {
-				//this.setCoordinate((col1+1)*Controller.CHARACTER_DIMS, row1*Controller.CHARACTER_DIMS);
-			//}
-			//else if(this.getDirection().equals("DOWN")){
-				//this.setCoordinate(col1*Controller.CHARACTER_DIMS, (row1+1)*Controller.CHARACTER_DIMS);
-			//}
-			//else {
-				this.setCoordinate(col1*Controller.CHARACTER_DIMS, row1*Controller.CHARACTER_DIMS);
-			//}
 			return false;
 		} else {
 			return true;
 		}
 	}
 	
-	public boolean safeMove(String direction, Character c) {
-		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
-		int oldRow = oldPos[0];
-		int oldCol = oldPos[1];
-		
+	public int[] getFutureRowColFromDirection(String direction) {		
 		int[] pos = null;
+	
 		if(direction.equals(Character.UP)) {
-			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
+			pos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() - this.getSpeed());
 		} else if(direction.equals(Character.DOWN)) {
-			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
+			pos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
 		} else if(direction.equals(Character.LEFT)) {
-			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
-		} else { //direction = RIGHT
-			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY() );
+			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() + this.getHeight()/2);
+		} else if(direction.equals(Character.RIGHT)){ //direction = RIGHT
+			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY() + this.getHeight()/2 );
+		}  else if(direction.equals(Character.STATIONARY)) {
+			pos = Character.getRowCol(this.getX(), this.getY());
 		}
 		
-		
-
-		int row = pos[0];
-		int col = pos[1];
-		
-		if((getWorld().getModel().objectAt(row, col) instanceof Wall)) {
-			//hit wall, uh oh :(. STOP, position pacman just outside the wall!!
-			Wall w = (Wall) getWorld().getModel().objectAt(row, col);
-			
-			return false;
-
-			
-		} else {
-			//safe to move since we won't hit a wall.
-			
-			if(direction.equals(Character.UP)) {
-				this.move(0, -getSpeed());
-			} else if(direction.equals(Character.DOWN)) {
-				this.move(0, getSpeed());
-			} else if(direction.equals(Character.LEFT)) {
-				this.move(-getSpeed(), 0);
-			} else { //direction = RIGHT
-				this.move(getSpeed(), 0);
-			}	
-			
-			//update the sprite position in the 2D array
-			if(row != oldRow || col != oldCol) {
-				getWorld().getModel().setCharacterAt(row, col, this);
-				getWorld().getModel().setCharacterAt(oldRow, oldCol, null);
-			}
-			
-			
-			return true;
-		}
+		return pos;
 	}
 	
-	
-	public void normalMove(String direction, Character c) {
+	/**
+	 * Precondition: canMove() was called prior to safeMove() so the path in direction is clear.
+	 */
+	public void safeMove(String direction) {
 		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
 		int oldRow = oldPos[0];
 		int oldCol = oldPos[1];
 		
-		int[] pos = null;
-		if(direction.equals(Character.UP)) {
-			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
-		} else if(direction.equals(Character.DOWN)) {
-			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
-		} else if(direction.equals(Character.LEFT)) {
-			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY() );
-		} else { //direction = RIGHT
-			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY() );
-		}
-		
+		int[] pos = getFutureRowColFromDirection(direction);
 		int row = pos[0];
 		int col = pos[1];
-		
-		
-		//safe to move since we won't hit a wall.
 		
 		if(direction.equals(Character.UP)) {
 			this.move(0, -getSpeed());
@@ -217,17 +165,16 @@ public abstract class Character extends Actor {
 			this.move(0, getSpeed());
 		} else if(direction.equals(Character.LEFT)) {
 			this.move(-getSpeed(), 0);
-		} else { //direction = RIGHT
+		} else if(direction.equals(Character.RIGHT)) { 
 			this.move(getSpeed(), 0);
-		}	
-			
+		} 
+		
 		//update the sprite position in the 2D array
 		if(row != oldRow || col != oldCol) {
 			getWorld().getModel().setCharacterAt(row, col, this);
 			getWorld().getModel().setCharacterAt(oldRow, oldCol, null);
-		}
+		}		
 	}
-	
 	
 	public void queueTurn(String dir) {
 		this.turnInQue = true;
@@ -238,6 +185,9 @@ public abstract class Character extends Actor {
 		return turnInQue;
 	}
 	
+	/**
+	 * Precondition: a call to hasQueue() returns true;
+	 */
 	public String getQueuedDirection() {
 		return this.quedTurn;
 	}
@@ -246,5 +196,12 @@ public abstract class Character extends Actor {
 		this.turnInQue = false;
 	}
 	
+	public boolean isPacManOutOfBounds() {
+		Pacman p = (Pacman) this.getWorld().getPacman();
+		return p.getX() >= getWorld().getWidth() || (p.getX()) <= 0;
+	}
 	
+	public boolean isGhostOutOfBounds(Ghost g) {
+		return g.getX() >= getWorld().getWidth() || (g.getX()) <= 0;
+	}
 }

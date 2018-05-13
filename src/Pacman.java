@@ -28,38 +28,50 @@ public class Pacman extends Character{
 
 	@Override
 	public void act(long now) {
-
-		
 		animateMouth();
-		
-		edgeLoop();
-
-		if(this.hasQueue() && this.isInCenter() && this.canMove(this.getQueuedDirection(), this)) {
-			System.out.println("De Que " + this.getQueuedDirection());
-				this.setDirection(this.getQueuedDirection());
-				this.removeQueuedDirection();
-			//this.getWorld().getModel().printModel();
-		} 
-		if(this.getDirection() == null) {
-			//start of game do nothing until player moves.
-		} 	
-		else if(this.getDirection().equals(Character.RIGHT) && this.canMove(RIGHT, this)) {	
-			this.safeMove(RIGHT, this);
-			this.setRotate(0);
-		} else if(this.getDirection().equals(Character.LEFT) && this.canMove(LEFT, this)) {
-			this.safeMove(LEFT, this);
-			this.setRotate(180);
-		} else if(this.getDirection().equals(Character.DOWN) && this.canMove(DOWN, this)) {
-			this.safeMove(DOWN, this);
-			this.setRotate(90);
-		} else if(this.getDirection().equals(Character.UP) && this.canMove(UP, this)) {
-			this.safeMove(UP, this);
-			this.setRotate(270);
-		}
-
-
 		detectFood();
 		detectGhosts();
+		mainMovement();
+		edgeLoop();
+
+	}
+
+	private void mainMovement() {
+		
+//		System.out.println("locX = " + this.getX() + " locy = " + this.getY());
+		
+		
+		
+		orientCorrectly(this.getDirection());
+
+//		System.out.println("Can I turn " + this.getQueuedDirection() + " the answer is " + this.canMove(this.getQueuedDirection()));
+//		System.out.println("Is in center ? -> " + this.isInCenter() + " x = " + this.getX() + " y = " + this.getY());
+				
+		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) && this.isInCenter() && !this.isPacManOutOfBounds()) {
+			System.out.println("Dequeue " + this.getQueuedDirection());
+			System.out.println("X = " + this.getX());
+			
+			this.setDirection(this.getQueuedDirection());
+			this.removeQueuedDirection();
+			this.safeMove(this.getDirection());
+		} else if(!this.canMove(this.getDirection())) {
+			this.setDirection(Character.STATIONARY);
+		} else {
+			this.safeMove(this.getDirection());
+		}
+	}
+	
+	private void orientCorrectly(String direction) {
+				
+		if(this.getDirection().equals(Character.RIGHT)) {	
+			this.setRotate(0);
+		} else if(this.getDirection().equals(Character.LEFT)) {
+			this.setRotate(180);
+		} else if(this.getDirection().equals(Character.DOWN)) {
+			this.setRotate(90);
+		} else if(this.getDirection().equals(Character.UP)) {
+			this.setRotate(270);
+		}
 	}
 
 	private void animateMouth() {
@@ -171,8 +183,8 @@ public class Pacman extends Character{
 		//allow the pacman to edge loop
 		if(this.getX() > getWorld().getWidth()) {
 			this.setCoordinate(0, this.getY());
-		} else if((this.getX() + this.getWidth()) < 0) {
-			this.setCoordinate(this.getWorld().getWidth(), this.getY());
+		} else if((this.getX()) <= 0) {
+			this.setCoordinate(this.getWorld().getWidth() - this.getWidth(), this.getY());
 		}		
 	}
 

@@ -11,7 +11,7 @@ public class ShortestPathUtils {
 	/*
 	 * DFS - Dept first algorithm for path-finding
 	 */
-	public static String getNextOptimalTurn(int ghostCurrRow, int ghostCurrCol, int pacmanRow, int pacmanCol, Model m) {
+	public static ArrayList<int[]> getNextOptimalTurn(int ghostCurrRow, int ghostCurrCol, int pacmanRow, int pacmanCol, Model m) {
 		numPathsFound = 0;
 		allPaths.clear();
 		
@@ -32,37 +32,35 @@ public class ShortestPathUtils {
 //		}
 		
 		ArrayList<int[]> optimalPath = findMostOptimal(allPaths);
+		
+		return optimalPath;
 	
-		System.out.println("Optimal Path");
-		for(int[] node : optimalPath) {
-			System.out.print(Arrays.toString(node) + " -> ");
-		}
-		System.out.println();
-		
-		int[] nextMove = null;
-		
-		if(optimalPath.size() <= 1) {
-			nextMove = new int[]{ghostCurrRow, ghostCurrCol};
-		} else {
-			nextMove = new int[]{optimalPath.get(1)[0], optimalPath.get(1)[1]};
-		}
-		
-		int dx = nextMove[1] - ghostCurrCol;
-		int dy = nextMove[0] - ghostCurrRow;
-		
-		if(dx < 0 && dy == 0) {
-			return "LEFT";
-		} else if(dx > 0 && dy == 0) {
-			return "RIGHT";
-		} else if(dx == 0 && dy < 0) {
-			return "TOP";
-		} else {
-			return "BOTTOM";
-		}
-		
-		
-
-		
+//		System.out.println("Optimal Path");
+//		for(int[] node : optimalPath) {
+//			System.out.print(Arrays.toString(node) + " -> ");
+//		}
+//		System.out.println();
+//		
+//		int[] nextMove = null;
+//		
+//		if(optimalPath.size() <= 1) {
+//			nextMove = new int[]{ghostCurrRow, ghostCurrCol};
+//		} else {
+//			nextMove = new int[]{optimalPath.get(1)[0], optimalPath.get(1)[1]};
+//		}
+//		
+//		int dx = nextMove[1] - ghostCurrCol;
+//		int dy = nextMove[0] - ghostCurrRow;
+//		
+//		if(dx < 0 && dy == 0) {
+//			return "LEFT";
+//		} else if(dx > 0 && dy == 0) {
+//			return "RIGHT";
+//		} else if(dx == 0 && dy < 0) {
+//			return "UP";
+//		} else {
+//			return "DOWN";
+//		}
 	}
 	
 	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {

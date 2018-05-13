@@ -15,8 +15,8 @@ import javafx.stage.Stage;
 public class Controller extends Application {
 
 	public int NUM_GHOSTS = 5;
-	public static int SCREEN_HEIGHT = 300;
-	public static int SCREEN_WIDTH = 300;
+	public static int SCREEN_HEIGHT = 680;
+	public static int SCREEN_WIDTH = 630;
 	public static int CHARACTER_DIMS = 30;
 	private PacManWorld world;
 	
@@ -76,38 +76,18 @@ public class Controller extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
-			
-				if(event.getCode() == KeyCode.UP){
-					if(((Pacman)world.getPacman()).getDirection().equals("UP")){
-						
-					}
-					else {
-						((Pacman)world.getPacman()).queueTurn("UP");
-					}
-				}
-				else if(event.getCode() == KeyCode.DOWN) {
-					if(((Pacman)world.getPacman()).getDirection().equals("DOWN")){
-						
-					}
-					else {
-						((Pacman)world.getPacman()).queueTurn("DOWN");
-					}
-				}
-				else if(event.getCode() == KeyCode.LEFT) {
-					if(((Pacman)world.getPacman()).getDirection().equals("LEFT")){
-						
-					}
-					else {
-						((Pacman)world.getPacman()).queueTurn("LEFT");
-					}
-				}
-				else if(event.getCode() == KeyCode.RIGHT) {
-					if(((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
 		
-					}
-					else {
-						((Pacman)world.getPacman()).queueTurn("RIGHT");
-					}
+				if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getDirection().equals("UP")){
+					((Pacman)world.getPacman()).queueTurn("UP");
+				}
+				else if(event.getCode() == KeyCode.DOWN && !((Pacman)world.getPacman()).getDirection().equals("DOWN")){
+					((Pacman)world.getPacman()).queueTurn("DOWN");
+				}
+				else if(event.getCode() == KeyCode.LEFT && !((Pacman)world.getPacman()).getDirection().equals("LEFT")){
+					((Pacman)world.getPacman()).queueTurn("LEFT");
+				}
+				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
+					((Pacman)world.getPacman()).queueTurn("RIGHT");
 				}
 				
 				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
