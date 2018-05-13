@@ -36,15 +36,10 @@ public class Pacman extends Character{
 
 		if(this.hasQueue() && this.isInCenter() && this.canMove(this.getQueuedDirection(), this)) {
 			System.out.println("De Que " + this.getQueuedDirection());
-			
-			
-			this.setDirection(this.getQueuedDirection());
-			this.removeQueuedDirection();
-			
+				this.setDirection(this.getQueuedDirection());
+				this.removeQueuedDirection();
 			//this.getWorld().getModel().printModel();
-
 		} 
-			
 		if(this.getDirection() == null) {
 			//start of game do nothing until player moves.
 		} 	

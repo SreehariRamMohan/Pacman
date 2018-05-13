@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 public abstract class Character extends Actor {
 	private double ERROR = 3;
 	
-	private String direction = null;
+	private String direction = "STARTING";
 	
 	private boolean turnInQue = false;
 	private String quedTurn;
@@ -24,8 +24,6 @@ public abstract class Character extends Actor {
 		if(isPaused) {
 			return;
 		}
-		
-		// TODO Auto-generated method stub
 	}
 	
 	public void die() {
@@ -121,6 +119,17 @@ public abstract class Character extends Actor {
 		int col = pos[1];
 		
 		if((getWorld().getModel().objectAt(row, col) instanceof Wall)) {
+			int col1 = (int) (this.getX()/Controller.CHARACTER_DIMS);
+			int row1 = (int) (this.getY()/Controller.CHARACTER_DIMS);
+			//if(this.getDirection().equals("RIGHT")) {
+				//this.setCoordinate((col1+1)*Controller.CHARACTER_DIMS, row1*Controller.CHARACTER_DIMS);
+			//}
+			//else if(this.getDirection().equals("DOWN")){
+				//this.setCoordinate(col1*Controller.CHARACTER_DIMS, (row1+1)*Controller.CHARACTER_DIMS);
+			//}
+			//else {
+				this.setCoordinate(col1*Controller.CHARACTER_DIMS, row1*Controller.CHARACTER_DIMS);
+			//}
 			return false;
 		} else {
 			return true;

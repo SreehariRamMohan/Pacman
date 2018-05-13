@@ -78,19 +78,39 @@ public class Controller extends Application {
 			public void handle(KeyEvent event) {
 			
 				if(event.getCode() == KeyCode.UP){
-					((Pacman)world.getPacman()).queueTurn("UP");
+					if(((Pacman)world.getPacman()).getDirection().equals("UP")){
+						
+					}
+					else {
+						((Pacman)world.getPacman()).queueTurn("UP");
+					}
 				}
 				else if(event.getCode() == KeyCode.DOWN) {
-					((Pacman)world.getPacman()).queueTurn("DOWN");
+					if(((Pacman)world.getPacman()).getDirection().equals("DOWN")){
+						
+					}
+					else {
+						((Pacman)world.getPacman()).queueTurn("DOWN");
+					}
 				}
 				else if(event.getCode() == KeyCode.LEFT) {
-					((Pacman)world.getPacman()).queueTurn("LEFT");
+					if(((Pacman)world.getPacman()).getDirection().equals("LEFT")){
+						
+					}
+					else {
+						((Pacman)world.getPacman()).queueTurn("LEFT");
+					}
 				}
 				else if(event.getCode() == KeyCode.RIGHT) {
-					((Pacman)world.getPacman()).queueTurn("RIGHT");
+					if(((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
+		
+					}
+					else {
+						((Pacman)world.getPacman()).queueTurn("RIGHT");
+					}
 				}
 				
-				System.out.println("Que has " + ((Pacman) world.getPacman()).getQueuedDirection());
+				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
 				
 				
 			}
