@@ -218,7 +218,7 @@ public class Pacman extends Character{
 
 		decrementLives();
 
-		if(lives >= 0) {
+		if(true) { //TODO Make the Pacman Death Animation and replace this with num-lives
 			resetGame();
 		} else {
 			System.out.println("*****YOU LOSE*****");

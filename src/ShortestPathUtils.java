@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class ShortestPathUtils {
 
-	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 1;
+	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 1000;
 	private static int numPathsFound = 0;
 	private static ArrayList<ArrayList<int[]>> allPaths = new ArrayList<>();
 
@@ -26,13 +26,17 @@ public class ShortestPathUtils {
 //		System.out.println("Paths Found");
 //		for(ArrayList<int[]> path: allPaths) {
 //			for(int[] node : path) {
-//				System.out.print(Arrays.toString(node) + " -> ");
+//				
+////				System.out.print(Arrays.toString(node) + " -> ");
 //			}
-//			System.out.println();
+//			//System.out.println();
 //
 //		}
 		
 		ArrayList<int[]> optimalPath = findMostOptimal(allPaths);
+		
+		System.out.println("Length of shortest path is " + optimalPath.size());
+		
 		
 		return optimalPath;
 	
