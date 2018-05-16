@@ -24,7 +24,16 @@ public class EatGhostPowerUp extends Food {
 			public void run() {
 				for(int i=0; i<size; i++) {
 					Ghost ghost = (Ghost) list.get(i);
-					ghost.setImage(new Image("imgs/ghost.png"));
+					if(ghost instanceof Blinky) {
+						ghost.setImage(new Image("imgs/blinky.png"));
+					} else if(ghost instanceof Inky) {
+						ghost.setImage(new Image("imgs/inky.png"));
+					} else if(ghost instanceof Pinky) {
+						ghost.setImage(new Image("imgs/pinky.png"));
+					} else if(ghost instanceof Clyde) {
+						ghost.setImage(new Image("imgs/clyde.png"));
+					}
+					
 					ghost.toggleEdible();
 					Pacman.setTrackPoint(0);
 				}

@@ -129,7 +129,7 @@ public class Ghost extends Character {
 				/**
 				 * trying to fix the issue where the pacman gets blocked despite following the DFS path
 				 */
-				while(rowDelta > 1 || colDelta > 1) { //while out of sync
+				//while(rowDelta > 1 || colDelta > 1) { //while out of sync
 
 					/*
 					 * If this is true it means that the ghosts position and it's next move are out of sync. 
@@ -156,18 +156,19 @@ public class Ghost extends Character {
 					 * OPTION 2
 					 */
 					
-					if(currentPath.size() == 0) {
-						currentPath = currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
-						currentPath.remove(0);
-					} else {
-						nextMove = currentPath.remove(0);
-						nextRow = nextMove[0];
-						nextCol = nextMove[1];	
-					}
-					rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
-					colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
-					
-				}
+//					if(currentPath.size() == 0) {
+//						currentPath = currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+//						currentPath.remove(0);
+//					} 
+//					
+//					nextMove = currentPath.remove(0);
+//					nextRow = nextMove[0];
+//					nextCol = nextMove[1];	
+//					
+//					rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
+//					colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
+//					
+				//}
 				
 				
 				
