@@ -98,6 +98,12 @@ public class Model {
 					characters[row][col].setY(row*Controller.CHARACTER_DIMS);
 					world.add(characters[row][col]);
 				}
+				
+				if(food[row][col] != null) {
+					food[row][col].setX(col*Controller.CHARACTER_DIMS);
+					food[row][col].setY(row*Controller.CHARACTER_DIMS);
+					world.add(food[row][col]);
+				}
  			}
 			
 				

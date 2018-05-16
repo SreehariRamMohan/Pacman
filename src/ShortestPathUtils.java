@@ -11,7 +11,7 @@ public class ShortestPathUtils {
 	/*
 	 * DFS - Dept first algorithm for path-finding
 	 */
-	public static ArrayList<int[]> getNextOptimalTurn(int ghostCurrRow, int ghostCurrCol, int pacmanRow, int pacmanCol, Model m) {
+	public static ArrayList<int[]> getPaths(int ghostCurrRow, int ghostCurrCol, int pacmanRow, int pacmanCol, Model m) {
 		numPathsFound = 0;
 		allPaths.clear();
 		
@@ -19,6 +19,7 @@ public class ShortestPathUtils {
 		
 		ArrayList<int[]> oneOfThePaths = new ArrayList<>();
 		oneOfThePaths.add(new int[]{ghostCurrRow, ghostCurrCol});
+				
 		shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, visitedList, m, oneOfThePaths);
 
 	
@@ -81,7 +82,7 @@ public class ShortestPathUtils {
 		if(numPathsFound >= NUMBER_OF_PATHS_TO_FIND_IN_DFS) {
 			return;
 		} 
-
+				
 		visited[currentRow][currentCol] = true;
 		
 		if(currentRow == destinationRow && currentCol == destinationCol) {
@@ -138,9 +139,14 @@ public class ShortestPathUtils {
 		return r >= 0 && r < visited.length && col >= 0 && col < visited[r].length;
 	}
 
+	public static boolean isInBounds(int r, int col, Model m) {
+		return r >= 0 && r < m.getNumRows() && col >= 0 && col < m.getNumCols();
+	}
 
 	public static boolean hasPath(int row, int col, Model m) {
-		return ((m.objectAt(row, col) == null) || m.objectAt(row, col) instanceof Pacman || m.objectAt(row, col) instanceof Ghost);
+		return ((m.objectAt(row, col) == null) || 
+				m.objectAt(row, col) instanceof Pacman ||
+				m.objectAt(row, col) instanceof Ghost);
 	}
 
 }

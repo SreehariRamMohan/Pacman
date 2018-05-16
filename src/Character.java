@@ -147,6 +147,21 @@ public abstract class Character extends Actor {
 		return pos;
 	}
 	
+	public void moveInDirectionBy(String direction, int by) {
+
+		if(direction.equals(Character.UP)) {
+			this.setCoordinate(this.getX(), this.getY() - by);
+		} else if(direction.equals(Character.DOWN)) {
+			this.setCoordinate(this.getX(), this.getY() + by);
+		} else if(direction.equals(Character.LEFT)) {
+			this.setCoordinate(this.getX() - by, this.getY());
+		} else if(direction.equals(Character.RIGHT)){ //direction = RIGHT
+			this.setCoordinate(this.getX() + by, this.getY());
+		}  else if(direction.equals(Character.STATIONARY)) {
+			this.setCoordinate(this.getX(), this.getY());
+		}
+	}
+	
 	/**
 	 * Precondition: canMove() was called prior to safeMove() so the path in direction is clear.
 	 */

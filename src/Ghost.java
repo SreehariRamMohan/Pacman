@@ -60,16 +60,19 @@ public class Ghost extends Character {
 	}
 
 	public void autoPlayNextMove() {
+		
+		edgeLoop();
+
+		
 		if(getWorld().getLevel() == 1) {
 			/**
 			 * Level 1 is simple, the pac-man simply moves randomly around the board
 			 */
 			
-			edgeLoop();
-
-
-
 			int[] ghostPos = Character.getRowCol(this.getX(), this.getY());
+			
+			forceRowColInBounds(ghostPos);
+			
 			int currRow = ghostPos[0];
 			int currCol = ghostPos[1];
 
@@ -77,9 +80,23 @@ public class Ghost extends Character {
 
 			int goalRow = pacManPos[0];
 			int goalCol = pacManPos[1];
+			
+			
 
 			if(currentPath == null || currentPath.isEmpty()) {
-				currentPath = (ShortestPathUtils.getNextOptimalTurn(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+				
+				System.out.println("Ghost positon: " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
+				System.out.println("Pacman positon: " + Arrays.toString(Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY())));
+
+				
+				for(int[] node : currentPath) {
+					System.out.print(Arrays.toString(node) + " -> ");
+				}
+				System.out.println();
+				
+				System.exit(0);
+				
 			}
 
 			//			System.out.println("Ghost should move " + this.getDirection());
@@ -88,24 +105,24 @@ public class Ghost extends Character {
 			//			this.safeMove(this.getDirection());
 
 			if((actCounter%10) == 0) {
-				if(currentPath.size() > 0) {
-					nextMove = currentPath.remove(0);
-				}
+				nextMove = currentPath.remove(0);
 				int nextRow = nextMove[0];
 				int nextCol = nextMove[1];
 				
 				dir = getDirectionFromNode(nextRow, nextCol, currRow, currCol);
-				
+								
 //				dir = dirChoices[chooseRandomIndex()];
 //				while(!this.canMove(dir)) {
 //					dir = dirChoices[chooseRandomIndex()];
 //				}
 				this.centerGhostInCell();
-
 			}  
-			if(this.canMove(dir) && !this.isGhostOutOfBounds(this)) {
+			if(this.canMove(dir)) {
 				
+				//this.safeMove(dir);
 				this.safeMove(dir);
+				
+//				moveInDirectionBy(dir, 15);
 			}
 			
 
@@ -117,8 +134,18 @@ public class Ghost extends Character {
 
 	}
 
+	private void forceRowColInBounds(int[] ghostPos) {
+		if(!ShortestPathUtils.isInBounds(ghostPos[0], ghostPos[1], this.getWorld().getModel())) {
+			if(ghostPos[1] > this.getWorld().getModel().getNumCols()) {
+				ghostPos[0] = 0;
+			} else {
+				ghostPos[0] = this.getWorld().getModel().getNumCols() - 1;
+			}
+		}
+	}
+
 	private void edgeLoop() {
-		//allow the pacman to edge loop
+		//allow the ghost to edge loop
 		if(this.getX() > getWorld().getWidth()) {
 			this.setCoordinate(0, this.getY());
 		} else if((this.getX()) <= 0) {

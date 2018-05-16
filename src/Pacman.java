@@ -47,7 +47,9 @@ public class Pacman extends Character{
 //		System.out.println("Can I turn " + this.getQueuedDirection() + " the answer is " + this.canMove(this.getQueuedDirection()));
 //		System.out.println("Is in center ? -> " + this.isInCenter() + " x = " + this.getX() + " y = " + this.getY());
 				
-		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) && this.isInCenter() && !this.isPacManOutOfBounds()) {
+		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) 
+				&& this.isInCenter()) {
+			
 			System.out.println("Dequeue " + this.getQueuedDirection());
 			System.out.println("X = " + this.getX());
 			
