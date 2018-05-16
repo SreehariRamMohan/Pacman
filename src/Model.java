@@ -84,10 +84,28 @@ public class Model {
 					
 				} else if(arr[col].equals("G")) {
 					characters[row][col] = new Ghost();
-					
 					world.storeGhost(characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
-				} else if(arr[col].equals("R")) {
+				} else if(arr[col].equals("B")) {
+					characters[row][col] = new Blinky();
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} else if(arr[col].equals("I")) {
+					characters[row][col] = new Inky();
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} 
+				else if(arr[col].equals("C")) {
+					characters[row][col] = new Clyde();
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} 
+				else if(arr[col].equals("Y")) {
+					characters[row][col] = new Pinky();
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} 
+				else if(arr[col].equals("R")) {
 					food[row][col] = new RegFood();
 				} else if(arr[col].equals("U")) {
 					food[row][col] = new EatGhostPowerUp();

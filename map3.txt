@@ -7,8 +7,8 @@ E|R--R|R-----R|R--R|E
 E|RRRR|RRR|RRR|RRRR|E
 E----R---E|E---R----E
 EEEE|R|EEEBEEE|R|EEEE
------R|E--E--E|R-----
-EEEEEREE|EGE|EEREEEEE
+-----R|E--C--E|R-----
+EEEEEREE|BYI|EEREEEEE
 -----R|E-----E|R-----
 EEEE|R|EEEEEEE|R|EEEE
 E----R|E-----E|R----E
