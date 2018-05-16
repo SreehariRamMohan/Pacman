@@ -1,3 +1,5 @@
+
+
 import javafx.scene.image.Image;
 
 public class Clyde extends Ghost {
@@ -8,8 +10,7 @@ public class Clyde extends Ghost {
 	
 	@Override
 	public void act(long now) {
-
-
+		super.act(now);
 	}
 
 }

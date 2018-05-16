@@ -1,3 +1,5 @@
+
+
 import javafx.scene.image.Image;
 
 public class Blinky extends Ghost {
@@ -8,8 +10,7 @@ public class Blinky extends Ghost {
 
 	@Override
 	public void act(long now) {
-		// TODO Auto-generated method stub
-		
+		super.act(now);
 	}
 
 

@@ -1,3 +1,4 @@
+
 import javafx.scene.image.Image;
 
 public class Pinky extends Ghost {
@@ -8,6 +9,7 @@ public class Pinky extends Ghost {
 	
 	@Override
 	public void act(long now) {
+		super.act(now);
 	}
 
 }

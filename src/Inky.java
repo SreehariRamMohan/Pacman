@@ -1,3 +1,4 @@
+
 import javafx.scene.image.Image;
 
 public class Inky extends Ghost {
@@ -8,7 +9,7 @@ public class Inky extends Ghost {
 	
 	@Override
 	public void act(long now) {
-	
+		super.act(now);
 	}
 
 }
