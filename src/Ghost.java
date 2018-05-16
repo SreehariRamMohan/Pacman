@@ -90,15 +90,15 @@ public class Ghost extends Character {
 				
 				System.out.println("Ghost positon: " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
 				System.out.println("Pacman positon: " + Arrays.toString(Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY())));		
-//				for(int[] node : currentPath) {
-//					System.out.print(Arrays.toString(node) + " *-> ");
-//					
-//					if(getWorld().getModel().objectAt(node[0], node[1]) instanceof Wall) {
-//						System.out.println("*************PATH NOT CLEAR");
-//						
-//					} 
-//										
-//				}
+				for(int[] node : currentPath) {
+					System.out.print(Arrays.toString(node) + " *-> ");
+					
+					if(getWorld().getModel().objectAt(node[0], node[1]) instanceof Wall) {
+						System.out.println("*************PATH NOT CLEAR");
+						
+					} 
+										
+				}
 				System.out.println("PATH CLEAR");
 				
 				
@@ -113,6 +113,65 @@ public class Ghost extends Character {
 				nextMove = currentPath.remove(0);
 				int nextRow = nextMove[0];
 				int nextCol = nextMove[1];
+				
+				//figure out why the ghosts are still being blocked by walls despite using path-finding
+				int rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
+				int colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
+				
+				
+				//if this is true it is BADDD because it means that the ghost position and his next move are out of sync.
+				if(rowDelta > 1 || colDelta > 1) {
+					System.out.println("OUT OF SYNC WITH PATH");
+					
+				}
+				
+				
+				/**
+				 * trying to fix the issue where the pacman gets blocked despite following the DFS path
+				 */
+				while(rowDelta > 1 || colDelta > 1) { //while out of sync
+
+					/*
+					 * If this is true it means that the ghosts position and it's next move are out of sync. 
+					 * One way to fix this is to simply reset the path
+					 */
+					
+					
+					/**
+					 * OPTION !
+					 */
+//					currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+//					//remove the first node in the list because it is where we are currently
+//					currentPath.remove(0);
+//					
+//					nextMove = currentPath.remove(0);
+//					nextRow = nextMove[0];
+//					nextCol = nextMove[1];	
+//					
+//					rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
+//					colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
+					
+					
+					/**
+					 * OPTION 2
+					 */
+					
+					if(currentPath.size() == 0) {
+						currentPath = currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+						currentPath.remove(0);
+					} else {
+						nextMove = currentPath.remove(0);
+						nextRow = nextMove[0];
+						nextCol = nextMove[1];	
+					}
+					rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
+					colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
+					
+				}
+				
+				
+				
+				
 				
 				//prevent ourselves from moving to the same spot.
 				while(Character.getRowCol(this.getX(), this.getY())[0] == nextRow && 
