@@ -3,10 +3,10 @@ import java.util.Arrays;
 
 import javafx.scene.image.Image;
 
-public class Ghost extends Character {
+public abstract class Ghost extends Character {
 
 	private boolean isEdible;
-	private boolean isAutoPlay;
+	protected boolean isAutoPlay;
 	private Pacman pac;
 
 	private String[] dirChoices = {"UP", "DOWN", "LEFT", "RIGHT"};
@@ -36,16 +36,8 @@ public class Ghost extends Character {
 	}
 
 	@Override
-	public void act(long now) {
-		//Act will move depending on auto play state.
-
-		if(isAutoPlay) {
-			autoPlayNextMove();
-		}
-		actCounter++;
-
-
-	}
+	public abstract void act(long now);
+	
 
 	public boolean isEdible() {
 		return isEdible;

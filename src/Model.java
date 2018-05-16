@@ -82,8 +82,23 @@ public class Model {
 					pacmanInitialPosition[0] = row;
 					pacmanInitialPosition[1] = col;
 					
-				} else if(arr[col].equals("G")) {
-					characters[row][col] = new Ghost();
+				} else if(arr[col].equals("I")) {
+					characters[row][col] = new Inky();
+					
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} else if(arr[col].equals("Y")) {
+					characters[row][col] = new Pinky();
+					
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} else if(arr[col].equals("B")) {
+					characters[row][col] = new Blinky();
+					
+					world.storeGhost(characters[row][col]);
+					this.ghostInitialPositions.add(new int[] {row, col});
+				} else if(arr[col].equals("C")) {
+					characters[row][col] = new Clyde();
 					
 					world.storeGhost(characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
