@@ -5,13 +5,23 @@ import javafx.scene.media.MediaPlayer;
 
 public class SoundUtils {
 	
-	private static Media deathSound = new Media(new File("src/sounds/pacman_death.wav").toURI().toString());
-	private static MediaPlayer deathPlayer = new MediaPlayer(deathSound);
 	
 	public static void playPacmanDeath() {
 		
-		deathPlayer.play();
+		Media deathSound = new Media(new File("src/sounds/pacman_death.wav").toURI().toString());
+		MediaPlayer deathPlayer = new MediaPlayer(deathSound);
 		
+		deathPlayer.play();
+		deathPlayer.setOnEndOfMedia(new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				deathPlayer.dispose();
+
+			}
+			
+		});
 		
 	}
 	
