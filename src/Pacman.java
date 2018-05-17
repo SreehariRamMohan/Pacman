@@ -123,11 +123,11 @@ public class Pacman extends Character{
 
 	private void detectGhosts() {
 		//collision with ghosts
-		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
+		if(this.getIntersectingObjects(Blinky.class).size() != 0) {
 
 			//we need to make sure that the ghost we take is on our row, col position.
 
-			for(Ghost ghost : this.getIntersectingObjects(Ghost.class)) {
+			for(Blinky ghost : this.getIntersectingObjects(Blinky.class)) {
 				int[] pos = Character.getRowCol(ghost.getX() + ghost.getWidth()/2, ghost.getY() + ghost.getHeight()/2);
 				int row = pos[0];
 				int col = pos[1];
@@ -149,7 +149,6 @@ public class Pacman extends Character{
 					} else {
 						//System.out.println("GAME OVER");
 						//getWorld().remove(this);
-
 						System.out.println("@ - Calling die()");
 
 						die();
