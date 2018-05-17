@@ -128,11 +128,11 @@ public class Pacman extends Character{
 			//we need to make sure that the ghost we take is on our row, col position.
 
 			for(Ghost ghost : this.getIntersectingObjects(Ghost.class)) {
-				int[] pos = Character.getRowCol(ghost.getX(), ghost.getY());
+				int[] pos = Character.getRowCol(ghost.getX() + ghost.getWidth()/2, ghost.getY() + ghost.getHeight()/2);
 				int row = pos[0];
 				int col = pos[1];
 
-				int[] myPos = Character.getRowCol(this.getX(), this.getY());
+				int[] myPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
