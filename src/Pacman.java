@@ -219,6 +219,11 @@ public class Pacman extends Character{
 		decrementLives();
 
 		if(true) { //TODO Make the Pacman Death Animation and replace this with num-lives
+			
+			for(Actor a : this.getWorld().getGhosts()) {
+				Ghost g = (Ghost) a;
+				g.clearPathList();
+			}
 			resetGame();
 		} else {
 			System.out.println("*****YOU LOSE*****");

@@ -109,7 +109,7 @@ public class Ghost extends Character {
 
 			//			this.safeMove(this.getDirection());
 
-			if((actCounter%10) == 0) {
+			if((actCounter%(Controller.CHARACTER_DIMS/this.getSpeed())) == 0) {
 				nextMove = currentPath.remove(0);
 				int nextRow = nextMove[0];
 				int nextCol = nextMove[1];
@@ -117,7 +117,6 @@ public class Ghost extends Character {
 				//figure out why the ghosts are still being blocked by walls despite using path-finding
 				int rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
 				int colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
-				
 				
 				//if this is true it is BADDD because it means that the ghost position and his next move are out of sync.
 				if(rowDelta > 1 || colDelta > 1) {
@@ -187,12 +186,12 @@ public class Ghost extends Character {
 
 				this.centerGhostInCell();
 			}  
-			if(this.canMove(dir)) {
+			if(this.canMoveForGhosts(dir)) {
 				this.safeMove(dir);
 				
 			} else {
-				System.out.println("Blocked trying to go -> " + this.getDirection() + " future position " + this.getFutureRowColFromDirection(this.getDirection()));
-				
+				System.out.println("Blocked trying to go -> " + this.getDirection() + "current position = " + Arrays.toString(this.getRowCol(this.getX(), this.getY())) + " future position " + Arrays.toString(this.getFutureRowColFromDirection(this.getDirection())));
+				System.exit(0);
 			}
 
 
@@ -212,6 +211,10 @@ public class Ghost extends Character {
 				ghostPos[0] = this.getWorld().getModel().getNumCols() - 1;
 			}
 		}
+	}
+	
+	public void clearPathList() {
+		this.currentPath.clear();
 	}
 
 	private void edgeLoop() {

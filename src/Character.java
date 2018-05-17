@@ -147,6 +147,43 @@ public abstract class Character extends Actor {
 		return pos;
 	}
 	
+	
+	public boolean canMoveForGhosts(String direction) {
+		
+		if(direction.equals(STATIONARY)) {
+			return false;
+		}
+		
+		int[] pos = getFutureRowColFromDirectionForGhosts(direction);
+		int row = pos[0];
+		int col = pos[1];
+		//wall is blocking our path
+		if((getWorld().getModel().objectAt(row, col) instanceof Wall)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	public int[] getFutureRowColFromDirectionForGhosts(String direction) {		
+		int[] pos = null;
+	
+		if(direction.equals(Character.UP)) {
+			pos = Character.getRowCol(this.getX(), this.getY() - this.getSpeed());
+		} else if(direction.equals(Character.DOWN)) {
+			pos = Character.getRowCol(this.getX(), this.getY() + Controller.CHARACTER_DIMS + this.getSpeed());
+		} else if(direction.equals(Character.LEFT)) {
+			pos = Character.getRowCol(this.getX() - getSpeed(), this.getY());
+		} else if(direction.equals(Character.RIGHT)){ //direction = RIGHT
+			pos = Character.getRowCol(this.getX() + Controller.CHARACTER_DIMS + this.getSpeed(), this.getY());
+		}  else if(direction.equals(Character.STATIONARY)) {
+			pos = Character.getRowCol(this.getX(), this.getY());
+		}
+		
+		return pos;
+	}
+	
+	
 	public void moveInDirectionBy(String direction, int by) {
 
 		if(direction.equals(Character.UP)) {
