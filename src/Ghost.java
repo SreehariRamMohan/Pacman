@@ -191,7 +191,7 @@ public class Ghost extends Character {
 				
 			} else {
 				System.out.println("Blocked trying to go -> " + this.getDirection() + "current position = " + Arrays.toString(this.getRowCol(this.getX(), this.getY())) + " future position " + Arrays.toString(this.getFutureRowColFromDirection(this.getDirection())));
-				System.exit(0);
+				//System.exit(0);
 			}
 
 

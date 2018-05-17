@@ -14,7 +14,7 @@ public class EatGhostPowerUp extends Food {
 	public void onEat() {
 		List<Actor> list = getWorld().getGhosts();
 		int size = list.size();
-		remove();
+		this.getWorld().remove(this);
 		
 		
 		Timer timer = new Timer();
@@ -23,6 +23,7 @@ public class EatGhostPowerUp extends Food {
 			@Override
 			public void run() {
 				for(int i=0; i<size; i++) {
+					
 					Ghost ghost = (Ghost) list.get(i);
 					if(ghost instanceof Blinky) {
 						ghost.setImage(new Image("imgs/blinky.png"));

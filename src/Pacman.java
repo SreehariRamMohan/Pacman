@@ -17,12 +17,30 @@ public class Pacman extends Character{
 	private int openCloseMouthCounter = 0;
 	
 	//sounds
-	Media eatingSound = new Media(new File("src/sounds/pacman_chomp.wav").toURI().toString());
-	MediaPlayer chompPlayer = new MediaPlayer(eatingSound);
-
+	
+	boolean isPlaying = false;
+	
 	public void playEatSound() {
+		if(isPlaying) {
+			return;
+		} else {
+			isPlaying = true;
+		}
+		Media eatingSound = new Media(new File("src/sounds/pacman_chomp.wav").toURI().toString());
+		MediaPlayer chompPlayer = new MediaPlayer(eatingSound);
+		
 		chompPlayer.play();
+		chompPlayer.setOnEndOfMedia(new Runnable() {
+
+			@Override
+			public void run() {
+				isPlaying = false;
+			}
+			
+		});
 	}
+	
+	
 	
 	public Pacman() {
 		this.setImage(pacManClosed);
@@ -146,13 +164,15 @@ public class Pacman extends Character{
 		if(this.getIntersectingObjects(RegFood.class).size() != 0) {
 
 			//we need to make sure that the food we take is on our row, col position.
-
+			System.out.println("Touching normal food");
+			
+			
 			for(RegFood food : this.getIntersectingObjects(RegFood.class)) {
-				int[] pos = Character.getRowCol(food.getX(), food.getY());
+				int[] pos = Character.getRowCol(food.getX() + food.getWidth()/2, food.getY() + food.getHeight()/2);
 				int row = pos[0];
 				int col = pos[1];
 
-				int[] myPos = Character.getRowCol(this.getX(), this.getY());
+				int[] myPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
@@ -166,18 +186,26 @@ public class Pacman extends Character{
 					food.onEat();
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
+				} else {
+					System.out.println("Row of food = " + row + " col of food = " + col);
+					System.out.println("My row is " + myRow + " my col is " + myCol);
+					
 				}
 			}
 
-		} else if(this.getIntersectingObjects(EatGhostPowerUp.class).size() != 0) {
+		}
+		if(this.getIntersectingObjects(EatGhostPowerUp.class).size() != 0) {
 			//we need to make sure that the food we take is on our row, col position.
 
+			System.out.println("Touching special food.");
+			
+			
 			for(EatGhostPowerUp food : this.getIntersectingObjects(EatGhostPowerUp.class)) {
-				int[] pos = Character.getRowCol(food.getX(), food.getY());
+				int[] pos = Character.getRowCol(food.getX() + food.getWidth()/2, food.getY() + food.getHeight()/2);
 				int row = pos[0];
 				int col = pos[1];
 
-				int[] myPos = Character.getRowCol(this.getX(), this.getY());
+				int[] myPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
@@ -188,6 +216,11 @@ public class Pacman extends Character{
 					food.onEat();
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
+				} else {
+					System.out.println("Row of food = " + row + " col of food = " + col);
+					System.out.println("My row is " + myRow + " my col is " + myCol);
+					
+					
 				}
 			}
 
@@ -237,6 +270,9 @@ public class Pacman extends Character{
 				Ghost g = (Ghost) a;
 				g.clearPathList();
 			}
+			
+			SoundUtils.playPacmanDeath();
+			
 			resetGame();
 		} else {
 			System.out.println("*****YOU LOSE*****");
