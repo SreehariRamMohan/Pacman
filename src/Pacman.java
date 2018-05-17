@@ -1,7 +1,10 @@
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public class Pacman extends Character{
 
@@ -12,8 +15,15 @@ public class Pacman extends Character{
 	private Image pacManClosed = new Image("imgs/pacMan.png");
 	private Image pacManOpen = new Image("imgs/pacMan2.png");
 	private int openCloseMouthCounter = 0;
+	
+	//sounds
+	Media eatingSound = new Media(new File("src/sounds/pacman_chomp.wav").toURI().toString());
+	MediaPlayer chompPlayer = new MediaPlayer(eatingSound);
 
-
+	public void playEatSound() {
+		chompPlayer.play();
+	}
+	
 	public Pacman() {
 		this.setImage(pacManClosed);
 		lives = 3;
@@ -146,10 +156,13 @@ public class Pacman extends Character{
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
+				
+				
 				//the food only counts iff we are at it's row, col position.
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
+					playEatSound();
 					food.onEat();
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
