@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -19,6 +20,7 @@ public class PacManWorld extends World {
 	
 	private Text scoreText;
 	private Text liveText;
+	private HBox hbox;
 	
 	public PacManWorld() {
 		ghosts = new ArrayList<>();
@@ -83,7 +85,7 @@ public class PacManWorld extends World {
 	
 	
 	/**
-	 * Methods for updating the score
+	 * Methods for updating the score and showing life counter
 	 */
 	public void updateScore(int newScore) {
 		String newText = "Score: " + newScore;
@@ -104,4 +106,5 @@ public class PacManWorld extends World {
 	public void setScore(int score) {
 		this.score = score;
 	}
+	
 }
