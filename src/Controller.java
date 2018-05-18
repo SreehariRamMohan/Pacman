@@ -80,23 +80,27 @@ public class Controller extends Application {
 			@Override
 			public void handle(KeyEvent event) {
 		
-//				if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getDirection().equals("UP")){
-//					((Pacman)world.getPacman()).queueTurn("UP");
-//				}
-//				else if(event.getCode() == KeyCode.DOWN && !((Pacman)world.getPacman()).getDirection().equals("DOWN")){
-//					((Pacman)world.getPacman()).queueTurn("DOWN");
-//				}
-//				else if(event.getCode() == KeyCode.LEFT && !((Pacman)world.getPacman()).getDirection().equals("LEFT")){
-//					((Pacman)world.getPacman()).queueTurn("LEFT");
-//				}
-//				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
-//					((Pacman)world.getPacman()).queueTurn("RIGHT");
-//				}
+				if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getDirection().equals("UP")){
+					((Pacman)world.getPacman()).queueTurn("UP");
+				}
+				else if(event.getCode() == KeyCode.DOWN && !((Pacman)world.getPacman()).getDirection().equals("DOWN")){
+					((Pacman)world.getPacman()).queueTurn("DOWN");
+				}
+				else if(event.getCode() == KeyCode.LEFT && !((Pacman)world.getPacman()).getDirection().equals("LEFT")){
+					((Pacman)world.getPacman()).queueTurn("LEFT");
+				}
+				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
+					((Pacman)world.getPacman()).queueTurn("RIGHT");
+				}
 				
 				
+				/**
+				 * This code is a more robust way to turn so that you can queue in the direction you are moving
+				 * LEAVE THIS COMMENTED FOR NOW, UNCOMMENT after TESTING A LOT
+				 */
 				//Code to make direction be queued based on current queued direction as opposed to the above where
 				//direction queue is based on current direction
-				
+				/*
 				if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getQueuedDirection().equals("UP")) {
 					((Pacman)world.getPacman()).queueTurn("UP");
 				}
@@ -108,7 +112,7 @@ public class Controller extends Application {
 				}
 				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getQueuedDirection().equals("RIGHT")) {
 					((Pacman)world.getPacman()).queueTurn("RIGHT");
-				}
+				}*/
 				
 				
 				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
