@@ -1,3 +1,4 @@
+
 import java.io.File;
 
 import javafx.application.Application;
@@ -49,8 +50,10 @@ public class Controller extends Application {
 		world.setLiveText(liveText);
 		
 		
-		scoreText.setFont(Font.font(24));
-		liveText.setFont(Font.font(24));
+		Font pacmanFont = Font.loadFont(Controller.this.getClass().getResource("pacfont.ttf").toExternalForm(), 24);
+		
+		scoreText.setFont(pacmanFont);
+		liveText.setFont(pacmanFont);
 		
 		topBox.setLeft(scoreText);
 		topBox.setRight(liveText);
@@ -108,7 +111,6 @@ public class Controller extends Application {
 				}*/
 				
 				
-				
 				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
 				
 				
@@ -116,7 +118,5 @@ public class Controller extends Application {
 			
 		});
 	}
-	
-	
-
 }
+
