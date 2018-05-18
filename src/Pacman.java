@@ -336,7 +336,6 @@ public class Pacman extends Character{
 				Ghost g = (Ghost) a;
 				g.clearPathList();
 			}
-			
 			SoundUtils.playPacmanDeath();
 			
 			resetGame();

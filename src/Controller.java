@@ -4,7 +4,10 @@ import java.io.File;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -23,6 +26,9 @@ public class Controller extends Application {
 	
 	private Text scoreText;
 	private Text liveText;
+	private Image pacmanLives = new Image("imgs/pacMan.png");
+	private ImageView pacLives1 = new ImageView(pacmanLives);
+	private ImageView pacLives2 = new ImageView(pacmanLives);
 	
 	//characters
 	
@@ -46,9 +52,12 @@ public class Controller extends Application {
 		BorderPane topBox = new BorderPane();
 		scoreText = new Text("Score: 0");
 		liveText = new Text("Lives: 3");
+		HBox hbox = new HBox();
+		hbox.getChildren().add(pacLives1);
+		hbox.getChildren().add(pacLives2);
 		world.setScoreText(scoreText);
 		world.setLiveText(liveText);
-		
+		//pacmanLives = new Image
 		
 		Font pacmanFont = Font.loadFont(Controller.this.getClass().getResource("pacfont.ttf").toExternalForm(), 24);
 		
@@ -56,6 +65,7 @@ public class Controller extends Application {
 		liveText.setFont(pacmanFont);
 		
 		topBox.setLeft(scoreText);
+		topBox.setTop(hbox);
 		topBox.setRight(liveText);
 		
 		root.setTop(topBox);
