@@ -171,7 +171,14 @@ public class Pacman extends Character{
 		
 		Media eatingSound = new Media(new File("src/sounds/pacman_eatghost.wav").toURI().toString());
 		MediaPlayer ghostDeathPlayer = new MediaPlayer(eatingSound);
-		
+		ghostDeathPlayer.setOnEndOfMedia(new Runnable() {
+
+			@Override
+			public void run() {
+				isPlaying = false;
+			}
+			
+		});
 		ghostDeathPlayer.play();
 		
 		
@@ -181,7 +188,14 @@ public class Pacman extends Character{
 		
 		Media powerUpSound = new Media(new File("src/sounds/pacman_powerup.wav").toURI().toString());
 		MediaPlayer player = new MediaPlayer(powerUpSound);
-		
+		player.setOnEndOfMedia(new Runnable() {
+
+			@Override
+			public void run() {
+				isPlaying = false;
+			}
+			
+		});
 		player.play();
 		
 		
