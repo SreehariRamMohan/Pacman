@@ -90,6 +90,25 @@ public class Controller extends Application {
 					((Pacman)world.getPacman()).queueTurn("RIGHT");
 				}
 				
+				
+				//Code to make direction be queued based on current queued direction as opposed to the above where
+				//direction queue is based on current direction
+				/*
+				if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getQueuedDirection().equals("UP")) {
+					((Pacman)world.getPacman()).queueTurn("UP");
+				}
+				else if(event.getCode() == KeyCode.DOWN && !((Pacman)world.getPacman()).getQueuedDirection().equals("DOWN")) {
+					((Pacman)world.getPacman()).queueTurn("DOWN");
+				}
+				else if(event.getCode() == KeyCode.LEFT && !((Pacman)world.getPacman()).getQueuedDirection().equals("LEFT")) {
+					((Pacman)world.getPacman()).queueTurn("LEFT");
+				}
+				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getQueuedDirection().equals("RIGHT")) {
+					((Pacman)world.getPacman()).queueTurn("RIGHT");
+				}*/
+				
+				
+				
 				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
 				
 				
