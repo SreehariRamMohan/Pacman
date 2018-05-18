@@ -46,12 +46,14 @@ public class Pacman extends Character{
 		this.setImage(pacManClosed);
 		lives = 3;
 		setSpeed(3);
+		playLevelStartSound();
 	}
 
 	public Pacman(int lives) {
 		//this.setImage() Add image later
 		this.lives = 3;
 		setSpeed(3);
+		playLevelStartSound();
 	}
 
 	@Override
@@ -146,6 +148,12 @@ public class Pacman extends Character{
 						getWorld().setScore(getWorld().getScore() + increment*200);
 						getWorld().updateScore(getWorld().getScore());
 						getWorld().remove(ghost);
+						
+						//play the ghost death sound. 
+						playGhostDeathSound();
+						
+						
+						
 					} else {
 						//System.out.println("GAME OVER");
 						//getWorld().remove(this);
@@ -158,6 +166,49 @@ public class Pacman extends Character{
 		}
 
 	}
+
+	private void playGhostDeathSound() {
+		
+		Media eatingSound = new Media(new File("src/sounds/pacman_eatghost.wav").toURI().toString());
+		MediaPlayer ghostDeathPlayer = new MediaPlayer(eatingSound);
+		
+		ghostDeathPlayer.play();
+		
+		
+	}
+	
+	private void playPowerUpSound() {
+		
+		Media powerUpSound = new Media(new File("src/sounds/pacman_powerup.wav").toURI().toString());
+		MediaPlayer player = new MediaPlayer(powerUpSound);
+		
+		player.play();
+		
+		
+	}
+	
+	private void playLevelStartSound() {
+		if(isPlaying) {
+			return;
+		} else {
+			isPlaying = true;
+		}
+		Media startSound = new Media(new File("src/sounds/pacman_beginning.wav").toURI().toString());
+		MediaPlayer soundPlayer = new MediaPlayer(startSound);
+		
+		soundPlayer.play();
+		soundPlayer.setOnEndOfMedia(new Runnable() {
+
+			@Override
+			public void run() {
+				isPlaying = false;
+			}
+			
+		});
+		
+	}
+
+
 
 	private void detectFood() {
 		if(this.getIntersectingObjects(RegFood.class).size() != 0) {
@@ -212,7 +263,9 @@ public class Pacman extends Character{
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
+					playPowerUpSound();
 					food.onEat();
+					
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
 				} else {
