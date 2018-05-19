@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class ShortestPathUtils {
 
-	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 1000;
+	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 500;
 	private static int numPathsFound = 0;
 	private static ArrayList<ArrayList<int[]>> allPaths = new ArrayList<>();
 
@@ -69,6 +69,10 @@ public class ShortestPathUtils {
 	}
 	
 	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {
+		
+		int random = (int)(Math.random() * (allPaths.size()));
+		
+		
 		int smallest = Integer.MAX_VALUE;
 		ArrayList<int[]> toPick = null; 
 		for(ArrayList<int[]> candidate : allPaths) {
@@ -77,7 +81,8 @@ public class ShortestPathUtils {
 				smallest = candidate.size();
 			}
 		}
-		return toPick;
+		
+		return allPaths.get(random);
 	}
 
 
