@@ -130,12 +130,14 @@ public class Pacman extends Character{
 	}
 
 	private void detectGhosts() {
+		
 		//collision with ghosts
 		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
-
+			
+			System.out.println("!!!!Pacman is colliding with at least 1 ghost");
 			//we need to make sure that the ghost we take is on our row, col position.
 
-			for(Ghost ghost : this.getIntersectingObjects(Ghost.class)) {
+			for(Actor ghost : this.getWorld().getGhosts()) {				
 				int[] pos = Character.getRowCol(ghost.getX() + ghost.getWidth()/2, ghost.getY() + ghost.getHeight()/2);
 				int row = pos[0];
 				int col = pos[1];
@@ -148,7 +150,7 @@ public class Pacman extends Character{
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
-					if(ghost.isEdible()) {
+					if(((Ghost)ghost).isEdible()) {
 						int increment = (int) Math.pow(2, trackPoint);
 						trackPoint++;
 						getWorld().updateScoreText(getWorld().getScore() + increment*200);

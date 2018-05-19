@@ -35,7 +35,7 @@ public class ShortestPathUtils {
 		
 		ArrayList<int[]> optimalPath = findMostOptimal(allPaths);
 		
-		System.out.println("Length of shortest path is " + optimalPath.size());
+//		System.out.println("Length of shortest path is " + optimalPath.size());
 		
 		
 		return optimalPath;

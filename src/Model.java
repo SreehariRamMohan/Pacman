@@ -75,34 +75,30 @@ public class Model {
 					characters[row][col] = new Wall();;
 				} else if(arr[col].equals("P")) {
 					characters[row][col] = new Pacman();
-					
 					world.setPacman(characters[row][col]);
-					
-					
 					pacmanInitialPosition[0] = row;
 					pacmanInitialPosition[1] = col;
-					
 				} else if(arr[col].equals("G")) {
 					characters[row][col] = new Ghost();
-					world.storeGhost(characters[row][col]);
+					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("B")) {
 					characters[row][col] = new Blinky();
-					world.storeGhost(characters[row][col]);
+					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("I")) {
 					characters[row][col] = new Inky();
-					world.storeGhost(characters[row][col]);
+					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 
 				else if(arr[col].equals("C")) {
 					characters[row][col] = new Clyde();
-					world.storeGhost(characters[row][col]);
+					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 
 				else if(arr[col].equals("Y")) {
 					characters[row][col] = new Pinky();
-					world.storeGhost(characters[row][col]);
+					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 
 				else if(arr[col].equals("R")) {

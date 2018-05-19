@@ -82,6 +82,9 @@ public class Ghost extends Character {
 			int pacmanCol = pacManPos[1];
 			
 			if(currRow == pacmanRow && currCol == pacmanCol) {
+				//we are at a pacman so the game should end, unless the pacman is edible
+				//System.out.println("Curr row = " + currRow + " currCol = " + currCol + " pacmanRow = " + pacmanRow + " pacmanCol = " + pacmanCol);
+				
 				return;
 			}
 			

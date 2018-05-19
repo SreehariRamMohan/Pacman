@@ -3,7 +3,9 @@ import javafx.scene.image.Image;
 
 public class Inky extends Ghost {
 
-	public Inky() {
+	public Inky() {		
+		super();
+		System.out.println("Inky created");
 		this.setImage(new Image("imgs/inky.png"));
 	}
 	

@@ -46,9 +46,16 @@ public abstract class World extends Pane {
 	public <A extends Actor> java.util.List<A> getObjects(java.lang.Class<A> cls) {
 		ArrayList<A> list = new ArrayList<>();
 		for(Node a : getChildren()) {
-			if(a.getClass() == cls) { //if this breaks use instanceof
+//			if(a.getClass() == cls) { //if this breaks use instanceof
+//				list.add((A) a);
+//			}
+			
+			if(cls.isInstance(a)) { //if this breaks use instanceof
 				list.add((A) a);
 			}
+			
+			
+			
 		}
 		return list;
 	}
