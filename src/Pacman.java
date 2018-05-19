@@ -2,9 +2,15 @@ import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class Pacman extends Character{
 
@@ -148,10 +154,14 @@ public class Pacman extends Character{
 						getWorld().updateScoreText(getWorld().getScore() + increment*200);
 						getWorld().remove(ghost);
 						
+						/**
+						 * TODO: Make these values dependent upon the ghost eaten, for now hard-coded 
+						 */
+						addScoreAnimation(200, 500, row, col);
+						
 						//play the ghost death sound. 
 						playGhostDeathSound();
-						
-						
+
 						
 					} else {
 						//System.out.println("GAME OVER");
@@ -165,6 +175,36 @@ public class Pacman extends Character{
 		}
 
 	}
+
+	private void addScoreAnimation(int points, int fadeout, int row, int col) {
+		//add the score to this row, and col
+		Image i = new Image("imgs/point" + points + ".png");
+		InvisibleActor score = new InvisibleActor(i);
+		score.setX(col * Controller.CHARACTER_DIMS);
+		score.setY(row * Controller.CHARACTER_DIMS);
+		this.getWorld().getChildren().add(score);
+		
+		//fade the score label out slowly
+		FadeTransition scoreFade = new FadeTransition(Duration.millis(fadeout), score);
+		scoreFade.setFromValue(1.0);
+		scoreFade.setToValue(0);
+		scoreFade.play();
+		
+		Timeline scoreEndTimeline = new Timeline();
+		scoreEndTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(fadeout + 10)));
+		scoreEndTimeline.setOnFinished(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				getWorld().getChildren().remove(score);								
+			}
+			
+		});
+		
+		scoreEndTimeline.play();
+	}
+
+
 
 	private void playGhostDeathSound() {
 		
@@ -227,7 +267,6 @@ public class Pacman extends Character{
 		if(this.getIntersectingObjects(RegFood.class).size() != 0) {
 
 			//we need to make sure that the food we take is on our row, col position.
-			System.out.println("Touching normal food");
 			
 			
 			for(RegFood food : this.getIntersectingObjects(RegFood.class)) {
@@ -259,8 +298,6 @@ public class Pacman extends Character{
 		}
 		if(this.getIntersectingObjects(EatGhostPowerUp.class).size() != 0) {
 			//we need to make sure that the food we take is on our row, col position.
-
-			System.out.println("Touching special food.");
 			
 			
 			for(EatGhostPowerUp food : this.getIntersectingObjects(EatGhostPowerUp.class)) {
