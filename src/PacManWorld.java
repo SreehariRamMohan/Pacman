@@ -13,13 +13,14 @@ import javafx.scene.text.Text;
 public class PacManWorld extends World {
 
 	private int score;
+	
 	private Actor pacman;
 	private List<Actor> ghosts;
 	private Model model;
 	private int level = 1;
 	
 	private Text scoreText;
-	private Text liveText;
+	private HBox lifeDisplayBox;
 	private HBox hbox;
 	
 	public PacManWorld() {
@@ -67,12 +68,6 @@ public class PacManWorld extends World {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-
-
-	
-	public Text getLivesText() {
-		return this.liveText;
-	}
 	
 	
 	
@@ -85,26 +80,36 @@ public class PacManWorld extends World {
 	
 	
 	/**
-	 * Methods for updating the score and showing life counter
+	 * Methods for updating the lives
 	 */
-	public void updateScore(int newScore) {
-		String newText = "Score: " + newScore;
-		scoreText.setText(newText);
+	public void updateLives(int newLives) {
+		while(newLives != getLifeDisplayBox().getChildren().size()) {
+			getLifeDisplayBox().getChildren().remove(this.getLifeDisplayBox().getChildren().size() - 1);
+		}
 	}
+
+	public HBox getLifeDisplayBox() {
+		return lifeDisplayBox;
+	}
+	public void setLiveBox(HBox lifeDisplayBox) {
+		this.lifeDisplayBox = lifeDisplayBox;
+	}
+	
+	
+	/**
+	 * Methods for updating the score that a player has
+	 */
 	public void setScoreText(Text scoreText) {
 		this.scoreText = scoreText;
 	}
-	public Text getLiveText() {
-		return liveText;
-	}
-	public void setLiveText(Text liveText) {
-		this.liveText = liveText;
-	}
+	
 	public int getScore() {
 		return score;
 	}
-	public void setScore(int score) {
-		this.score = score;
+	
+	public void updateScoreText(int newScore) {
+		this.score  = newScore;
+		this.scoreText.setText("Score: " + this.getScore());
 	}
 	
 }

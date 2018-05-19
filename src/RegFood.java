@@ -8,8 +8,7 @@ public class RegFood extends Food {
 
 	@Override
 	public void onEat() {
-		getWorld().setScore(getWorld().getScore() + 10);
-		getWorld().updateScore(getWorld().getScore());
+		getWorld().updateScoreText(getWorld().getScore() + 10);
 		remove();
 	}
 

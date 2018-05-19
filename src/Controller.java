@@ -3,6 +3,7 @@ import java.io.File;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -10,8 +11,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -25,10 +30,8 @@ public class Controller extends Application {
 	private PacManWorld world;
 	
 	private Text scoreText;
-	private Text liveText;
-	private Image pacmanLives = new Image("imgs/pacMan.png");
-	private ImageView pacLives1 = new ImageView(pacmanLives);
-	private ImageView pacLives2 = new ImageView(pacmanLives);
+	
+	private Image pacmanImage = new Image("imgs/pacMan.png");
 	
 	//characters
 	
@@ -39,41 +42,45 @@ public class Controller extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		stage.setTitle("Pac Man");
-		
-		
 		BorderPane root = new BorderPane();
 		world = new PacManWorld();
-		world.setPrefHeight(300);
-		world.setPrefWidth(300);
-		root.setCenter(world);
 		
+		//create model so all objects are ready for us.
+		Model m = new Model(new File("map3.txt"), world);
+		world.setModel(m);
+		
+		world.setPrefHeight(630);
+		world.setPrefWidth(680);
+		root.setCenter(world);
 		Scene scene = new Scene(root);
 	
+		
+		/**
+		 * Code to create the top HUD (top row of information about the game).
+		 */
 		BorderPane topBox = new BorderPane();
 		scoreText = new Text("Score: 0");
-		liveText = new Text("Lives: 3");
-		HBox hbox = new HBox();
-		hbox.getChildren().add(pacLives1);
-		hbox.getChildren().add(pacLives2);
+		HBox lifeDisplayHBox = new HBox();
+		for(int i = 0; i < 3; i++) {
+			lifeDisplayHBox.getChildren().add(new ImageView(pacmanImage));
+		}
+		topBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+		//Pass a reference to the text & lives to the world so it can update
+		world.setLiveBox(lifeDisplayHBox);
 		world.setScoreText(scoreText);
-		world.setLiveText(liveText);
-		//pacmanLives = new Image
 		
+		//set the font to a custom pacman font 
 		Font pacmanFont = Font.loadFont(Controller.this.getClass().getResource("pacfont.ttf").toExternalForm(), 24);
-		
 		scoreText.setFont(pacmanFont);
-		liveText.setFont(pacmanFont);
-		
+		scoreText.setFill(Color.WHITE);
 		topBox.setLeft(scoreText);
-		topBox.setTop(hbox);
-		topBox.setRight(liveText);
-		
+		topBox.setRight(lifeDisplayHBox);		
 		root.setTop(topBox);
+		
 		
 		setKeyboardEvent();
 		
-		Model m = new Model(new File("map3.txt"), world);
-		world.setModel(m);
+		
 		
 		world.start();
 		

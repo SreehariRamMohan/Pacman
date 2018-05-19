@@ -145,8 +145,7 @@ public class Pacman extends Character{
 					if(ghost.isEdible()) {
 						int increment = (int) Math.pow(2, trackPoint);
 						trackPoint++;
-						getWorld().setScore(getWorld().getScore() + increment*200);
-						getWorld().updateScore(getWorld().getScore());
+						getWorld().updateScoreText(getWorld().getScore() + increment*200);
 						getWorld().remove(ghost);
 						
 						//play the ghost death sound. 
@@ -310,7 +309,7 @@ public class Pacman extends Character{
 		lives--;
 
 		//update the lives of pacman with the label on the screen.
-		getWorld().getLivesText().setText("Lives: " + this.getLives());
+		getWorld().updateLives(this.getLives());
 	}
 
 	public int getLives() {
