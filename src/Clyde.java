@@ -4,7 +4,8 @@ import javafx.scene.image.Image;
 
 public class Clyde extends Ghost {
 
-	public Clyde() {
+	public Clyde(int startingRow, int startingCol) {
+		super(startingRow, startingCol);
 		this.setImage(new Image("imgs/clyde.png"));
 	}
 	

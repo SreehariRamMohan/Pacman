@@ -3,9 +3,8 @@ import javafx.scene.image.Image;
 
 public class Pinky extends Ghost {
 	
-	public Pinky() {
-		System.out.println("Pinky created");
-		
+	public Pinky(int startingRow, int startingCol) {
+		super(startingRow, startingCol);		
 		this.setImage(new Image("imgs/pinky.png"));
 	}
 	

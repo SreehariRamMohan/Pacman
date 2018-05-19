@@ -230,6 +230,30 @@ public abstract class Character extends Actor {
 		}		
 	}
 	
+	public void safeMove(String direction, boolean updateInModel) {
+		if(updateInModel) {
+			safeMove(direction);
+			return;
+		}
+		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
+		int oldRow = oldPos[0];
+		int oldCol = oldPos[1];
+		
+		int[] pos = getFutureRowColFromDirection(direction);
+		int row = pos[0];
+		int col = pos[1];
+		
+		if(direction.equals(Character.UP)) {
+			this.move(0, -getSpeed());
+		} else if(direction.equals(Character.DOWN)) {
+			this.move(0, getSpeed());
+		} else if(direction.equals(Character.LEFT)) {
+			this.move(-getSpeed(), 0);
+		} else if(direction.equals(Character.RIGHT)) { 
+			this.move(getSpeed(), 0);
+		} 
+	}
+	
 	public void queueTurn(String dir) {
 		this.turnInQue = true;
 		this.quedTurn = dir;

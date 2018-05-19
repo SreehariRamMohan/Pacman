@@ -1,4 +1,6 @@
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -151,6 +153,10 @@ public class Pacman extends Character{
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
 					if(((Ghost)ghost).isEdible()) {
+						
+						int initialGhostRow = ((Ghost) ghost).getStartingRow();
+						int initialGhostCol = ((Ghost) ghost).getStartingCol();
+						
 						int increment = (int) Math.pow(2, trackPoint);
 						trackPoint++;
 						getWorld().updateScoreText(getWorld().getScore() + increment*200);
@@ -163,6 +169,9 @@ public class Pacman extends Character{
 						
 						//play the ghost death sound. 
 						playGhostDeathSound();
+
+						//spawn the eyes in this cell and make the eyes travel back to the start for re-spawning. 
+						spawnEyesGoingBackToHome(row, col, initialGhostRow, initialGhostCol);
 
 						
 					} else {
@@ -177,6 +186,44 @@ public class Pacman extends Character{
 		}
 
 	}
+
+	private void spawnEyesGoingBackToHome(int row, int col, int initialGhostRow, int initialGhostCol) {
+		
+		ArrayList<int[]> pathToHome = (ShortestPathUtils.getPaths(row, col, initialGhostRow, initialGhostCol, this.getWorld().getModel()));
+		
+		System.out.println("Initial: r = " + row + " col = " + col);
+		System.out.println("I want to go row = " + initialGhostRow + " col = " + initialGhostCol);
+		
+		
+		for(int[] pair : pathToHome) {
+			System.out.print(Arrays.toString(pair) + "_");
+		}
+		System.out.println();
+		
+		
+		pathToHome.remove(0); //0 is our first index.
+		
+		Image eyeImage = new Image("imgs/eyesRight.png");
+		InvisibleActor eyes = new RespawnEyes(eyeImage, pathToHome, initialGhostRow, initialGhostCol);
+		this.getWorld().add(eyes);
+
+		eyes.setX(col * Controller.CHARACTER_DIMS);
+		eyes.setY(row * Controller.CHARACTER_DIMS);
+		System.out.println("Ghost died at row, col" + row + ", " + col);
+		
+		System.out.println("In pacman, eyes x = " + eyes.getX() + " eyes y = " + this.getY());
+		
+		
+		
+		//make the eyes go back to the home before they respawn into a new ghost.
+		
+		
+		
+		
+		
+	}
+
+
 
 	private void addScoreAnimation(int points, int fadeout, int row, int col) {
 		//add the score to this row, and col

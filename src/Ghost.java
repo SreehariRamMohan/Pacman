@@ -14,8 +14,13 @@ public class Ghost extends Character {
 	private ArrayList<int[]> currentPath;
 	int[] nextMove;
 	
+	private int startingRow;
+	private int startingCol;
 	
-	public Ghost() {
+	public Ghost(int startingRow, int startingCol) {
+		this.startingRow = startingRow;
+		this.startingCol = startingCol;
+		
 		this.setImage(new Image("imgs/ghost.png")); 
 		setSpeed(3);
 		isAutoPlay = true;
@@ -184,7 +189,7 @@ public class Ghost extends Character {
 		isAutoPlay = !isAutoPlay;
 	}
 	
-	public String getDirectionFromNode(int nextRow, int nextCol, int currRow, int currCol)  {
+	public static String getDirectionFromNode(int nextRow, int nextCol, int currRow, int currCol)  {
 	
 		int dx = nextCol - currCol;
 		int dy = nextRow - currRow;
@@ -218,7 +223,7 @@ public class Ghost extends Character {
 			System.out.println("nextRow = " + nextRow);
 			System.out.println("Next col = " + nextCol);
 			
-			System.out.println(getWorld().getModel().objectAt(nextRow, nextCol).getClass().getName());
+			//System.out.println(getWorld().getModel().objectAt(nextRow, nextCol).getClass().getName());
 			
 			
 			 
@@ -227,6 +232,15 @@ public class Ghost extends Character {
 			return null;
 		}
 	}
+
+	public int getStartingRow() {
+		return startingRow;
+	}
+	public int getStartingCol() {
+		return startingCol;
+	}
+	
+	
 
 
 }

@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  * don't want them to be solid. In other words, other objects should be able to go through them
  */
 
-public class InvisibleActor extends Actor {
+public class InvisibleActor extends Character {
 	
 	public InvisibleActor(Image i) {
 		this.setImage(i);
