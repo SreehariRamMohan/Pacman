@@ -13,7 +13,7 @@ public class Ghost extends Character {
 	private int actCounter = 0; 
 	private ArrayList<int[]> currentPath;
 	int[] nextMove;
-	String dir;
+	
 	
 	public Ghost() {
 		this.setImage(new Image("imgs/ghost.png")); 
@@ -90,7 +90,7 @@ public class Ghost extends Character {
 				//remove the first node in the list because it is where we are currently
 				currentPath.remove(0); // = [currRow, currCol] = starting position of the ghost
 				
-				dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
+				String dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
 				
 				this.setDirection(dir);
 				
@@ -102,7 +102,13 @@ public class Ghost extends Character {
 				}				
 			}
 
-			this.safeMove(dir);
+			
+			ghostPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
+			
+			forceRowColInBounds(ghostPos);
+			
+			currRow = ghostPos[0];
+			currCol = ghostPos[1];
 			
 			if(currRow == currentPath.get(0)[0] && 
 					currCol == currentPath.get(0)[1]) {
@@ -117,11 +123,21 @@ public class Ghost extends Character {
 										
 				}
 				
-				dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
+				String nextDir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
 
-				this.setDirection(dir);
-				this.centerGhostInCell();
+				String oldDir = this.getDirection();
+
+				if(!oldDir.equals(nextDir)) {
+					this.centerGhostInCell();
+					this.setDirection(nextDir);
+				} else {
+					this.setDirection(nextDir);
+
+				}
+				
 			}
+
+			this.safeMove(this.getDirection());
 
 		}
 

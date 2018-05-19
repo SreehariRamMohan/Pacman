@@ -203,6 +203,8 @@ public abstract class Character extends Actor {
 	 * Precondition: canMove() was called prior to safeMove() so the path in direction is clear.
 	 */
 	public void safeMove(String direction) {
+		
+		
 		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
 		int oldRow = oldPos[0];
 		int oldCol = oldPos[1];
