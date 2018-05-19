@@ -69,7 +69,7 @@ public class Ghost extends Character {
 			 * Level 1 is simple, the pac-man simply moves randomly around the board
 			 */
 			
-			int[] ghostPos = Character.getRowCol(this.getX(), this.getY());
+			int[] ghostPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 			
 			forceRowColInBounds(ghostPos);
 			
@@ -78,123 +78,50 @@ public class Ghost extends Character {
 
 			int[] pacManPos = Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY());
 
-			int goalRow = pacManPos[0];
-			int goalCol = pacManPos[1];
+			int pacmanRow = pacManPos[0];
+			int pacmanCol = pacManPos[1];
 			
-
-
+			if(currRow == pacmanRow && currCol == pacmanCol) {
+				return;
+			}
+			
 			if(currentPath == null || currentPath.isEmpty()) {
-				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
+				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, pacmanRow, pacmanCol, this.getWorld().getModel()));
 				//remove the first node in the list because it is where we are currently
-				currentPath.remove(0);
+				currentPath.remove(0); // = [currRow, currCol] = starting position of the ghost
 				
-				System.out.println("Ghost positon: " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
-				System.out.println("Pacman positon: " + Arrays.toString(Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY())));		
+				dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
+				
+				this.setDirection(dir);
+				
+				this.centerGhostInCell();
+//				System.out.println("Ghost positon: " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
+//				System.out.println("Pacman positon: " + Arrays.toString(Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY())));		
 				for(int[] node : currentPath) {
 					System.out.print(Arrays.toString(node) + " *-> ");
+				}				
+			}
+
+			this.safeMove(dir);
+			
+			if(currRow == currentPath.get(0)[0] && 
+					currCol == currentPath.get(0)[1]) {
+
+				currentPath.remove(0);
+
+				if(currentPath.isEmpty()) {
 					
-					if(getWorld().getModel().objectAt(node[0], node[1]) instanceof Wall) {
-						System.out.println("*************PATH NOT CLEAR");
-						
-					} 
+					currentPath = (ShortestPathUtils.getPaths(currRow, currCol, pacmanRow, pacmanCol, this.getWorld().getModel()));
+					//remove the first node in the list because it is where we are currently
+					currentPath.remove(0);
 										
 				}
-				System.out.println("PATH CLEAR");
 				
-				
-			}
+				dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
 
-			//			System.out.println("Ghost should move " + this.getDirection());
-
-
-			//			this.safeMove(this.getDirection());
-
-			if((actCounter%(Controller.CHARACTER_DIMS/this.getSpeed())) == 0) {
-				nextMove = currentPath.remove(0);
-				int nextRow = nextMove[0];
-				int nextCol = nextMove[1];
-				
-				//figure out why the ghosts are still being blocked by walls despite using path-finding
-				int rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
-				int colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
-				
-				//if this is true it is BADDD because it means that the ghost position and his next move are out of sync.
-				if(rowDelta > 1 || colDelta > 1) {
-					System.out.println("OUT OF SYNC WITH PATH");
-					
-				}
-				
-				
-				/**
-				 * trying to fix the issue where the pacman gets blocked despite following the DFS path
-				 */
-				//while(rowDelta > 1 || colDelta > 1) { //while out of sync
-
-					/*
-					 * If this is true it means that the ghosts position and it's next move are out of sync. 
-					 * One way to fix this is to simply reset the path
-					 */
-					
-					
-					/**
-					 * OPTION !
-					 */
-//					currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
-//					//remove the first node in the list because it is where we are currently
-//					currentPath.remove(0);
-//					
-//					nextMove = currentPath.remove(0);
-//					nextRow = nextMove[0];
-//					nextCol = nextMove[1];	
-//					
-//					rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
-//					colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
-					
-					
-					/**
-					 * OPTION 2
-					 */
-					
-//					if(currentPath.size() == 0) {
-//						currentPath = currentPath = (ShortestPathUtils.getPaths(currRow, currCol, goalRow, goalCol, this.getWorld().getModel()));
-//						currentPath.remove(0);
-//					} 
-//					
-//					nextMove = currentPath.remove(0);
-//					nextRow = nextMove[0];
-//					nextCol = nextMove[1];	
-//					
-//					rowDelta = Math.abs(nextRow - Character.getRowCol(this.getX(), this.getY())[0]);
-//					colDelta = Math.abs(nextCol - Character.getRowCol(this.getX(), this.getY())[1]);
-//					
-				//}
-				
-				
-				
-				
-				
-				//prevent ourselves from moving to the same spot.
-				while(Character.getRowCol(this.getX(), this.getY())[0] == nextRow && 
-					Character.getRowCol(this.getX(), this.getY())[1] == nextCol) {
-						nextMove = currentPath.remove(0);
-						nextRow = nextMove[0];
-						nextCol = nextMove[1];
-				}
-				
-				dir = getDirectionFromNode(nextRow, nextCol, currRow, currCol);
-				this.setDirection(dir);	
-
+				this.setDirection(dir);
 				this.centerGhostInCell();
-			}  
-			if(this.canMoveForGhosts(dir)) {
-				this.safeMove(dir);
-				
-			} else {
-				System.out.println("Blocked trying to go -> " + this.getDirection() + "current position = " + Arrays.toString(this.getRowCol(this.getX(), this.getY())) + " future position " + Arrays.toString(this.getFutureRowColFromDirection(this.getDirection())));
-				//System.exit(0);
 			}
-
-
 
 		}
 
@@ -204,13 +131,17 @@ public class Ghost extends Character {
 	}
 
 	private void forceRowColInBounds(int[] ghostPos) {
+//		System.out.println("Before " + Arrays.toString(ghostPos));
+		
 		if(!ShortestPathUtils.isInBounds(ghostPos[0], ghostPos[1], this.getWorld().getModel())) {
-			if(ghostPos[1] > this.getWorld().getModel().getNumCols()) {
+			if(ghostPos[1] >= this.getWorld().getModel().getNumCols()) {
 				ghostPos[0] = 0;
 			} else {
 				ghostPos[0] = this.getWorld().getModel().getNumCols() - 1;
 			}
 		}
+//		System.out.println("After " + Arrays.toString(ghostPos));
+		
 	}
 	
 	public void clearPathList() {
@@ -239,6 +170,8 @@ public class Ghost extends Character {
 		int dx = nextCol - currCol;
 		int dy = nextRow - currRow;
 
+//		System.out.println("Inside getDirectionFromNode() nextRow = " + nextRow + " nextCol = " + nextCol + ""
+//				+ " currRow = " + currRow + " currCol = " + currCol);
 		
 	
 		if(dx < 0) {

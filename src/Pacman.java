@@ -289,8 +289,8 @@ public class Pacman extends Character{
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
 				} else {
-					System.out.println("Row of food = " + row + " col of food = " + col);
-					System.out.println("My row is " + myRow + " my col is " + myCol);
+//					System.out.println("Row of food = " + row + " col of food = " + col);
+//					System.out.println("My row is " + myRow + " my col is " + myCol);
 					
 				}
 			}
