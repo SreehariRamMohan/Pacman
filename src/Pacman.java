@@ -187,6 +187,7 @@ public class Pacman extends Character{
 							whoDoTheseEyesBelongTo = "Pinky";
 						}
 						
+						System.out.println("The ghost which just died is " + whoDoTheseEyesBelongTo);
 
 						//spawn the eyes in this cell and make the eyes travel back to the start for re-spawning. 
 						spawnEyesGoingBackToHome(row, col, initialGhostRow, initialGhostCol, whoDoTheseEyesBelongTo);

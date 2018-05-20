@@ -70,6 +70,9 @@ public class ShortestPathUtils {
 	
 	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {
 		
+		System.out.println("in find most optimal size of paths: " + allPaths.size());
+		
+		
 		int random = (int)(Math.random() * (allPaths.size()));
 		
 		

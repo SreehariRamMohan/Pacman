@@ -83,11 +83,11 @@ public class Model {
 					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("B")) {
-					characters[row][col] = new Ghost(row, col);
+					characters[row][col] = new Blinky(row, col);
 					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("I")) {
-					characters[row][col] = new Ghost(row, col);
+					characters[row][col] = new Inky(row, col);
 					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 

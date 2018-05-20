@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.sun.scenario.effect.light.SpotLight;
+
 import javafx.scene.image.Image;
 
 public class Ghost extends Character {
@@ -96,6 +98,13 @@ public class Ghost extends Character {
 			if(currentPath == null || currentPath.isEmpty()) {
 				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, pacmanRow, pacmanCol, this.getWorld().getModel()));
 				//remove the first node in the list because it is where we are currently
+				
+				System.out.println("Current path size = " + currentPath.size());
+				System.out.println("curr row = " + currRow + " currCol = " + currCol);
+				System.out.println("Pacman row = " + pacmanRow + " pacman col = " + pacmanCol);
+								
+				
+				
 				currentPath.remove(0); // = [currRow, currCol] = starting position of the ghost
 				
 				String dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
