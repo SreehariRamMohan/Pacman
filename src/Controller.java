@@ -1,4 +1,5 @@
 
+import java.awt.Graphics;
 import java.io.File;
 
 import javafx.application.Application;
@@ -32,59 +33,77 @@ public class Controller extends Application {
 	private Text scoreText;
 	
 	private Image pacmanImage = new Image("imgs/pacMan.png");
-	
 	//characters
+	
+	private enum STATE{
+		MENU,
+		GAME
+	};
+	
+	private STATE state = STATE.GAME;
 	
 	public static void main(String[] args) {
 		launch(args);
 	}
+	
+	
+	
+	
 
 	@Override
 	public void start(Stage stage) throws Exception {
+		
 		stage.setTitle("Pac Man");
 		BorderPane root = new BorderPane();
 		world = new PacManWorld();
 		
 		//create model so all objects are ready for us.
-		Model m = new Model(new File("map3.txt"), world);
-		world.setModel(m);
-		
-		world.setPrefHeight(630);
-		world.setPrefWidth(680);
-		root.setCenter(world);
-		Scene scene = new Scene(root);
+		if(state== STATE.GAME) {
+			Model m = new Model(new File("map3.txt"), world);
+			world.setModel(m);
+			
+			world.setPrefHeight(630);
+			world.setPrefWidth(680);
+			root.setCenter(world);
+			Scene scene = new Scene(root);
 	
-		
 		/**
 		 * Code to create the top HUD (top row of information about the game).
 		 */
-		BorderPane topBox = new BorderPane();
-		scoreText = new Text("Score: 0");
-		HBox lifeDisplayHBox = new HBox();
-		for(int i = 0; i < 3; i++) {
-			lifeDisplayHBox.getChildren().add(new ImageView(pacmanImage));
+		
+			BorderPane topBox = new BorderPane();
+			scoreText = new Text("Score: 0");
+			HBox lifeDisplayHBox = new HBox();
+			for(int i = 0; i < 3; i++) {
+				lifeDisplayHBox.getChildren().add(new ImageView(pacmanImage));
+			}
+			topBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+			//Pass a reference to the text & lives to the world so it can update
+			world.setLiveBox(lifeDisplayHBox);
+			world.setScoreText(scoreText);
+		
+			//set the font to a custom pacman font 
+			Font pacmanFont = Font.loadFont(Controller.this.getClass().getResource("pacfont.ttf").toExternalForm(), 24);
+			scoreText.setFont(pacmanFont);
+			scoreText.setFill(Color.WHITE);
+			topBox.setLeft(scoreText);
+			topBox.setRight(lifeDisplayHBox);		
+			root.setTop(topBox);
+		
+		
+			setKeyboardEvent();
+		
+		
+		
+			world.start();
+		
+			stage.setScene(scene);
+		} else if(state== STATE.MENU) {
+			//show the menu screen and have the buttons turn the state back to state.GAME
+			
+			
 		}
-		topBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-		//Pass a reference to the text & lives to the world so it can update
-		world.setLiveBox(lifeDisplayHBox);
-		world.setScoreText(scoreText);
 		
-		//set the font to a custom pacman font 
-		Font pacmanFont = Font.loadFont(Controller.this.getClass().getResource("pacfont.ttf").toExternalForm(), 24);
-		scoreText.setFont(pacmanFont);
-		scoreText.setFill(Color.WHITE);
-		topBox.setLeft(scoreText);
-		topBox.setRight(lifeDisplayHBox);		
-		root.setTop(topBox);
-		
-		
-		setKeyboardEvent();
-		
-		
-		
-		world.start();
-		
-		stage.setScene(scene);
 		stage.setMaxWidth(630);
 		stage.setMaxHeight(680);
 		stage.show();
@@ -96,18 +115,19 @@ public class Controller extends Application {
 
 			@Override
 			public void handle(KeyEvent event) {
-		
-				if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getDirection().equals("UP")){
-					((Pacman)world.getPacman()).queueTurn("UP");
-				}
-				else if(event.getCode() == KeyCode.DOWN && !((Pacman)world.getPacman()).getDirection().equals("DOWN")){
-					((Pacman)world.getPacman()).queueTurn("DOWN");
-				}
-				else if(event.getCode() == KeyCode.LEFT && !((Pacman)world.getPacman()).getDirection().equals("LEFT")){
-					((Pacman)world.getPacman()).queueTurn("LEFT");
-				}
-				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
-					((Pacman)world.getPacman()).queueTurn("RIGHT");
+				if(state==STATE.GAME) {
+					if(event.getCode() == KeyCode.UP && !((Pacman)world.getPacman()).getDirection().equals("UP")){
+						((Pacman)world.getPacman()).queueTurn("UP");
+					}
+					else if(event.getCode() == KeyCode.DOWN && !((Pacman)world.getPacman()).getDirection().equals("DOWN")){
+						((Pacman)world.getPacman()).queueTurn("DOWN");
+					}
+					else if(event.getCode() == KeyCode.LEFT && !((Pacman)world.getPacman()).getDirection().equals("LEFT")){
+						((Pacman)world.getPacman()).queueTurn("LEFT");
+					}
+					else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getDirection().equals("RIGHT")){
+						((Pacman)world.getPacman()).queueTurn("RIGHT");
+					}
 				}
 				
 				
