@@ -154,6 +154,8 @@ public class Pacman extends Character{
 					//pacman has now eaten this food.
 					if(((Ghost)ghost).isEdible()) {
 						
+						Ghost g = (Ghost) ghost;
+						
 						int initialGhostRow = ((Ghost) ghost).getStartingRow();
 						int initialGhostCol = ((Ghost) ghost).getStartingCol();
 						
@@ -169,9 +171,25 @@ public class Pacman extends Character{
 						
 						//play the ghost death sound. 
 						playGhostDeathSound();
+						
+						
+						/*
+						 * determine which kind of Ghost we removed
+						 */
+						String whoDoTheseEyesBelongTo = "";
+						if(g instanceof Blinky) {
+							whoDoTheseEyesBelongTo = "Blinky";
+						} else if(g instanceof Clyde) {
+							whoDoTheseEyesBelongTo = "Clyde";
+						} else if(g instanceof Inky) {
+							whoDoTheseEyesBelongTo = "Inky";
+						} else if(g instanceof Pinky) {
+							whoDoTheseEyesBelongTo = "Pinky";
+						}
+						
 
 						//spawn the eyes in this cell and make the eyes travel back to the start for re-spawning. 
-						spawnEyesGoingBackToHome(row, col, initialGhostRow, initialGhostCol);
+						spawnEyesGoingBackToHome(row, col, initialGhostRow, initialGhostCol, whoDoTheseEyesBelongTo);
 
 						
 					} else {
@@ -187,7 +205,7 @@ public class Pacman extends Character{
 
 	}
 
-	private void spawnEyesGoingBackToHome(int row, int col, int initialGhostRow, int initialGhostCol) {
+	private void spawnEyesGoingBackToHome(int row, int col, int initialGhostRow, int initialGhostCol, String whoDoTheseEyesBelongTo) {
 		
 		ArrayList<int[]> pathToHome = (ShortestPathUtils.getPaths(row, col, initialGhostRow, initialGhostCol, this.getWorld().getModel()));
 		
@@ -204,7 +222,7 @@ public class Pacman extends Character{
 		pathToHome.remove(0); //0 is our first index.
 		
 		Image eyeImage = new Image("imgs/eyesRight.png");
-		InvisibleActor eyes = new RespawnEyes(eyeImage, pathToHome, row, col, initialGhostRow, initialGhostCol);
+		InvisibleActor eyes = new RespawnEyes(eyeImage, pathToHome, row, col, initialGhostRow, initialGhostCol, whoDoTheseEyesBelongTo);
 		
 		
 		this.getWorld().add(eyes);

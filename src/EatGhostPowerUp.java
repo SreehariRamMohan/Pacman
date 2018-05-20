@@ -40,7 +40,7 @@ public class EatGhostPowerUp extends Food {
 				}
 			}
 			
-		}, 3000);
+		}, 6000);
 		
 		
 		for(int i=0; i<size; i++) {

@@ -9,10 +9,14 @@ public class RespawnEyes extends InvisibleActor {
 	private int goalRow; 
 	private int goalCol;
 	
-	public RespawnEyes(Image i, ArrayList<int[]> pathToHome, int currRow, int currCol, int goalRow, int goalCol) {
+	private String ghostToSpawn;
+	
+	private boolean spawnedGhost = false;
+	
+	public RespawnEyes(Image i, ArrayList<int[]> pathToHome, int currRow, int currCol, int goalRow, int goalCol, String theseEyesBelongTo) {
 		super(i);
 		
-		
+		this.ghostToSpawn = theseEyesBelongTo;
 		this.setX(currCol * Controller.CHARACTER_DIMS);
 		this.setY(currRow * Controller.CHARACTER_DIMS);
 		
@@ -48,13 +52,51 @@ public class RespawnEyes extends InvisibleActor {
 	@Override
 	public void act(long now) {		
 		
+		if(spawnedGhost) {
+			return;
+		}
+		
 		int[] eyePos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 		int currRow = eyePos[0];
 		int currCol = eyePos[1];
 		
 		if(currRow == this.goalRow && currCol == this.goalCol) {
 			//we reached the home so we can delete the eyes and re-spawn
+			
+			//animation to fade out
+			
+			
+			//animation to fade in ghost
+			String ts = this.getGhostToSpawn();
+			Ghost spawnedGhost = null;
+			
+			System.out.println("Tring to spawn new ghost -> " + ts);
+			
+			if(ts.equals("Blinky")) {
+				spawnedGhost = new Blinky(goalRow, goalCol);
+				System.out.println("bliny created");
+				
+			} else if(ts.equals("Clyde")) {
+				spawnedGhost = new Clyde(goalRow, goalCol);
+				System.out.println("Clyde created");
+				
+			} else if(ts.equals("Inky")) {
+				spawnedGhost = new Inky(goalRow, goalCol);
+				System.out.println("Inky created");
+				
+			} else if(ts.equals("Pinky")) {
+				spawnedGhost = new Pinky(goalRow, goalCol);
+				System.out.println("Pinky created");
+			}
+			if(spawnedGhost == null) {
+				return;
+			}
+			System.out.println();
+					
+			this.getWorld().add(spawnedGhost);
+			this.spawnedGhost = true;
 			this.getWorld().remove(this);
+
 			return;
 		}
 		if(currRow == pathToHome.get(0)[0] && 
@@ -83,4 +125,12 @@ public class RespawnEyes extends InvisibleActor {
 		return pathToHome;
 	}
 
+	public String getGhostToSpawn() {
+		return ghostToSpawn;
+	}
+
+	public void setGhostToSpawn(String ghostToSpawn) {
+		this.ghostToSpawn = ghostToSpawn;
+	}
+	
 }
