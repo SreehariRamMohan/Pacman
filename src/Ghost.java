@@ -102,7 +102,7 @@ public class Ghost extends Character {
 				
 				this.setDirection(dir);
 				
-				this.centerGhostInCell();
+				this.centerCharacterInCell();
 //				System.out.println("Ghost positon: " + Arrays.toString(Character.getRowCol(this.getX(), this.getY())));
 //				System.out.println("Pacman positon: " + Arrays.toString(Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY())));		
 				for(int[] node : currentPath) {
@@ -136,7 +136,7 @@ public class Ghost extends Character {
 				String oldDir = this.getDirection();
 
 				if(!oldDir.equals(nextDir)) {
-					this.centerGhostInCell();
+					this.centerCharacterInCell();
 					this.setDirection(nextDir);
 				} else {
 					this.setDirection(nextDir);

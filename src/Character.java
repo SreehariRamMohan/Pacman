@@ -62,7 +62,7 @@ public abstract class Character extends Actor {
 		
 	}
 	
-	public void centerGhostInCell() {
+	public void centerCharacterInCell() {
 		int[] pos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 		int row = pos[0];
 		int col = pos[1];
@@ -235,13 +235,6 @@ public abstract class Character extends Actor {
 			safeMove(direction);
 			return;
 		}
-		int[] oldPos = Character.getRowCol(this.getX(), this.getY());
-		int oldRow = oldPos[0];
-		int oldCol = oldPos[1];
-		
-		int[] pos = getFutureRowColFromDirection(direction);
-		int row = pos[0];
-		int col = pos[1];
 		
 		if(direction.equals(Character.UP)) {
 			this.move(0, -getSpeed());

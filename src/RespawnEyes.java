@@ -9,11 +9,15 @@ public class RespawnEyes extends InvisibleActor {
 	private int goalRow; 
 	private int goalCol;
 	
-	public RespawnEyes(Image i, ArrayList<int[]> pathToHome, int goalRow, int goalCol) {
+	public RespawnEyes(Image i, ArrayList<int[]> pathToHome, int currRow, int currCol, int goalRow, int goalCol) {
 		super(i);
 		
-		System.out.println("Eyes x = " + this.getX() + " y = " + this.getY());
 		
+		this.setX(currCol * Controller.CHARACTER_DIMS);
+		this.setY(currRow * Controller.CHARACTER_DIMS);
+		
+		System.out.println("Eyes x = " + this.getX() + " y = " + this.getY());
+
 		
 		this.setSpeed(5);
 		
@@ -34,14 +38,16 @@ public class RespawnEyes extends InvisibleActor {
 		System.out.println("Destination: " + Arrays.toString(pathToHome.get(0)));
 		
 		
-		System.out.println(nextDir);
+		System.out.println("In constructor dir = " + nextDir);
 		
-		System.exit(0);
+		this.setDirection(nextDir);
+		
 		
 	}
 	
 	@Override
-	public void act(long now) {
+	public void act(long now) {		
+		
 		int[] eyePos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 		int currRow = eyePos[0];
 		int currCol = eyePos[1];
@@ -49,19 +55,27 @@ public class RespawnEyes extends InvisibleActor {
 		if(currRow == this.goalRow && currCol == this.goalCol) {
 			//we reached the home so we can delete the eyes and re-spawn
 			this.getWorld().remove(this);
+			return;
 		}
 		if(currRow == pathToHome.get(0)[0] && 
 				currCol == pathToHome.get(0)[1]) {
+			
+			
 			pathToHome.remove(0);
 			
+			
 			String nextDir = Ghost.getDirectionFromNode(pathToHome.get(0)[0], pathToHome.get(0)[1], currRow, currCol);
+			System.out.println("act() - > Next dir = " + nextDir);
+			
 			this.setDirection(nextDir);
+			this.centerCharacterInCell();
+			
+			
 		}
+		//this.move(0, -this.getSpeed());
+		System.out.println("direction = " + this.getDirection());
 		
 		this.safeMove(this.getDirection(), false);
-
-		
-		
 
 	}
 	

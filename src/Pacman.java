@@ -191,8 +191,8 @@ public class Pacman extends Character{
 		
 		ArrayList<int[]> pathToHome = (ShortestPathUtils.getPaths(row, col, initialGhostRow, initialGhostCol, this.getWorld().getModel()));
 		
-		System.out.println("Initial: r = " + row + " col = " + col);
-		System.out.println("I want to go row = " + initialGhostRow + " col = " + initialGhostCol);
+//		System.out.println("Initial: r = " + row + " col = " + col);
+//		System.out.println("I want to go row = " + initialGhostRow + " col = " + initialGhostCol);
 		
 		
 		for(int[] pair : pathToHome) {
@@ -204,14 +204,14 @@ public class Pacman extends Character{
 		pathToHome.remove(0); //0 is our first index.
 		
 		Image eyeImage = new Image("imgs/eyesRight.png");
-		InvisibleActor eyes = new RespawnEyes(eyeImage, pathToHome, initialGhostRow, initialGhostCol);
+		InvisibleActor eyes = new RespawnEyes(eyeImage, pathToHome, row, col, initialGhostRow, initialGhostCol);
+		
+		
 		this.getWorld().add(eyes);
 
-		eyes.setX(col * Controller.CHARACTER_DIMS);
-		eyes.setY(row * Controller.CHARACTER_DIMS);
-		System.out.println("Ghost died at row, col" + row + ", " + col);
+//		System.out.println("Ghost died at row, col" + row + ", " + col);
 		
-		System.out.println("In pacman, eyes x = " + eyes.getX() + " eyes y = " + this.getY());
+//		System.out.println("In pacman, eyes x = " + eyes.getX() + " eyes y = " + this.getY());
 		
 		
 		
