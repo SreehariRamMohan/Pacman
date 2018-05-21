@@ -19,6 +19,8 @@ public class Ghost extends Character {
 	private int startingRow;
 	private int startingCol;
 	
+	
+	
 	public Ghost(int startingRow, int startingCol) {
 		this.startingRow = startingRow;
 		this.startingCol = startingCol;
@@ -42,6 +44,7 @@ public class Ghost extends Character {
 		}
 	}
 
+	
 	@Override
 	public void act(long now) {
 		//Act will move depending on auto play state.
@@ -83,7 +86,7 @@ public class Ghost extends Character {
 			int currRow = ghostPos[0];
 			int currCol = ghostPos[1];
 
-			int[] pacManPos = Character.getRowCol(this.getWorld().getPacman().getX(), this.getWorld().getPacman().getY());
+			int[] pacManPos = Character.getRowCol(this.getWorld().getPacman().getX() + this.getWorld().getPacman().getWidth()/2, this.getWorld().getPacman().getY() + this.getWorld().getPacman().getHeight()/2);
 
 			int pacmanRow = pacManPos[0];
 			int pacmanCol = pacManPos[1];
@@ -91,7 +94,8 @@ public class Ghost extends Character {
 			if(currRow == pacmanRow && currCol == pacmanCol) {
 				//we are at a pacman so the game should end, unless the pacman is edible
 				//System.out.println("Curr row = " + currRow + " currCol = " + currCol + " pacmanRow = " + pacmanRow + " pacmanCol = " + pacmanCol);
-				
+				System.out.println("ghost reached the pacman - stop");
+
 				return;
 			}
 			
@@ -100,15 +104,11 @@ public class Ghost extends Character {
 				//remove the first node in the list because it is where we are currently
 				
 				if(currentPath == null || currentPath.size() == 0) {
+					System.out.println("Hacky stop");
+					
 					return;
 				}
-				
-				System.out.println("Current path size = " + currentPath.size());
-				System.out.println("curr row = " + currRow + " currCol = " + currCol);
-				System.out.println("Pacman row = " + pacmanRow + " pacman col = " + pacmanCol);
-								
-				
-				
+
 				currentPath.remove(0); // = [currRow, currCol] = starting position of the ghost
 				
 				String dir = getDirectionFromNode(currentPath.get(0)[0], currentPath.get(0)[1], currRow, currCol);
@@ -220,8 +220,8 @@ public class Ghost extends Character {
 		} else if(dy > 0){
 			return "DOWN";
 		} else {
-			System.out.println("THis should never happen! dx = " + dx + " dy = " + dy);
-			System.out.println();
+//			System.out.println("THis should never happen! dx = " + dx + " dy = " + dy);
+//			System.out.println();
 			
 //			int[] ghostPos = Character.getRowCol(this.getX(), this.getY());
 //			int currRow1 = ghostPos[0];
@@ -233,8 +233,8 @@ public class Ghost extends Character {
 //			System.out.println("Ghost row = " + currRow1 + " ghost col " + currCol1);
 //			System.out.println("Pacman row = " + goalRow1 + " Pacman col " + goalCol1);
 
-			System.out.println("nextRow = " + nextRow);
-			System.out.println("Next col = " + nextCol);
+//			System.out.println("nextRow = " + nextRow);
+//			System.out.println("Next col = " + nextCol);
 			
 			//System.out.println(getWorld().getModel().objectAt(nextRow, nextCol).getClass().getName());
 			

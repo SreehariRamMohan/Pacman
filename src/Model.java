@@ -92,7 +92,7 @@ public class Model {
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 
 				else if(arr[col].equals("C")) {
-					characters[row][col] = new Ghost(row, col);
+					characters[row][col] = new Clyde(row, col);
 					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 

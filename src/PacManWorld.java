@@ -55,6 +55,10 @@ public class PacManWorld extends World {
 		ghosts.add(ghost);
 	}
 	
+	public void removeGhost(Actor ghost) {
+		ghosts.remove(ghost);
+	}
+	
 	public List<Actor> getGhosts() {
 		return ghosts;
 	}

@@ -63,7 +63,7 @@ public class Controller extends Application {
 		BorderPane topBox = new BorderPane();
 		scoreText = new Text("Score: 0");
 		HBox lifeDisplayHBox = new HBox();
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 1; i++) {
 			lifeDisplayHBox.getChildren().add(new ImageView(pacmanImage));
 		}
 		topBox.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -136,7 +136,7 @@ public class Controller extends Application {
 				}*/
 				
 				
-				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
+//				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
 				
 				
 			}

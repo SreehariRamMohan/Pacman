@@ -75,7 +75,6 @@ public class RespawnEyes extends InvisibleActor {
 			pathToHome.remove(0);
 			
 			String nextDir = Ghost.getDirectionFromNode(pathToHome.get(0)[0], pathToHome.get(0)[1], currRow, currCol);
-			System.out.println("act() - > Next dir = " + nextDir);
 			
 			this.setDirection(nextDir);
 			this.centerCharacterInCell();
@@ -83,7 +82,7 @@ public class RespawnEyes extends InvisibleActor {
 			
 		}
 		//this.move(0, -this.getSpeed());
-		System.out.println("direction = " + this.getDirection());
+//		System.out.println("direction = " + this.getDirection());
 		
 		this.safeMove(this.getDirection(), false);
 
@@ -126,9 +125,13 @@ public class RespawnEyes extends InvisibleActor {
 		pacmanFadeIn.setToValue(1);
 		pacmanFadeIn.play();
 				
-		spawnedGhost.setCoordinate(this.getX(), this.getY());
-				
+		spawnedGhost.setCoordinate(goalCol*Controller.CHARACTER_DIMS, goalRow*Controller.CHARACTER_DIMS);
+		this.getWorld().getModel().setCharacterAt(goalRow, goalCol, spawnedGhost);	
+		
+		this.getWorld().storeGhost(spawnedGhost);
 		this.getWorld().add(spawnedGhost);
+		
+		
 		getWorld().remove(this);
 		
 	}

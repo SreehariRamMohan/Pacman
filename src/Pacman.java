@@ -1,6 +1,7 @@
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,6 +10,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -52,7 +58,7 @@ public class Pacman extends Character{
 	
 	public Pacman() {
 		this.setImage(pacManClosed);
-		lives = 3;
+		lives = 1;
 		setSpeed(3);
 		playLevelStartSound();
 	}
@@ -88,8 +94,8 @@ public class Pacman extends Character{
 		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) 
 				&& this.isInCenter()) {
 			
-			System.out.println("Dequeue " + this.getQueuedDirection());
-			System.out.println("X = " + this.getX());
+//			System.out.println("Dequeue " + this.getQueuedDirection());
+//			System.out.println("X = " + this.getX());
 			
 			this.setDirection(this.getQueuedDirection());
 			this.removeQueuedDirection();
@@ -136,9 +142,10 @@ public class Pacman extends Character{
 		//collision with ghosts
 		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
 			
-			System.out.println("!!!!Pacman is colliding with at least 1 ghost");
 			//we need to make sure that the ghost we take is on our row, col position.
 
+			
+			
 			for(Actor ghost : this.getWorld().getGhosts()) {				
 				int[] pos = Character.getRowCol(ghost.getX() + ghost.getWidth()/2, ghost.getY() + ghost.getHeight()/2);
 				int row = pos[0];
@@ -149,6 +156,8 @@ public class Pacman extends Character{
 				int myCol = myPos[1];
 
 				//the food only counts iff we are at it's row, col position.
+
+//				System.out.println("Touching ghost, ghost row = " + row + " col = " + col + " || pacman row = " + myRow + " col  = " + myCol);
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
@@ -162,6 +171,10 @@ public class Pacman extends Character{
 						int increment = (int) Math.pow(2, trackPoint);
 						trackPoint++;
 						getWorld().updateScoreText(getWorld().getScore() + increment*200);
+						
+						int[] currGhostRowCol = Character.getRowCol(g.getX(), g.getY());
+						
+						this.getWorld().removeGhost(ghost);
 						getWorld().remove(ghost);
 						
 						/**
@@ -187,11 +200,12 @@ public class Pacman extends Character{
 							whoDoTheseEyesBelongTo = "Pinky";
 						}
 						
-						System.out.println("The ghost which just died is " + whoDoTheseEyesBelongTo);
+//						System.out.println("The ghost which just died is " + whoDoTheseEyesBelongTo);
 
 						//spawn the eyes in this cell and make the eyes travel back to the start for re-spawning. 
 						spawnEyesGoingBackToHome(row, col, initialGhostRow, initialGhostCol, whoDoTheseEyesBelongTo);
 
+						return;
 						
 					} else {
 						//System.out.println("GAME OVER");
@@ -381,14 +395,15 @@ public class Pacman extends Character{
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
-					playPowerUpSound();
+					//playPowerUpSound();
 					food.onEat();
+					
 					
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
 				} else {
-					System.out.println("Row of food = " + row + " col of food = " + col);
-					System.out.println("My row is " + myRow + " my col is " + myCol);
+//					System.out.println("Row of food = " + row + " col of food = " + col);
+//					System.out.println("My row is " + myRow + " my col is " + myCol);
 					
 					
 				}
@@ -414,7 +429,11 @@ public class Pacman extends Character{
 		lives--;
 
 		//update the lives of pacman with the label on the screen.
-		getWorld().updateLives(this.getLives());
+		if(this.getLives() > 0) {
+			getWorld().updateLives(this.getLives());
+		} else {
+			getWorld().updateLives(0);
+		}
 	}
 
 	public int getLives() {
@@ -434,7 +453,7 @@ public class Pacman extends Character{
 
 		decrementLives();
 
-		if(true) { //TODO Make the Pacman Death Animation and replace this with num-lives
+		if(this.getLives() > 0) { //TODO Make the Pacman Death Animation and replace this with num-lives
 			
 			for(Actor a : this.getWorld().getGhosts()) {
 				Ghost g = (Ghost) a;
@@ -444,10 +463,50 @@ public class Pacman extends Character{
 			
 			resetGame();
 		} else {
+			SoundUtils.playPacmanDeath();
+			
+			this.getWorld().pause();
+
 			System.out.println("*****YOU LOSE*****");
 			//show pacman death animation.
+			showPacmanDeathAlert();
+			//show you lose alert dialog
 		}
+		
+		
 	}
+
+	private void showPacmanDeathAlert() {	
+		Alert deathAlert = new Alert(AlertType.CONFIRMATION);
+		deathAlert.setTitle("You lose!");
+		deathAlert.setHeaderText("Lost 3 lives.");
+		deathAlert.setContentText("Do you want to Play Again?");
+		
+		ButtonType yes = new ButtonType("Yes");
+		ButtonType exit = new ButtonType("Exit");
+		
+		deathAlert.getButtonTypes().setAll(yes, exit);
+		
+//		Optional<ButtonType> result = deathAlert.showAndWait();
+		
+		Button restart = (Button) deathAlert.getDialogPane().lookupButton(yes);
+		restart.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				resetGame();
+				setLives(3);
+			}
+			
+		});
+
+		System.out.println("Inside of dialog");
+		
+		
+	}
+
+
 
 	public void resetGame() {
 

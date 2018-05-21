@@ -4,7 +4,7 @@ import java.util.Stack;
 
 public class ShortestPathUtils {
 
-	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 500;
+	private static final int NUMBER_OF_PATHS_TO_FIND_IN_DFS = 50;
 	private static int numPathsFound = 0;
 	private static ArrayList<ArrayList<int[]>> allPaths = new ArrayList<>();
 

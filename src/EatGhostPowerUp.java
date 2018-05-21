@@ -2,26 +2,58 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
 
 public class EatGhostPowerUp extends Food {
 
+	private boolean hasEaten = false;
+	
 	public EatGhostPowerUp() {
 		this.setImage(new Image("imgs/powerup.png"));
 	}
 	
 	@Override
 	public void onEat() {
+		
+		
+		if(hasEaten) {
+			return;
+		} else {
+			hasEaten = true;
+		}
+		
+		
+		
 		List<Actor> list = getWorld().getGhosts();
 		int size = list.size();
-		this.getWorld().remove(this);
 		
+		for(int i=0; i<size; i++) {
+			Ghost ghost = (Ghost) list.get(i);
+			ghost.setEdible(true);
+			ghost.setImage(new Image("imgs/edibleghost.png"));
+		}
 		
-		Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
+		this.setOpacity(0);
+//		this.getWorld().remove(this);
+		
+
+		Timeline timeline = new Timeline();
+		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000)));
+		
+		EatGhostPowerUp myself = this;
+		
+		timeline.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
-			public void run() {
+			public void handle(ActionEvent event) {
+	
+				List<Actor> list = getWorld().getGhosts();
+				int size = list.size();
 				for(int i=0; i<size; i++) {
 					
 					Ghost ghost = (Ghost) list.get(i);
@@ -37,20 +69,19 @@ public class EatGhostPowerUp extends Food {
 					
 					ghost.setEdible(false);
 					Pacman.setTrackPoint(0);
+
 				}
+
+				timeline.stop();
+
+				getWorld().remove(myself);
+				
 			}
 			
-		}, 5000);
+		});
 		
+		timeline.play();
 		
-		for(int i=0; i<size; i++) {
-			Ghost ghost = (Ghost) list.get(i);
-			ghost.setEdible(true);
-			ghost.setImage(new Image("imgs/edibleghost.png"));
-		}
-		
-		 
 		
 	}
-	
 }
