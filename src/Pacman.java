@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -29,17 +30,18 @@ public class Pacman extends Character{
 	private Image pacManClosed = new Image("imgs/pacMan.png");
 	private Image pacManOpen = new Image("imgs/pacMan2.png");
 	private int openCloseMouthCounter = 0;
-	
-	//sounds
-	
+		
 	boolean isPlaying = false;
 	
 	public void playEatSound() {
+		
+		//We don't want sounds to overlap each other
 		if(isPlaying) {
 			return;
 		} else {
 			isPlaying = true;
 		}
+		
 		Media eatingSound = new Media(new File("src/sounds/pacman_chomp.wav").toURI().toString());
 		MediaPlayer chompPlayer = new MediaPlayer(eatingSound);
 		
@@ -64,7 +66,7 @@ public class Pacman extends Character{
 	}
 
 	public Pacman(int lives) {
-		//this.setImage() Add image later
+		this.setImage(pacManClosed);
 		this.lives = 3;
 		setSpeed(3);
 		playLevelStartSound();
@@ -81,21 +83,11 @@ public class Pacman extends Character{
 	}
 
 	private void mainMovement() {
-		
-//		System.out.println("locX = " + this.getX() + " locy = " + this.getY());
-		
-		
-		
-		orientCorrectly(this.getDirection());
 
-//		System.out.println("Can I turn " + this.getQueuedDirection() + " the answer is " + this.canMove(this.getQueuedDirection()));
-//		System.out.println("Is in center ? -> " + this.isInCenter() + " x = " + this.getX() + " y = " + this.getY());
-				
+		orientCorrectly(this.getDirection());
+		
 		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) 
 				&& this.isInCenter()) {
-			
-//			System.out.println("Dequeue " + this.getQueuedDirection());
-//			System.out.println("X = " + this.getX());
 			
 			this.setDirection(this.getQueuedDirection());
 			this.removeQueuedDirection();
@@ -136,16 +128,17 @@ public class Pacman extends Character{
 		}
 		
 	}
-
+	
+	
+	/**
+	 * To ensure accuracy with ghost collisions, to ensure collision in our game we check for both graphical collision 
+	 * and collision in our model (2D Array)
+	 * In order for a collision to be detected, the ghosts must collide with pacman both graphically and internally with our data structure. 
+	 */
 	private void detectGhosts() {
 		
-		//collision with ghosts
-		if(this.getIntersectingObjects(Ghost.class).size() != 0) {
-			
-			//we need to make sure that the ghost we take is on our row, col position.
 
-			
-			
+		if(this.getIntersectingObjects(Ghost.class).size() != 0) { //Graphical Collision check
 			for(Actor ghost : this.getWorld().getGhosts()) {				
 				int[] pos = Character.getRowCol(ghost.getX() + ghost.getWidth()/2, ghost.getY() + ghost.getHeight()/2);
 				int row = pos[0];
@@ -155,13 +148,9 @@ public class Pacman extends Character{
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
-				//the food only counts iff we are at it's row, col position.
+				if(row == myRow && col == myCol) { //internal collision
 
-//				System.out.println("Touching ghost, ghost row = " + row + " col = " + col + " || pacman row = " + myRow + " col  = " + myCol);
-
-				if(row == myRow && col == myCol) {
-					//pacman has now eaten this food.
-					if(((Ghost)ghost).isEdible()) {
+					if(((Ghost)ghost).isEdible()) { //we eat ghost
 						
 						Ghost g = (Ghost) ghost;
 						
@@ -182,13 +171,11 @@ public class Pacman extends Character{
 						 */
 						addScoreAnimation(200, 500, row, col);
 						
-						//play the ghost death sound. 
 						playGhostDeathSound();
 						
-						
-						/*
-						 * determine which kind of Ghost we removed
-						 */
+						/**
+						 * Determine which kind of Ghost we ate
+						 **/
 						String whoDoTheseEyesBelongTo = "";
 						if(g instanceof Blinky) {
 							whoDoTheseEyesBelongTo = "Blinky";
@@ -200,18 +187,13 @@ public class Pacman extends Character{
 							whoDoTheseEyesBelongTo = "Pinky";
 						}
 						
-//						System.out.println("The ghost which just died is " + whoDoTheseEyesBelongTo);
-
 						//spawn the eyes in this cell and make the eyes travel back to the start for re-spawning. 
 						spawnEyesGoingBackToHome(row, col, initialGhostRow, initialGhostCol, whoDoTheseEyesBelongTo);
 
 						return;
 						
 					} else {
-						//System.out.println("GAME OVER");
-						//getWorld().remove(this);
 						System.out.println("@ - Calling die()");
-
 						die();
 					}
 				}
@@ -223,37 +205,21 @@ public class Pacman extends Character{
 	private void spawnEyesGoingBackToHome(int row, int col, int initialGhostRow, int initialGhostCol, String whoDoTheseEyesBelongTo) {
 		
 		ArrayList<int[]> pathToHome = (ShortestPathUtils.getPaths(row, col, initialGhostRow, initialGhostCol, this.getWorld().getModel()));
-		
-//		System.out.println("Initial: r = " + row + " col = " + col);
-//		System.out.println("I want to go row = " + initialGhostRow + " col = " + initialGhostCol);
-		
-		
+	
+		//print out the path generated
 		for(int[] pair : pathToHome) {
 			System.out.print(Arrays.toString(pair) + "_");
 		}
 		System.out.println();
 		
 		
-		pathToHome.remove(0); //0 is our first index.
+		pathToHome.remove(0); //0 is our first index, where we are right now, so it can be removed
 		
 		Image eyeImage = new Image("imgs/eyesRight.png");
 		InvisibleActor eyes = new RespawnEyes(eyeImage, pathToHome, row, col, initialGhostRow, initialGhostCol, whoDoTheseEyesBelongTo);
-		
-		
+		//Note: Eyes are not added to the model because they should not be collided with. 
 		this.getWorld().add(eyes);
-
-//		System.out.println("Ghost died at row, col" + row + ", " + col);
-		
-//		System.out.println("In pacman, eyes x = " + eyes.getX() + " eyes y = " + this.getY());
-		
-		
-		
-		//make the eyes go back to the home before they respawn into a new ghost.
-		
-		
-		
-		
-		
+		//make the eyes go back to the home before they re-spawn into a new ghost.
 	}
 
 
@@ -346,12 +312,9 @@ public class Pacman extends Character{
 
 
 	private void detectFood() {
-		if(this.getIntersectingObjects(RegFood.class).size() != 0) {
+		if(this.getIntersectingObjects(RegFood.class).size() != 0) { //graphical collision check
 
-			//we need to make sure that the food we take is on our row, col position.
-			
-			
-			for(RegFood food : this.getIntersectingObjects(RegFood.class)) {
+			for(RegFood food : this.getIntersectingObjects(RegFood.class)) { //internal check with our database
 				int[] pos = Character.getRowCol(food.getX() + food.getWidth()/2, food.getY() + food.getHeight()/2);
 				int row = pos[0];
 				int col = pos[1];
@@ -360,10 +323,6 @@ public class Pacman extends Character{
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
-				
-				
-				//the food only counts iff we are at it's row, col position.
-
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
 					playEatSound();
@@ -371,8 +330,6 @@ public class Pacman extends Character{
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
 				} else {
-//					System.out.println("Row of food = " + row + " col of food = " + col);
-//					System.out.println("My row is " + myRow + " my col is " + myCol);
 					
 				}
 			}
@@ -380,8 +337,6 @@ public class Pacman extends Character{
 		}
 		if(this.getIntersectingObjects(EatGhostPowerUp.class).size() != 0) {
 			//we need to make sure that the food we take is on our row, col position.
-			
-			
 			for(EatGhostPowerUp food : this.getIntersectingObjects(EatGhostPowerUp.class)) {
 				int[] pos = Character.getRowCol(food.getX() + food.getWidth()/2, food.getY() + food.getHeight()/2);
 				int row = pos[0];
@@ -391,21 +346,14 @@ public class Pacman extends Character{
 				int myRow = myPos[0];
 				int myCol = myPos[1];
 
-				//the food only counts iff we are at it's row, col position.
-
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
 					//playPowerUpSound();
 					food.onEat();
-					
-					
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
 				} else {
-//					System.out.println("Row of food = " + row + " col of food = " + col);
-//					System.out.println("My row is " + myRow + " my col is " + myCol);
-					
-					
+
 				}
 			}
 
@@ -474,6 +422,8 @@ public class Pacman extends Character{
 		}
 		
 		
+		
+		
 	}
 
 	private void showPacmanDeathAlert() {	
@@ -487,23 +437,27 @@ public class Pacman extends Character{
 		
 		deathAlert.getButtonTypes().setAll(yes, exit);
 		
-//		Optional<ButtonType> result = deathAlert.showAndWait();
+		deathAlert.getDialogPane().setPrefSize(400, 100);
 		
+		Image ghostImage = new Image("imgs/deathAlertImage.png");
+		ImageView ghostImageView = new ImageView(ghostImage);
+		ghostImageView.setPreserveRatio(true);
+		ghostImageView.setFitWidth(100);
+		deathAlert.setGraphic(ghostImageView);
+		
+		deathAlert.show();
+				
 		Button restart = (Button) deathAlert.getDialogPane().lookupButton(yes);
 		restart.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
 				resetGame();
 				setLives(3);
+				getWorld().updateLives(getLives());
 			}
 			
 		});
-
-		System.out.println("Inside of dialog");
-		
-		
 	}
 
 
@@ -518,7 +472,6 @@ public class Pacman extends Character{
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				getWorld().start();
 			}
 
@@ -532,5 +485,6 @@ public class Pacman extends Character{
 		}
 
 	}
+	
 
 }

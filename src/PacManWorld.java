@@ -3,6 +3,8 @@ import java.util.List;
 
 
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
@@ -85,10 +87,22 @@ public class PacManWorld extends World {
 	
 	/**
 	 * Methods for updating the lives
+	 * 
+	 * Precondition: Assumes that the you are calling this method properly and that the number of new lives is 
+	 * LESS than the value you called it with last time. Unless it is the first time in which it will add numLives.
+	 * 
+	 * Postcondition: newLives pacman lives will be shown on the upper right corner. If you didn't follow the preconditions then an 
+	 * IndexOutOfBoundsException will be thrown
 	 */
 	public void updateLives(int newLives) {
-		while(newLives != getLifeDisplayBox().getChildren().size()) {
-			getLifeDisplayBox().getChildren().remove(this.getLifeDisplayBox().getChildren().size() - 1);
+		if(newLives <= 0) {
+			for(int i = 0; i < ((Pacman) this.getPacman()).getLives(); i++) {
+				getLifeDisplayBox().getChildren().add(new ImageView(new Image("imgs/pacMan.png")));
+			}
+		} else {
+			while(newLives != getLifeDisplayBox().getChildren().size()) {
+				getLifeDisplayBox().getChildren().remove(this.getLifeDisplayBox().getChildren().size() - 1);
+			}
 		}
 	}
 
