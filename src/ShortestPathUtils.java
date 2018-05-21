@@ -84,8 +84,11 @@ public class ShortestPathUtils {
 				smallest = candidate.size();
 			}
 		}
-		
-		return allPaths.get(random);
+		if(allPaths.size() == 0) {
+			return null;
+		} else {
+			return allPaths.get(random);
+		}
 	}
 
 

@@ -35,17 +35,17 @@ public class EatGhostPowerUp extends Food {
 						ghost.setImage(new Image("imgs/clyde.png"));
 					}
 					
-					ghost.toggleEdible();
+					ghost.setEdible(false);
 					Pacman.setTrackPoint(0);
 				}
 			}
 			
-		}, 6000);
+		}, 5000);
 		
 		
 		for(int i=0; i<size; i++) {
 			Ghost ghost = (Ghost) list.get(i);
-			ghost.toggleEdible();
+			ghost.setEdible(true);
 			ghost.setImage(new Image("imgs/edibleghost.png"));
 		}
 		

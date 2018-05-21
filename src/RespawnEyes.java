@@ -1,4 +1,11 @@
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.util.Duration;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -113,6 +120,13 @@ public class RespawnEyes extends InvisibleActor {
 		if(spawnedGhost == null) {
 			return;
 		}
+		
+		FadeTransition pacmanFadeIn = new FadeTransition(Duration.millis(1000), spawnedGhost);
+		pacmanFadeIn.setFromValue(0);
+		pacmanFadeIn.setToValue(1);
+		pacmanFadeIn.play();
+				
+		spawnedGhost.setCoordinate(this.getX(), this.getY());
 				
 		this.getWorld().add(spawnedGhost);
 		getWorld().remove(this);

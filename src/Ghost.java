@@ -58,8 +58,8 @@ public class Ghost extends Character {
 		return isEdible;
 	}
 
-	public void toggleEdible() {
-		isEdible = !isEdible;
+	public void setEdible(boolean isEdible) {
+		this.isEdible = isEdible;
 	}
 
 	public Pacman getPacman() {
@@ -98,6 +98,10 @@ public class Ghost extends Character {
 			if(currentPath == null || currentPath.isEmpty()) {
 				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, pacmanRow, pacmanCol, this.getWorld().getModel()));
 				//remove the first node in the list because it is where we are currently
+				
+				if(currentPath == null || currentPath.size() == 0) {
+					return;
+				}
 				
 				System.out.println("Current path size = " + currentPath.size());
 				System.out.println("curr row = " + currRow + " currCol = " + currCol);
