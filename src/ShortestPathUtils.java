@@ -21,57 +21,13 @@ public class ShortestPathUtils {
 		oneOfThePaths.add(new int[]{ghostCurrRow, ghostCurrCol});
 				
 		shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, visitedList, m, oneOfThePaths);
-
-	
-//		System.out.println("Paths Found");
-//		for(ArrayList<int[]> path: allPaths) {
-//			for(int[] node : path) {
-//				
-////				System.out.print(Arrays.toString(node) + " -> ");
-//			}
-//			//System.out.println();
-//
-//		}
 		
 		ArrayList<int[]> optimalPath = findMostOptimal(allPaths);
-		
-//		System.out.println("Length of shortest path is " + optimalPath.size());
-		
-		
+				
 		return optimalPath;
-	
-//		System.out.println("Optimal Path");
-//		for(int[] node : optimalPath) {
-//			System.out.print(Arrays.toString(node) + " -> ");
-//		}
-//		System.out.println();
-//		
-//		int[] nextMove = null;
-//		
-//		if(optimalPath.size() <= 1) {
-//			nextMove = new int[]{ghostCurrRow, ghostCurrCol};
-//		} else {
-//			nextMove = new int[]{optimalPath.get(1)[0], optimalPath.get(1)[1]};
-//		}
-//		
-//		int dx = nextMove[1] - ghostCurrCol;
-//		int dy = nextMove[0] - ghostCurrRow;
-//		
-//		if(dx < 0 && dy == 0) {
-//			return "LEFT";
-//		} else if(dx > 0 && dy == 0) {
-//			return "RIGHT";
-//		} else if(dx == 0 && dy < 0) {
-//			return "UP";
-//		} else {
-//			return "DOWN";
-//		}
 	}
 	
-	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {
-		
-		System.out.println("in find most optimal size of paths: " + allPaths.size());
-		
+	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {		
 		
 		int random = (int)(Math.random() * (allPaths.size()));
 		
@@ -102,45 +58,29 @@ public class ShortestPathUtils {
 		
 		if(currentRow == destinationRow && currentCol == destinationCol) {
 			//we're done creating the [][] of relative distances, so we can return and find the shortest path.
-//			System.out.println("Reached an end");
-			
-//			for(int[] pair : oneOfThePaths) {
-//				System.out.print(Arrays.toString(pair) + "_");
-//			}
-//			System.out.println();
 			numPathsFound++;
-			
 			allPaths.add((ArrayList<int[]>) oneOfThePaths.clone());
-
 		} else {
 			
-			if(isInBounds(currentRow, currentCol - 1, visited) && !visited[currentRow][currentCol - 1] && hasPath(currentRow, currentCol - 1, m)) { //left open
-//				System.out.println("Trying left");
-				
+			if(isInBounds(currentRow, currentCol - 1, visited) && !visited[currentRow][currentCol - 1] && hasPath(currentRow, currentCol - 1, m)) { //left open				
 				int[] thisLocation = new int[] {currentRow, currentCol - 1};
 				oneOfThePaths.add(thisLocation);
 				shortestPath(currentRow, currentCol - 1, destinationRow, destinationCol, visited, m, oneOfThePaths);
 				oneOfThePaths.remove(thisLocation);
 			}
 			if(isInBounds(currentRow, currentCol + 1, visited) && !visited[currentRow][currentCol + 1] && hasPath(currentRow, currentCol + 1, m)) { //right open
-//				System.out.println("Trying right");
-
 				int[] thisLocation = new int[] {currentRow, currentCol + 1};
 				oneOfThePaths.add(thisLocation);
 				shortestPath(currentRow, currentCol + 1, destinationRow, destinationCol, visited, m, oneOfThePaths);
 				oneOfThePaths.remove(thisLocation);
 			}
 			if(isInBounds(currentRow - 1, currentCol, visited) && !visited[currentRow - 1][currentCol] && hasPath(currentRow - 1, currentCol, m)) { //top open
-//				System.out.println("Trying top");
-
 				int[] thisLocation = new int[] {currentRow - 1, currentCol};
 				oneOfThePaths.add(thisLocation);
 				shortestPath(currentRow - 1, currentCol, destinationRow, destinationCol, visited, m, oneOfThePaths);
 				oneOfThePaths.remove(thisLocation);
 			}
 			if(isInBounds(currentRow + 1, currentCol, visited) && !visited[currentRow + 1][currentCol] && hasPath(currentRow + 1, currentCol, m)) { //bottom open
-//				System.out.println("Trying bottom");
-
 				int[] thisLocation = new int[] {currentRow + 1, currentCol};
 				oneOfThePaths.add(thisLocation);
 				shortestPath(currentRow + 1, currentCol, destinationRow, destinationCol, visited, m, oneOfThePaths);

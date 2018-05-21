@@ -45,7 +45,6 @@ public class Model {
 		try {
 			scanner = new Scanner(f);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String line = scanner.nextLine();

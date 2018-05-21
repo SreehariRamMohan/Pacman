@@ -80,16 +80,12 @@ public class Controller extends Application {
 		topBox.setLeft(scoreText);
 		topBox.setRight(lifeDisplayHBox);		
 		root.setTop(topBox);
-	
-	
+
 		setKeyboardEvent();
-	
-	
-	
+
 		world.start();
 	
 		stage.setScene(scene);
-	
 	
 		stage.setMaxWidth(630);
 		stage.setMaxHeight(680);
@@ -136,11 +132,6 @@ public class Controller extends Application {
 				else if(event.getCode() == KeyCode.RIGHT && !((Pacman)world.getPacman()).getQueuedDirection().equals("RIGHT")) {
 					((Pacman)world.getPacman()).queueTurn("RIGHT");
 				}*/
-				
-				
-//				System.out.println("Queue has " + ((Pacman) world.getPacman()).getQueuedDirection());
-				
-				
 			}
 			
 		});
