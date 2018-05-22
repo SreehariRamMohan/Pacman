@@ -232,6 +232,11 @@ public class Pacman extends Character{
 						int increment = (int) Math.pow(2, trackPoint);
 						trackPoint++;
 						int point = increment*200;
+						
+						if(point > 1600) {
+							point = 1600;
+						}
+						
 						getWorld().updateScoreText(getWorld().getScore() + point);
 						
 						int[] currGhostRowCol = Character.getRowCol(g.getX(), g.getY());
