@@ -43,17 +43,53 @@ public class EatGhostPowerUp extends Food {
 		this.setOpacity(0);
 //		this.getWorld().remove(this);
 		
-
-		Timeline timeline = new Timeline();
-		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(5000)));
-		
 		EatGhostPowerUp myself = this;
+
+
 		
+		/*
+		 * For first 3/4 of the time the ghosts are blue, then for the remaining 1/4 of the time they flash indicating that
+		 * they will turn back to normal soon
+		 */
+		Timeline indicator = new Timeline();
+		indicator.getKeyFrames().add(new KeyFrame(Duration.millis(3.0 * Pacman.GHOST_EDIBLE_SECONDS * (1000.0/4))));
+		indicator.setOnFinished(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+	
+				/*
+				 * Start flashing the ghost
+				 */
+				
+				System.out.println("Flashing rn");
+				
+				System.out.println("FLASH");
+								
+				//flashGhost();
+
+				indicator.stop();				
+			}
+			
+		});
+		indicator.play();
+		
+		/*
+		 * Indicates ghost will turn back to normal soon
+		 */
+		
+		
+		Timeline timeline = new Timeline();
+		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(Pacman.GHOST_EDIBLE_SECONDS * 1000)));
 		timeline.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 	
+				//turn back to normal.
+				
+				System.out.println("Back to normal");
+				System.exit(0);
+				
 				List<Actor> list = getWorld().getGhosts();
 				int size = list.size();
 				for(int i=0; i<size; i++) {

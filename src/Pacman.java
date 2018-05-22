@@ -40,6 +40,8 @@ public class Pacman extends Character{
 	
 	private boolean shouldAnimateMouth = true;
 	
+	public final static int GHOST_EDIBLE_SECONDS = 6;
+	
 	public void playEatSound() {
 		
 		//We don't want sounds to overlap each other
@@ -141,7 +143,7 @@ public class Pacman extends Character{
 				
 			});
 		} else {
-			System.out.println("food eaten -> " + ((Pacman)this.getWorld().getPacman()).getPacmanFoodParticlesEaten() + " total ->  " + this.getWorld().getModel().getNumFoodParticles());
+			//System.out.println("food eaten -> " + ((Pacman)this.getWorld().getPacman()).getPacmanFoodParticlesEaten() + " total ->  " + this.getWorld().getModel().getNumFoodParticles());
 			
 		}
 		
