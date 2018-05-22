@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
@@ -473,6 +472,8 @@ public class Pacman extends Character{
 	public void die() {
 
 		decrementLives();
+		getWorld().pause();
+		SoundUtils.playPacmanDeath();
 
 		if(this.getLives() > 0) { //TODO Make the Pacman Death Animation
 			
@@ -480,18 +481,10 @@ public class Pacman extends Character{
 				Ghost g = (Ghost) a;
 				g.clearPathList();
 			}
-			SoundUtils.playPacmanDeath();
-			
-			resetGame();
-		} else {
-			
-			getWorld().pause();
-
-			SoundUtils.playPacmanDeath();
-			
-			
 			deathAnimation();
-		
+
+		} else {		
+			deathAnimation();
 			System.out.println("*****YOU LOSE*****");
 			//show pacman death animation.
 		}
@@ -500,6 +493,7 @@ public class Pacman extends Character{
 		
 		
 	}
+	
 
 	private void deathAnimation() {
 		
@@ -518,18 +512,23 @@ public class Pacman extends Character{
 			seq.getChildren().add(pt);
 		}
 		
+		
 		seq.play();
 		
 		seq.setOnFinished(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				//getWorld().pause();
-				showPacmanDeathAlert();
-				//show you lose alert dialog
+				if(getLives() <= 0) {
+					//show you lose alert dialog
+					showPacmanDeathAlert();
+				} else {
+					resetGame();
+				}
 			}
 			
 		});
+		
 		
 	}
 
