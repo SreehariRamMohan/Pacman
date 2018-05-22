@@ -175,7 +175,9 @@ public class Ghost extends Character {
 	}
 	
 	public void clearPathList() {
-		this.currentPath.clear();
+		if(this.currentPath != null) {
+			this.currentPath.clear();
+		}
 	}
 
 	private void edgeLoop() {

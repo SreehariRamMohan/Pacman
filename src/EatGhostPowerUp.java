@@ -86,4 +86,10 @@ public class EatGhostPowerUp extends Food {
 		
 		
 	}
+	
+	public void setHasEaten(boolean hasEaten) {
+		this.hasEaten = hasEaten;
+	}
+	
+	
 }

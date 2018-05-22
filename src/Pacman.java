@@ -115,6 +115,7 @@ public class Pacman extends Character{
 				@Override
 				public void handle(ActionEvent event) {
 					resetGame();
+					resetFood();
 					setLives(3);
 					getWorld().updateLives(getLives());
 				}
@@ -498,11 +499,53 @@ public class Pacman extends Character{
 			@Override
 			public void handle(ActionEvent event) {
 				resetGame();
+				resetFood();
 				setLives(3);
 				getWorld().updateLives(getLives());
+				getWorld().updateScoreText(0);
 			}
+
+			
 			
 		});
+	}
+	
+	public void resetFood() {
+		System.out.println("In resetFood()");
+		
+		//add back any food which isn't on the screen
+		for(int r = 0; r < this.getWorld().getModel().getNumRows(); r++) {
+			for(int c = 0; c < this.getWorld().getModel().getNumCols(); c++) {
+				//only if the food is not in the world should we add it!
+				if(this.getWorld().getModel().getFoodAt(r, c) != null && 
+						!this.getWorld().getChildren().contains(this.getWorld().getModel().getFoodAt(r, c))) {
+
+					Food foodToAdd = this.getWorld().getModel().getFoodAt(r, c);
+					
+					if(foodToAdd instanceof EatGhostPowerUp) { //allow power ups to be used again
+						((EatGhostPowerUp)foodToAdd).setHasEaten(false);
+					}
+					
+					foodToAdd.setX(c * Controller.CHARACTER_DIMS);
+					foodToAdd.setY(r * Controller.CHARACTER_DIMS);
+					
+					//lets make it fade in with a transition
+					FadeTransition foodFadeIn = new FadeTransition(Duration.millis(2000), foodToAdd);
+					foodFadeIn.setFromValue(0);
+					foodFadeIn.setToValue(1);
+					foodFadeIn.setAutoReverse(false);
+					
+					this.getWorld().add(foodToAdd);
+
+					foodFadeIn.play();
+				} else {
+					
+				}
+
+			}
+		}
+
+
 	}
 
 
@@ -510,6 +553,8 @@ public class Pacman extends Character{
 	public void resetGame() {
 
 		getWorld().pause();
+		
+		this.setPacmanFoodParticlesEaten(0);
 
 		Timer timer = new Timer();
 
@@ -527,6 +572,7 @@ public class Pacman extends Character{
 		for(int i = 0; i < this.getWorld().getGhosts().size(); i++) {
 			Ghost g = (Ghost) this.getWorld().getGhosts().get(i);
 			g.setCoordinate(this.getWorld().getModel().ghostInitialPositions.get(i)[1] * Controller.CHARACTER_DIMS, this.getWorld().getModel().ghostInitialPositions.get(i)[0]  * Controller.CHARACTER_DIMS);
+			g.clearPathList();
 		}
 
 	}

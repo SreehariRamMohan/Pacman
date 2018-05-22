@@ -117,7 +117,6 @@ public class Model {
 				
 				if(food[row][col] != null) {
 					numFoodParticles++;
-					numFoodParticles = 10;
 					food[row][col].setX(col*Controller.CHARACTER_DIMS);
 					food[row][col].setY(row*Controller.CHARACTER_DIMS);
 					world.add(food[row][col]);
@@ -169,6 +168,34 @@ public class Model {
 		System.out.println("----------------------------");
 		
 	}
+	
+	public void printFood() {
+
+		System.out.println("----------------------------");
+
+
+		for(int i = 0; i < this.food.length; i++) {
+			for(int j = 0; j < this.food[0].length; j++) {
+				if(food[i][j] instanceof RegFood) {
+					System.out.print("R ");
+				} else if(food[i][j] instanceof EatGhostPowerUp) {
+					System.out.print("S ");
+				} else {
+					System.out.print("  ");
+				}
+			}
+			System.out.println();
+		}
+
+		System.out.println("----------------------------");
+
+	}
+	
+	public Food getFoodAt(int r, int c) {
+		return (Food) food[r][c];
+	}
+	
+	
 	
 	public int getNumRows() {
 		return this.characters.length;

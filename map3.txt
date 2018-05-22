@@ -7,8 +7,8 @@ E|R--R|R-----R|R--R|E
 E|RRRR|RRR|RRR|RRRR|E
 E----R---E|E---R----E
 EEEE|R|EEEEEEE|R|EEEE
------R|E--E--E|R-----
-EEEEEREE|EEE|EEREEEEE
+-----R|E--Y--E|R-----
+EEEEEREE|BIC|EEREEEEE
 -----R|E-----E|R-----
 EEEE|R|EEEEEEE|R|EEEE
 E----R|E-----E|R----E
@@ -16,7 +16,7 @@ E|RRRRRRRR|RRRRRRRR|E
 E|R--R---R|R---R--R|E
 E|UR|RRRRRRRRRRR|RU|E
 E--R|R|R-----R|R|R--E
-E|RRRR|RIR|RRR|RRRR|E
+E|RRRR|RRR|RRR|RRRR|E
 E|R------R|R------R|E
 E|RRRRRRRRRRRRRRRPR|E
 E-------------------E
