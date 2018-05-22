@@ -7,6 +7,8 @@ import java.util.TimerTask;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
+import javafx.animation.PauseTransition;
+import javafx.animation.SequentialTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -31,11 +33,13 @@ public class Pacman extends Character{
 	private Image pacManOpen = new Image("imgs/pacMan2.png");
 	private int openCloseMouthCounter = 0;
 	
-	private Image[] deathImages = new Image[11];
+	private String[] deathImageFilePaths = new String[11];
 		
 	boolean isPlaying = false;
 	
 	private int pacmanFoodParticlesEaten = 0;
+	
+	private boolean shouldAnimateMouth = true;
 	
 	public void playEatSound() {
 		
@@ -64,18 +68,31 @@ public class Pacman extends Character{
 	
 	public Pacman() {		
 		this.setImage(pacManClosed);
-		lives = 3;
+		lives = 1;
 		setSpeed(3);
 		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();
+		loadDeathAnimationImagePaths();
+
 	}
+
 
 	public Pacman(int lives) {
 		this.setImage(pacManClosed);
-		this.lives = 3;
-		setSpeed(3);
+		this.lives = lives;
+		setSpeed(lives);
+		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();
+		loadDeathAnimationImagePaths();
 	}
+	
+	private void loadDeathAnimationImagePaths() {
+		for(int i = 0; i < 11; i++) {
+			String path = "imgs/pacmanDeathSequence/pacdeath"+(i+1)+".png";
+			deathImageFilePaths[i] = path;
+		}
+	}
+
 
 	@Override
 	public void act(long now) {
@@ -116,6 +133,7 @@ public class Pacman extends Character{
 
 				@Override
 				public void handle(ActionEvent event) {
+					setPacmanFoodParticlesEaten(0);
 					resetGame();
 					resetFood();
 					setLives(3);
@@ -123,7 +141,10 @@ public class Pacman extends Character{
 				}
 				
 			});
-		} 
+		} else {
+			System.out.println("food eaten -> " + ((Pacman)this.getWorld().getPacman()).getPacmanFoodParticlesEaten() + " total ->  " + this.getWorld().getModel().getNumFoodParticles());
+			
+		}
 		
 	}
 
@@ -160,6 +181,11 @@ public class Pacman extends Character{
 	}
 
 	private void animateMouth() {
+		
+		if(!shouldAnimateMouth()) {
+			return;
+		}
+		
 		openCloseMouthCounter++;
 		
 		if(openCloseMouthCounter < 20) {
@@ -314,9 +340,7 @@ public class Pacman extends Character{
 			}
 			
 		});
-		ghostDeathPlayer.play();
-		
-		
+		ghostDeathPlayer.play();		
 	}
 	
 	private void playPowerUpSound() {
@@ -450,7 +474,7 @@ public class Pacman extends Character{
 
 		decrementLives();
 
-		if(this.getLives() > 0) { //TODO Make the Pacman Death Animation and replace this with num-lives
+		if(this.getLives() > 0) { //TODO Make the Pacman Death Animation
 			
 			for(Actor a : this.getWorld().getGhosts()) {
 				Ghost g = (Ghost) a;
@@ -460,18 +484,52 @@ public class Pacman extends Character{
 			
 			resetGame();
 		} else {
+			
+			getWorld().pause();
+
 			SoundUtils.playPacmanDeath();
 			
-			this.getWorld().pause();
-
+			
+			deathAnimation();
+		
 			System.out.println("*****YOU LOSE*****");
 			//show pacman death animation.
-			showPacmanDeathAlert();
-			//show you lose alert dialog
 		}
 		
 		
 		
+		
+	}
+
+	private void deathAnimation() {
+		
+		this.setDirection(Character.STATIONARY);
+		
+		SequentialTransition seq = new SequentialTransition();
+		
+		for(String path : deathImageFilePaths) {			
+			System.out.println("path -> " + path);
+			
+			
+			ImageSwapper trans = new ImageSwapper(this, path);
+			PauseTransition pt = new PauseTransition(Duration.millis(1000));
+			
+			seq.getChildren().add(pt);
+			seq.getChildren().add(trans);
+		}
+		
+		seq.play();
+		
+		seq.setOnFinished(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				//getWorld().pause();
+				showPacmanDeathAlert();
+				//show you lose alert dialog
+			}
+			
+		});
 		
 	}
 
@@ -502,6 +560,7 @@ public class Pacman extends Character{
 			@Override
 			public void handle(ActionEvent event) {
 				resetGame();
+				setPacmanFoodParticlesEaten(0);
 				resetFood();
 				setLives(3);
 				getWorld().updateLives(getLives());
@@ -557,8 +616,6 @@ public class Pacman extends Character{
 
 		getWorld().pause();
 		
-		this.setPacmanFoodParticlesEaten(0);
-
 		Timer timer = new Timer();
 
 		timer.schedule(new TimerTask() {
@@ -586,6 +643,15 @@ public class Pacman extends Character{
 
 	public void setPacmanFoodParticlesEaten(int pacmanFoodParticlesEaten) {
 		this.pacmanFoodParticlesEaten = pacmanFoodParticlesEaten;
-	}	
+	}
 
+
+
+	public boolean shouldAnimateMouth() {
+		return shouldAnimateMouth;
+	}
+
+	public void setShouldAnimateMouth(boolean shouldAnimateMouth) {
+		this.shouldAnimateMouth = shouldAnimateMouth;
+	}	
 }

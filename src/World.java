@@ -12,7 +12,7 @@ import javafx.scene.layout.Pane;
 public abstract class World extends Pane {
 	
 	private AnimationTimer timer;
-	private HashSet<KeyCode> keySet = new HashSet();
+	private HashSet<KeyCode> keySet = new HashSet();	
 
 	public World() {
 		
@@ -25,6 +25,7 @@ public abstract class World extends Pane {
 				List<Node> nodeList = getChildren();
 				for(int i = 0; i < nodeList.size(); i++) {
 					Node n = nodeList.get(i);
+					
 					if(n instanceof Actor) {
 						((Actor) n).act(now);
 					}
@@ -87,4 +88,5 @@ public abstract class World extends Pane {
 	public void pause() {
 		stop();
 	}
+	
 }
