@@ -65,9 +65,6 @@ public class Pacman extends Character{
 	public Pacman() {		
 		this.setImage(pacManClosed);
 		lives = 3;
-		for(int i=1; i<=deathImages.length; i++) {
-			deathImages[i] = new Image("imgs/pacdeath" + i + ".png");
-		}
 		setSpeed(3);
 		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();
