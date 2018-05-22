@@ -631,6 +631,8 @@ public class Pacman extends Character{
 
 		}, 1000);
 
+		this.setRotate(0);
+		this.setImage(new Image("imgs/pacMan.png"));
 		this.setCoordinate(this.getWorld().getModel().pacmanInitialPosition[1] * Controller.CHARACTER_DIMS, this.getWorld().getModel().pacmanInitialPosition[0] * Controller.CHARACTER_DIMS);
 
 		for(int i = 0; i < this.getWorld().getGhosts().size(); i++) {
