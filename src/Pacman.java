@@ -204,7 +204,8 @@ public class Pacman extends Character{
 						
 						int increment = (int) Math.pow(2, trackPoint);
 						trackPoint++;
-						getWorld().updateScoreText(getWorld().getScore() + increment*200);
+						int point = increment*200;
+						getWorld().updateScoreText(getWorld().getScore() + point);
 						
 						int[] currGhostRowCol = Character.getRowCol(g.getX(), g.getY());
 						
@@ -214,7 +215,7 @@ public class Pacman extends Character{
 						/**
 						 * TODO: Make these values dependent upon the ghost eaten, for now hard-coded 
 						 */
-						addScoreAnimation(200, 500, row, col);
+						addScoreAnimation(point, 500, row, col);
 						
 						playGhostDeathSound();
 						
