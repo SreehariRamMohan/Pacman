@@ -512,10 +512,10 @@ public class Pacman extends Character{
 			
 			
 			ImageSwapper trans = new ImageSwapper(this, path);
-			PauseTransition pt = new PauseTransition(Duration.millis(1000));
+			PauseTransition pt = new PauseTransition(Duration.millis(100));
 			
-			seq.getChildren().add(pt);
 			seq.getChildren().add(trans);
+			seq.getChildren().add(pt);
 		}
 		
 		seq.play();
