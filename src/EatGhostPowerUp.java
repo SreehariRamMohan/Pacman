@@ -30,7 +30,7 @@ public class EatGhostPowerUp extends Food {
 		
 		//update number of food particles pacman has eaten
 		((Pacman)getWorld().getPacman()).setPacmanFoodParticlesEaten(((Pacman)getWorld().getPacman()).getPacmanFoodParticlesEaten() + 1);
-		
+		((Pacman)this.getWorld().getPacman()).playPowerUpSound();
 		
 		List<Actor> list = getWorld().getGhosts();
 		int size = list.size();

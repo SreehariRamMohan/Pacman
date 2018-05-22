@@ -349,7 +349,7 @@ public class Pacman extends Character{
 		ghostDeathPlayer.play();		
 	}
 	
-	private void playPowerUpSound() {
+	public void playPowerUpSound() {
 		
 		Media powerUpSound = new Media(new File("src/sounds/pacman_powerup.wav").toURI().toString());
 		MediaPlayer player = new MediaPlayer(powerUpSound);
