@@ -2,6 +2,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -41,7 +42,6 @@ public class EatGhostPowerUp extends Food {
 		}
 		
 		this.setOpacity(0);
-//		this.getWorld().remove(this);
 		
 		EatGhostPowerUp myself = this;
 
@@ -52,25 +52,21 @@ public class EatGhostPowerUp extends Food {
 		 * they will turn back to normal soon
 		 */
 		Timeline indicator = new Timeline();
-		indicator.getKeyFrames().add(new KeyFrame(Duration.millis(3.0 * Pacman.GHOST_EDIBLE_SECONDS * (1000.0/4))));
+		indicator.getKeyFrames().add(new KeyFrame(Duration.millis(0.75 * Pacman.GHOST_EDIBLE_SECONDS * 1000.0)));
 		indicator.setOnFinished(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
 	
 				/*
 				 * Start flashing the ghost
-				 */
-				
-				System.out.println("Flashing rn");
-				
-				System.out.println("FLASH");
-								
-				//flashGhost();
+				 */				
+				flashGhost();
 
 				indicator.stop();				
 			}
 			
 		});
+		
 		indicator.play();
 		
 		/*
@@ -88,7 +84,6 @@ public class EatGhostPowerUp extends Food {
 				//turn back to normal.
 				
 				System.out.println("Back to normal");
-				System.exit(0);
 				
 				List<Actor> list = getWorld().getGhosts();
 				int size = list.size();
@@ -106,11 +101,13 @@ public class EatGhostPowerUp extends Food {
 					}
 					
 					ghost.setEdible(false);
+					ghost.setOpacity(1);
 					Pacman.setTrackPoint(0);
 
 				}
 
 				timeline.stop();
+				
 
 				getWorld().remove(myself);
 				
@@ -125,6 +122,45 @@ public class EatGhostPowerUp extends Food {
 	
 	public void setHasEaten(boolean hasEaten) {
 		this.hasEaten = hasEaten;
+	}
+	
+	public void flashGhost() {
+		List<Actor> list = getWorld().getGhosts();
+		int size = list.size();
+		for(int i=0; i<size; i++) {
+			Ghost ghost = (Ghost) list.get(i);
+			ghost.setImage(new Image("imgs/almostNormal.png"));
+			
+			int blinkOnTime = 100;
+			int blinkOffTime = 50;
+			
+			KeyFrame blinkOn = new KeyFrame(Duration.millis(blinkOnTime), new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					ghost.setOpacity(1);					
+				}
+				
+			});
+			
+			KeyFrame blinkOff = new KeyFrame(Duration.millis(blinkOffTime), new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					ghost.setOpacity(0.4);
+				}
+				
+			});
+			
+			int oneCycleTime = blinkOnTime + blinkOffTime;
+			
+			double numCycle = (0.25 * Pacman.GHOST_EDIBLE_SECONDS * 1000)/oneCycleTime;
+			
+			Timeline ghostBlinkTimeline = new Timeline(blinkOn, blinkOff);
+			ghostBlinkTimeline.setCycleCount((int) Math.floor(numCycle)); //better to underestimate cycles than underestimate, so we ensure
+																		//that the ghosts stop blinking and turn back to normal correctly
+			ghostBlinkTimeline.play();
+		}
 	}
 	
 	
