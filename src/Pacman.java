@@ -33,6 +33,8 @@ public class Pacman extends Character{
 		
 	boolean isPlaying = false;
 	
+	private int pacmanFoodParticlesEaten = 0;
+	
 	public void playEatSound() {
 		
 		//We don't want sounds to overlap each other
@@ -58,10 +60,11 @@ public class Pacman extends Character{
 	
 	
 	
-	public Pacman() {
+	public Pacman() {		
 		this.setImage(pacManClosed);
 		lives = 1;
 		setSpeed(3);
+		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();
 	}
 
@@ -74,6 +77,7 @@ public class Pacman extends Character{
 
 	@Override
 	public void act(long now) {
+		hasPacmanWon();
 		animateMouth();
 		detectFood();
 		detectGhosts();
@@ -81,6 +85,46 @@ public class Pacman extends Character{
 		edgeLoop();
 
 	}
+
+	private void hasPacmanWon() {
+		if(this.getPacmanFoodParticlesEaten() == this.getWorld().getModel().getNumFoodParticles()) {
+			this.getWorld().pause();
+			Alert winAlert = new Alert(AlertType.CONFIRMATION);
+			winAlert.setTitle("You Win!");
+			winAlert.setHeaderText("Ate all food!");
+			winAlert.setContentText("Do you want to Play Again?");
+			
+			ButtonType yes = new ButtonType("Yes");
+			ButtonType exit = new ButtonType("Exit");
+			
+			winAlert.getButtonTypes().setAll(yes, exit);
+			
+			winAlert.getDialogPane().setPrefSize(400, 100);
+			
+			Image winImage = new Image("imgs/winAlertImage.png");
+			ImageView winImageView = new ImageView(winImage);
+			winImageView.setPreserveRatio(true);
+			winImageView.setFitWidth(100);
+			winAlert.setGraphic(winImageView);
+			
+			winAlert.show();
+					
+			Button restart = (Button) winAlert.getDialogPane().lookupButton(yes);
+			restart.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					resetGame();
+					setLives(3);
+					getWorld().updateLives(getLives());
+				}
+				
+			});
+		} 
+		
+	}
+
+
 
 	private void mainMovement() {
 
@@ -326,6 +370,7 @@ public class Pacman extends Character{
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
 					playEatSound();
+					
 					food.onEat();
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
@@ -485,6 +530,13 @@ public class Pacman extends Character{
 		}
 
 	}
-	
+
+	public int getPacmanFoodParticlesEaten() {
+		return pacmanFoodParticlesEaten;
+	}
+
+	public void setPacmanFoodParticlesEaten(int pacmanFoodParticlesEaten) {
+		this.pacmanFoodParticlesEaten = pacmanFoodParticlesEaten;
+	}	
 
 }

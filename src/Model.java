@@ -19,6 +19,9 @@ public class Model {
 	//array to store food, and powerups
 	private Actor[][] food;
 	
+	//variables to store food particles and determine if the game is over
+	int numFoodParticles;
+	
 	/**
 	 * Fields to store the initial positions of Pacman & ghosts
 	 */
@@ -113,6 +116,8 @@ public class Model {
 				}
 				
 				if(food[row][col] != null) {
+					numFoodParticles++;
+					numFoodParticles = 10;
 					food[row][col].setX(col*Controller.CHARACTER_DIMS);
 					food[row][col].setY(row*Controller.CHARACTER_DIMS);
 					world.add(food[row][col]);
@@ -175,6 +180,10 @@ public class Model {
 	
 	public void saveState() {
 		
+	}
+	
+	public int getNumFoodParticles() {
+		return numFoodParticles;
 	}
 	
 }

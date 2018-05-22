@@ -9,6 +9,8 @@ public class RegFood extends Food {
 	@Override
 	public void onEat() {
 		getWorld().updateScoreText(getWorld().getScore() + 10);
+		//update number of food particles pacman has eaten
+		((Pacman)getWorld().getPacman()).setPacmanFoodParticlesEaten(((Pacman)getWorld().getPacman()).getPacmanFoodParticlesEaten() + 1);
 		remove();
 	}
 

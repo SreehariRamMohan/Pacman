@@ -95,15 +95,13 @@ public class PacManWorld extends World {
 	 * IndexOutOfBoundsException will be thrown
 	 */
 	public void updateLives(int newLives) {
-		if(newLives <= 0) {
-			for(int i = 0; i < ((Pacman) this.getPacman()).getLives(); i++) {
-				getLifeDisplayBox().getChildren().add(new ImageView(new Image("imgs/pacMan.png")));
-			}
-		} else {
-			while(newLives != getLifeDisplayBox().getChildren().size()) {
-				getLifeDisplayBox().getChildren().remove(this.getLifeDisplayBox().getChildren().size() - 1);
-			}
+		
+		getLifeDisplayBox().getChildren().clear();
+		
+		for(int i = 0; i < newLives; i++) {
+			getLifeDisplayBox().getChildren().add(new ImageView(new Image("imgs/pacMan.png")));
 		}
+		
 	}
 
 	public HBox getLifeDisplayBox() {
