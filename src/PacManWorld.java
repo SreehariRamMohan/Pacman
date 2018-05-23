@@ -24,6 +24,7 @@ public class PacManWorld extends World {
 	private Text scoreText;
 	private HBox lifeDisplayBox;
 	private HBox hbox;
+	private Controller controller;
 	
 	public PacManWorld() {
 		ghosts = new ArrayList<>();
@@ -35,6 +36,14 @@ public class PacManWorld extends World {
 	public void act(long now) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public Controller getController() {
+		return controller;
+	}
+	
+	public void setController(Controller c) {
+		this.controller = c;
 	}
 	
 	public void setModel(Model m) {

@@ -142,6 +142,18 @@ public class Pacman extends Character{
 				}
 				
 			});
+			
+			Button exitButton = (Button) winAlert.getDialogPane().lookupButton(exit);
+			exitButton.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent event) {
+					//stop music so scene can be garbage collected.
+					getWorld().pause();
+					getWorld().getController().swapScenes("title");
+				}
+				
+			});
 		} else {
 			//System.out.println("food eaten -> " + ((Pacman)this.getWorld().getPacman()).getPacmanFoodParticlesEaten() + " total ->  " + this.getWorld().getModel().getNumFoodParticles());
 			
@@ -572,10 +584,22 @@ public class Pacman extends Character{
 				getWorld().updateLives(getLives());
 				getWorld().updateScoreText(0);
 			}
+		});
+		
+		Button exitButton = (Button) deathAlert.getDialogPane().lookupButton(exit);
+		exitButton.setOnAction(new EventHandler<ActionEvent>() {
 
-			
+			@Override
+			public void handle(ActionEvent event) {
+				//stop music so scene can be garbage collected.
+				getWorld().pause();
+				getWorld().getController().swapScenes("title");
+			}
 			
 		});
+		
+		
+		
 	}
 	
 	public void resetFood() {
