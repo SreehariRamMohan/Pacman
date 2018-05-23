@@ -16,7 +16,6 @@ public class ImageSwapper extends Transition {
 
 	@Override
 	protected void interpolate(double frac) {
-		System.out.println("changed image to " + imageName);
 		this.toAnimate.setRotate(0);
 		this.toAnimate.setImage(new Image(imageName));
 	}
