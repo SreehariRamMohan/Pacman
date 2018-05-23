@@ -71,7 +71,7 @@ public class Pacman extends Character{
 	
 	public Pacman() {		
 		this.setImage(pacManClosed);
-		lives = 1;
+		lives = 3;
 		setSpeed(3);
 		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();

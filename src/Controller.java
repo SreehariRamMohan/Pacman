@@ -104,7 +104,7 @@ public class Controller extends Application {
 		scoreText = new Text("Score: 0");
 		HBox lifeDisplayHBox = new HBox();
 		
-		for(int i = 0; i < 1; i++) {
+		for(int i = 0; i < 3; i++) {
 			lifeDisplayHBox.getChildren().add(new ImageView(pacmanImage));
 		}
 		
@@ -237,6 +237,15 @@ public class Controller extends Application {
 					newRoot.setTop(webView);
 					
 					backButton = new Button("Back");
+					
+					backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+						@Override
+						public void handle(MouseEvent event) {
+							swapScenes("title");
+						}
+						
+					});
 					
 					HBox bottom = new HBox();
 					
