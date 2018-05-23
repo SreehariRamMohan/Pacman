@@ -1,14 +1,89 @@
 <!DOCTYPE html>
-<p><span style="font-size: 20pt;">Objective</span></p>
-<ul>
-<li><span style="font-size: 11pt;">Guide Pacman around the maze and eat all the little dots.</span></li>
-<li><span style="font-size: 11pt;">Make sure to avoid the ghosts as you will lose a life if you run into them</span></li>
-<li><span style="font-size: 11pt;">If you do however eat one of the flashing dots Pacman can temporarily eat the ghosts</span></li>
-<li><span style="font-size: 11pt;">You get a total of 3 lives. Once they run out it is GAME OVER!</span></li>
-</ul>
-<p><span style="font-size: 20pt;">Controls</span></p>
-<ul>
-<li>Simply use the arrow keys to move Pacman around the maze&nbsp;</li>
-</ul>
-<p>&nbsp;</p>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Instructions</title>
+  </head>
+  <body>
+
+    <h1>Objective</h1>
+    <ul>
+      <li>Guide Pacman around the maze and eat all the little dots.</li>
+      <li>Make sure to avoid the ghosts as you will lose a life if you run into them</li>
+      <li>If you do however eat one of the flashing dots Pacman can temporarily eat the ghosts</li>
+      <li>You get a total of 3 lives. Once they run out it is GAME OVER!</li>
+    </ul>
+
+    <h1>Game Mechanics & Features</h1>
+    <ul>
+      <li>Use the arrow keys to move pacman around the board</li>
+      <li>Our game implements "Adaptive Turning" meaning that you can queue a turn in advance and pacman will turn at the first availible intersection.</li>
+      <li>Ghosts use a DFS - depth first search - so they will always travel toward the pacman</li>
+      <li>Upon ghost death, the ghosts eye's travel back to "home" where they re-spawn</li>
+      <li>Larger yellow food pieces will allow you to eat ghosts. Ghosts will turn blue indicating they are edible, and will flash white when they are just about to turn back to normal</li>
+      <li>The game board can be loaded from a .txt file so there are endless map possibilities.</li>
+    </ul>
+
+    <table border="2">
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Image</td>
+          <td>Personality</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+
+
+        <tr>
+          <td>Pinky</td>
+            <td>
+              <img width="100" src="pinky.png">
+            </td>
+            <td>
+              He is the envy of all other ghosts. His superior intelligence and speed make him deadly to pacman, and he currently holds the record for most pacman kills. Pinky resets his path after 5 moves of pacman.
+            </td>
+          </tr>
+
+        <td>Blinky</td>
+          <td>
+            <img width="100" src="blinky.png">
+          </td>
+          <td>
+            Probably the second smartest ghost. Blinky resets his path after 10 moves of pacman.
+          </td>
+        </tr>
+
+        <tr>
+          <td>Inky</td>
+          <td>
+            <img width="100" src="inky.png">
+          </td>
+          <td>
+            Just your average, run of the mill ghost. This guy is pretty average in speed, intelligence, and recognition. He is often overlooked by players and springs up to catch the pacman at the last possible moment. Inky resets his path after 15 moves of pacman.
+          </td>
+        </tr>
+
+
+        <tr>
+          <td>Clyde</td>
+          <td>
+            <img width="100" src="clyde.png">
+          </td>
+          <td>
+            Clyde is super dumb and stupid. His old age and feeble bones make him super unresponsive to pacman movement. In fact, he'll likely only be a danger to you if you stay still!! Nevertheless, its always a good idea to keep him on your radar. Clyde only resets his path once his current path is empty (he only resets his path when he reaches his previous destination). 
+          </td>
+        </tr>
+
+      </tbody>
+
+    </table>
+
+
+
+
+
+  </body>
 </html>
