@@ -60,6 +60,8 @@ public class Pacman extends Character{
 			@Override
 			public void run() {
 				isPlaying = false;
+				
+				chompPlayer.dispose();
 			}
 			
 		});
@@ -355,6 +357,7 @@ public class Pacman extends Character{
 			@Override
 			public void run() {
 				isPlaying = false;
+				ghostDeathPlayer.dispose();
 			}
 			
 		});
@@ -370,6 +373,7 @@ public class Pacman extends Character{
 			@Override
 			public void run() {
 				isPlaying = false;
+				player.dispose();
 			}
 			
 		});
@@ -393,6 +397,7 @@ public class Pacman extends Character{
 			@Override
 			public void run() {
 				isPlaying = false;
+				soundPlayer.dispose();
 			}
 			
 		});

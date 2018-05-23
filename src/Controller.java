@@ -225,7 +225,7 @@ public class Controller extends Application {
 		WebView webView = new WebView();
 			@Override
 			public void handle(MouseEvent event) {
-				
+				player.dispose();
 				WebEngine engine = webView.getEngine();
 				try {
 					engine.load(getClass().getResource("imgs/Instructions.html").toURI().toString());
@@ -241,6 +241,7 @@ public class Controller extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				swapScenes("game");
+				player.dispose();
 			}
 			
 		});
