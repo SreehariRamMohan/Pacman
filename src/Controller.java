@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -226,10 +227,28 @@ public class Controller extends Application {
 			@Override
 			public void handle(MouseEvent event) {
 				player.dispose();
+				
+				BorderPane newRoot = new BorderPane();				
+				Scene webScene = new Scene(newRoot,630,680);
+				Button backButton = null;
 				WebEngine engine = webView.getEngine();
 				try {
 					engine.load(getClass().getResource("imgs/Instructions.html").toURI().toString());
-					root.getChildren().add(webView);
+					newRoot.setTop(webView);
+					
+					backButton = new Button("Back");
+					
+					HBox bottom = new HBox();
+					
+					bottom.getChildren().add(backButton);
+					
+					newRoot.setLeft(backButton);
+					
+					stage.setScene(webScene);
+					
+					
+					
+					
 				} catch (URISyntaxException e) {
 					System.out.println("oof");
 				}
