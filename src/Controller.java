@@ -220,7 +220,7 @@ public class Controller extends Application {
 			e1.printStackTrace();
 		}
 		
-		Image ructions = new Image(inst,300,100,false,false);
+		Image ructions = new Image(inst,150,50,false,false);
 		ImageView instructions = new ImageView(ructions);
 		instructions.setOnMouseClicked(new EventHandler<MouseEvent>() {
 		WebView webView = new WebView();
@@ -238,7 +238,7 @@ public class Controller extends Application {
 					
 					String back = null;
 					try {
-						back = getClass().getResource("imgs/back.jpg").toURI().toString();
+						back = getClass().getResource("imgs/back.png").toURI().toString();
 					} catch (URISyntaxException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
