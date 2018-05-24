@@ -203,12 +203,13 @@ public class Controller extends Application {
 		//Play Button
 		String play = null;
 		try {
-			play = getClass().getResource("imgs/play_button.png").toURI().toString();
+			play = getClass().getResource("imgs/button_play.png").toURI().toString();
+			
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		Image button = new Image(play);
+		Image button = new Image(play, 100, 50, false, false);
 		ImageView play_button = new ImageView(button);
 		
 		//Instructions
@@ -243,7 +244,7 @@ public class Controller extends Application {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					Image backButt = new Image(back, 30, 30, false, false);
+					Image backButt = new Image(back);
 					ImageView button = new ImageView(backButt);
 					backButton = new Button("Back");
 					
@@ -289,7 +290,7 @@ public class Controller extends Application {
 		pacmanTitle.setY(scene.getHeight()/6);
 		
 		play_button.setX(scene.getWidth()/2 - button.getWidth()/2);
-		play_button.setY(2*scene.getHeight()/6);
+		play_button.setY(2*scene.getHeight()/6 + 25);
 		
 		instructions.setX(scene.getWidth()/2 - ructions.getWidth()/2);
 		instructions.setY(3*scene.getHeight()/6);
