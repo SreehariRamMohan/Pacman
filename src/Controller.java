@@ -214,7 +214,7 @@ public class Controller extends Application {
 		//Instructions
 		String inst = null;
 		try {
-			inst = getClass().getResource("imgs/instructions.png").toURI().toString();
+			inst = getClass().getResource("imgs/button_instructions.png").toURI().toString();
 		} catch (URISyntaxException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -238,7 +238,7 @@ public class Controller extends Application {
 					
 					String back = null;
 					try {
-						back = getClass().getResource("imgs/back.png").toURI().toString();
+						back = getClass().getResource("imgs/back_button2.png").toURI().toString();
 					} catch (URISyntaxException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
