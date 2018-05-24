@@ -236,9 +236,18 @@ public class Controller extends Application {
 					engine.load(getClass().getResource("imgs/Instructions.html").toURI().toString());
 					newRoot.setTop(webView);
 					
+					String back = null;
+					try {
+						back = getClass().getResource("imgs/back.jpg").toURI().toString();
+					} catch (URISyntaxException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					Image backButt = new Image(back, 30, 30, false, false);
+					ImageView button = new ImageView(backButt);
 					backButton = new Button("Back");
 					
-					backButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+					button.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 						@Override
 						public void handle(MouseEvent event) {
@@ -249,9 +258,9 @@ public class Controller extends Application {
 					
 					HBox bottom = new HBox();
 					
-					bottom.getChildren().add(backButton);
+					bottom.getChildren().add(button);
 					
-					newRoot.setLeft(backButton);
+					newRoot.setLeft(button);
 					
 					stage.setScene(webScene);
 					
