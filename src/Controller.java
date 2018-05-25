@@ -179,7 +179,7 @@ public class Controller extends Application {
 		Scene scene = new Scene(root,630,680);
 	
 		
-		MediaPlayer player = new MediaPlayer(new Media(getClass().getResource("imgs/gameplay.mp4").toExternalForm()));
+		MediaPlayer player = new MediaPlayer(new Media(getClass().getResource("imgs/updated_gameplay.mp4").toExternalForm()));
 		MediaView mediaView = new MediaView(player);
 		player.setAutoPlay(true);
 		player.setOnEndOfMedia(new Runnable() {
