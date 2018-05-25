@@ -27,10 +27,7 @@ public class ShortestPathUtils {
 		return optimalPath;
 	}
 	
-	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {		
-		
-		int random = (int)(Math.random() * (allPaths.size()));
-		
+	public static ArrayList<int[]> findMostOptimal(ArrayList<ArrayList<int[]>> allPaths) {				
 		
 		int smallest = Integer.MAX_VALUE;
 		ArrayList<int[]> toPick = null; 
@@ -40,11 +37,7 @@ public class ShortestPathUtils {
 				smallest = candidate.size();
 			}
 		}
-		if(allPaths.size() == 0) {
-			return null;
-		} else {
-			return allPaths.get(random);
-		}
+		return toPick;
 	}
 
 

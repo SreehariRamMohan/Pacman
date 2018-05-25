@@ -82,9 +82,7 @@ public class EatGhostPowerUp extends Food {
 			public void handle(ActionEvent event) {
 	
 				//turn back to normal.
-				
-				System.out.println("Back to normal");
-				
+								
 				List<Actor> list = getWorld().getGhosts();
 				int size = list.size();
 				for(int i=0; i<size; i++) {

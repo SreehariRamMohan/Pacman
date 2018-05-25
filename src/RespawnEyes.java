@@ -28,7 +28,7 @@ public class RespawnEyes extends InvisibleActor {
 		this.setX(currCol * Controller.CHARACTER_DIMS);
 		this.setY(currRow * Controller.CHARACTER_DIMS);
 		
-		System.out.println("Eyes x = " + this.getX() + " y = " + this.getY());
+//		System.out.println("Eyes x = " + this.getX() + " y = " + this.getY());
 
 		
 		this.setSpeed(5);
@@ -45,12 +45,12 @@ public class RespawnEyes extends InvisibleActor {
 		
 		String nextDir = Ghost.getDirectionFromNode(pathToHome.get(0)[0], pathToHome.get(0)[1], currentRow, currentCol);
 		
-		System.out.println("Initial positions: " + Arrays.toString(initialPositions));
+//		System.out.println("Initial positions: " + Arrays.toString(initialPositions));
 		
-		System.out.println("Destination: " + Arrays.toString(pathToHome.get(0)));
+//		System.out.println("Destination: " + Arrays.toString(pathToHome.get(0)));
 		
 		
-		System.out.println("In constructor dir = " + nextDir);
+//		System.out.println("In constructor dir = " + nextDir);
 		
 		this.setDirection(nextDir);
 		
@@ -98,23 +98,23 @@ public class RespawnEyes extends InvisibleActor {
 		String ts = this.getGhostToSpawn();
 		Ghost spawnedGhost = null;
 		
-		System.out.println("Tring to spawn new ghost -> " + ts);
+//		System.out.println("Tring to spawn new ghost -> " + ts);
 		
 		if(ts.equals("Blinky")) {
 			spawnedGhost = new Blinky(goalRow, goalCol);
-			System.out.println("bliny created");
+//			System.out.println("bliny created");
 			
 		} else if(ts.equals("Clyde")) {
 			spawnedGhost = new Clyde(goalRow, goalCol);
-			System.out.println("Clyde created");
+//			System.out.println("Clyde created");
 			
 		} else if(ts.equals("Inky")) {
 			spawnedGhost = new Inky(goalRow, goalCol);
-			System.out.println("Inky created");
+//			System.out.println("Inky created");
 			
 		} else if(ts.equals("Pinky")) {
 			spawnedGhost = new Pinky(goalRow, goalCol);
-			System.out.println("Pinky created");
+//			System.out.println("Pinky created");
 		}
 		if(spawnedGhost == null) {
 			return;

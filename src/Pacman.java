@@ -22,6 +22,9 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
+/**
+ *
+ */
 public class Pacman extends Character{
 
 	private int lives;
@@ -41,6 +44,10 @@ public class Pacman extends Character{
 	private boolean shouldAnimateMouth = true;
 	
 	public final static int GHOST_EDIBLE_SECONDS = 6;
+	
+	public int numMovesMade = 0;
+	
+	public int numSquaresMoved = 0;
 	
 	public void playEatSound() {
 		
@@ -179,6 +186,9 @@ public class Pacman extends Character{
 			this.setDirection(Character.STATIONARY);
 		} else {
 			this.safeMove(this.getDirection());
+			this.numMovesMade++;
+			
+			this.numSquaresMoved = this.numMovesMade/(Controller.CHARACTER_DIMS/this.getSpeed());
 		}
 	}
 	
@@ -287,7 +297,6 @@ public class Pacman extends Character{
 						return;
 						
 					} else {
-						System.out.println("@ - Calling die()");
 						die();
 					}
 				}
@@ -300,13 +309,6 @@ public class Pacman extends Character{
 		
 		ArrayList<int[]> pathToHome = (ShortestPathUtils.getPaths(row, col, initialGhostRow, initialGhostCol, this.getWorld().getModel()));
 	
-		//print out the path generated
-		for(int[] pair : pathToHome) {
-			System.out.print(Arrays.toString(pair) + "_");
-		}
-		System.out.println();
-		
-		
 		pathToHome.remove(0); //0 is our first index, where we are right now, so it can be removed
 		
 		Image eyeImage = new Image("imgs/eyesRight.png");
@@ -509,8 +511,6 @@ public class Pacman extends Character{
 
 		} else {		
 			deathAnimation();
-			System.out.println("*****YOU LOSE*****");
-			//show pacman death animation.
 		}
 		
 		
@@ -526,9 +526,6 @@ public class Pacman extends Character{
 		SequentialTransition seq = new SequentialTransition();
 		
 		for(String path : deathImageFilePaths) {			
-			System.out.println("path -> " + path);
-			
-			
 			ImageSwapper trans = new ImageSwapper(this, path);
 			PauseTransition pt = new PauseTransition(Duration.millis(100));
 			
@@ -607,9 +604,7 @@ public class Pacman extends Character{
 		
 	}
 	
-	public void resetFood() {
-		System.out.println("In resetFood()");
-		
+	public void resetFood() {		
 		//add back any food which isn't on the screen
 		for(int r = 0; r < this.getWorld().getModel().getNumRows(); r++) {
 			for(int c = 0; c < this.getWorld().getModel().getNumCols(); c++) {
@@ -690,5 +685,31 @@ public class Pacman extends Character{
 
 	public void setShouldAnimateMouth(boolean shouldAnimateMouth) {
 		this.shouldAnimateMouth = shouldAnimateMouth;
+	}
+
+
+
+	public int getNumMovesMade() {
+		return numMovesMade;
+	}
+
+
+
+	public void setNumMovesMade(int numMovesMade) {
+		this.numMovesMade = numMovesMade;
+	}
+
+
+
+	public int getNumSquaresMoved() {
+		return numSquaresMoved;
+	}
+
+
+
+	public void setNumSquaresMoved(int numSquaresMoved) {
+		this.numSquaresMoved = numSquaresMoved;
 	}	
+	
+	
 }

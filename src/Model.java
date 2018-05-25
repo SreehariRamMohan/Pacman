@@ -60,14 +60,12 @@ public class Model {
 		
 		this.world.setPrefWidth(width);
 		this.world.setPrefHeight(height);
-		
-		System.out.println("Width is " + width + " and height is " + height);
-		
+				
 		int row = 0;
 		while(scanner.hasNextLine()) {
 			String rows = scanner.nextLine();
 			String[] arr = rows.split("");
-			System.out.println(Arrays.toString(arr));
+//			System.out.println(Arrays.toString(arr));
 			
 			for(int col = 0; col < arr.length; col++) {
 				if(arr[col] == null) {
@@ -81,7 +79,7 @@ public class Model {
 					pacmanInitialPosition[0] = row;
 					pacmanInitialPosition[1] = col;
 				} else if(arr[col].equals("G")) {
-					characters[row][col] = new Ghost(row, col);
+					characters[row][col] = new Ghost(row, col, -1);
 					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} else if(arr[col].equals("B")) {
@@ -94,7 +92,7 @@ public class Model {
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 
 				else if(arr[col].equals("C")) {
-					characters[row][col] = new Clyde(row, col);
+					characters[row][col] = new Clyde(row, col); //only resets when the path is empty
 					world.storeGhost((Ghost) characters[row][col]);
 					this.ghostInitialPositions.add(new int[] {row, col});
 				} 

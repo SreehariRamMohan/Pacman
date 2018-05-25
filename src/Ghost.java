@@ -19,9 +19,15 @@ public class Ghost extends Character {
 	private int startingRow;
 	private int startingCol;
 	
+	private int numSquaresOfPacmanUntilReset;
+	private int numberOfResets = 0; //holds the previous division value of squares/(squares until reset). We update this value to make sure we aren't recalculating the path multiple times if the pacman is stationary.
 	
 	
-	public Ghost(int startingRow, int startingCol) {
+	
+	
+	public Ghost(int startingRow, int startingCol, int numSquaresOfPacmanUntilReset) {
+		
+		this.numSquaresOfPacmanUntilReset = numSquaresOfPacmanUntilReset;
 		this.startingRow = startingRow;
 		this.startingCol = startingCol;
 		
@@ -74,10 +80,10 @@ public class Ghost extends Character {
 		edgeLoop();
 
 		
+		
 		if(getWorld().getLevel() == 1) {
-			/**
-			 * Level 1 is simple, the pac-man simply moves randomly around the board
-			 */
+			
+			
 			
 			int[] ghostPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
 			
@@ -96,13 +102,11 @@ public class Ghost extends Character {
 				return;
 			}
 			
-			if(currentPath == null || currentPath.isEmpty()) {
+			if(currentPath == null || currentPath.isEmpty() || needNewPathBasedGhostReset()) {
 				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, pacmanRow, pacmanCol, this.getWorld().getModel()));
 				//remove the first node in the list because it is where we are currently
 				
-				if(currentPath == null || currentPath.size() == 0) {
-					System.out.println("Hacky stop");
-					
+				if(currentPath == null || currentPath.size() == 0) {					
 					return;
 				}
 
@@ -113,10 +117,7 @@ public class Ghost extends Character {
 				this.setDirection(dir);
 				
 				this.centerCharacterInCell();
-				//print out the current position of the ghost
-				for(int[] node : currentPath) {
-					System.out.print(Arrays.toString(node) + " *-> ");
-				}				
+			
 			}
 
 			
@@ -161,6 +162,24 @@ public class Ghost extends Character {
 
 
 
+	}
+
+	private boolean needNewPathBasedGhostReset() {
+		if(this.numSquaresOfPacmanUntilReset == -1) { //clyde doesn't reset path
+			return false;
+		}
+		int squaresPacmanMoved = ((Pacman) this.getWorld().getPacman()).getNumSquaresMoved();
+		int numberOfResets = squaresPacmanMoved/numSquaresOfPacmanUntilReset;
+		
+		if(numberOfResets != this.numberOfResets) {
+			boolean needsReset = ((squaresPacmanMoved > 0) && ((squaresPacmanMoved%numSquaresOfPacmanUntilReset) == 0));
+			if(needsReset) {
+				this.numberOfResets = numberOfResets;
+			} 
+			return needsReset;
+		} else {
+			return false;
+		}
 	}
 
 	private void forceRowColInBounds(int[] ghostPos) {		

@@ -47,6 +47,14 @@ public class Controller extends Application {
 	
 	private Stage stage;
 	
+	/**
+	 * Reset constants for ghosts
+	 */
+	public static final int PINKY_RESET = 10;
+	public static final int BLINKY_RESET = 20;
+	public static final int INKY_RESET = 30;
+	public static final int CLYDE_RESET = -1; //-1 indicates that we only reset when the path is empty
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -179,7 +187,7 @@ public class Controller extends Application {
 		Scene scene = new Scene(root,630,680);
 	
 		
-		MediaPlayer player = new MediaPlayer(new Media(getClass().getResource("imgs/updated_gameplay.mp4").toExternalForm()));
+		MediaPlayer player = new MediaPlayer(new Media(getClass().getResource("imgs/gameplay.mp4").toExternalForm()));
 		MediaView mediaView = new MediaView(player);
 		player.setAutoPlay(true);
 		player.setOnEndOfMedia(new Runnable() {
@@ -269,7 +277,7 @@ public class Controller extends Application {
 					
 					
 				} catch (URISyntaxException e) {
-					System.out.println("oof");
+					e.printStackTrace();
 				}
 			}
 		});
