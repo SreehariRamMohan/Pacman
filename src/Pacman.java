@@ -45,9 +45,14 @@ public class Pacman extends Character{
 	
 	public final static int GHOST_EDIBLE_SECONDS = 6;
 	
-	public int numMovesMade = 0;
+	private int numMovesMade = 0;
 	
-	public int numSquaresMoved = 0;
+	private int numSquaresMoved = 0;
+	
+	private int numSquaresMovedUntilNextCherry = 0; //between 10 and 50
+	
+	private boolean hasCherryBeenSpawned = false;
+	
 	
 	public void playEatSound() {
 		
@@ -83,8 +88,17 @@ public class Pacman extends Character{
 		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();
 		loadDeathAnimationImagePaths();
+		
+		setNextCherrySpawn();
 
 	}
+
+
+	private void setNextCherrySpawn() {
+		int random = 10 + (int)(Math.random()*41); //10 - 50
+		this.numSquaresMovedUntilNextCherry = random;
+	}
+
 
 
 	public Pacman(int lives) {
@@ -94,6 +108,9 @@ public class Pacman extends Character{
 		pacmanFoodParticlesEaten = 0;
 		playLevelStartSound();
 		loadDeathAnimationImagePaths();
+		
+		setNextCherrySpawn();
+
 	}
 	
 	private void loadDeathAnimationImagePaths() {
@@ -189,9 +206,42 @@ public class Pacman extends Character{
 			this.numMovesMade++;
 			
 			this.numSquaresMoved = this.numMovesMade/(Controller.CHARACTER_DIMS/this.getSpeed());
+			
+			if(this.numSquaresMoved > 0 && this.numSquaresMoved%this.numSquaresMovedUntilNextCherry == 0) {
+				//spawn next cherry
+				spawnCherry();
+				setNextCherrySpawn();
+			}
 		}
 	}
 	
+	private void spawnCherry() {
+		if(!hasCherryBeenSpawned) {
+			hasCherryBeenSpawned = true;
+			
+			int row;
+			int col;
+			do {
+				row = (int) (Math.random() * this.getWorld().getModel().getNumRows());
+				col = (int) (Math.random() * this.getWorld().getModel().getNumCols());
+				System.out.println("row = " + row + " col = " + col);
+				
+			} while(this.getWorld().getModel().getFoodAt(row, col) instanceof Food || this.getWorld().getModel().objectAt(row, col) instanceof Wall || this.getWorld().getModel().objectAt(row, col) instanceof OutOfBounds);
+			
+			Food cherry = new Cherry();
+			cherry.setX(col * Controller.CHARACTER_DIMS);
+			cherry.setY(row * Controller.CHARACTER_DIMS);
+			this.getWorld().add(cherry);
+			this.getWorld().getModel().setFoodAt(row, col, cherry);
+
+		} else {
+			return;
+		}
+		
+	}
+
+
+
 	private void orientCorrectly(String direction) {
 				
 		if(this.getDirection().equals(Character.RIGHT)) {	
@@ -320,7 +370,7 @@ public class Pacman extends Character{
 
 
 
-	private void addScoreAnimation(int points, int fadeout, int row, int col) {
+	public void addScoreAnimation(int points, int fadeout, int row, int col) {
 		//add the score to this row, and col
 		Image i = new Image("imgs/point" + points + ".png");
 		InvisibleActor score = new InvisibleActor(i);
@@ -456,6 +506,30 @@ public class Pacman extends Character{
 			}
 
 		}
+		if(this.getIntersectingObjects(Cherry.class).size() != 0) {
+			//we need to make sure that the food we take is on our row, col position.
+			for(Cherry food : this.getIntersectingObjects(Cherry.class)) {
+				int[] pos = Character.getRowCol(food.getX() + food.getWidth()/2, food.getY() + food.getHeight()/2);
+				int row = pos[0];
+				int col = pos[1];
+
+				int[] myPos = Character.getRowCol(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
+				int myRow = myPos[0];
+				int myCol = myPos[1];
+
+				if(row == myRow && col == myCol) {
+					//pacman has now eaten this food.
+					//playPowerUpSound();
+					food.onEat();
+					//can now safely break out since we are only allowing one eat() per act();
+					break;
+				} else {
+
+				}
+			}
+
+		}
+
 	}
 
 	private void edgeLoop() {
@@ -709,7 +783,34 @@ public class Pacman extends Character{
 
 	public void setNumSquaresMoved(int numSquaresMoved) {
 		this.numSquaresMoved = numSquaresMoved;
+	}
+
+
+
+	public int getNumSquaresMovedUntilNextCherry() {
+		return numSquaresMovedUntilNextCherry;
+	}
+
+
+
+	public void setNumSquaresMovedUntilNextCherry(int numSquaresMovedUntilNextCherry) {
+		this.numSquaresMovedUntilNextCherry = numSquaresMovedUntilNextCherry;
+	}
+
+
+
+	public boolean hasCherryBeenSpawned() {
+		return hasCherryBeenSpawned;
+	}
+
+
+
+	public void setHasCherryBeenSpawned(boolean hasCherryBeenSpawned) {
+		this.hasCherryBeenSpawned = hasCherryBeenSpawned;
 	}	
+	
+	
+	
 	
 	
 }

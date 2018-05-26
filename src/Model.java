@@ -105,7 +105,7 @@ public class Model {
 					food[row][col] = new RegFood();
 				} else if(arr[col].equals("U")) {
 					food[row][col] = new EatGhostPowerUp();
-				}
+				} 
 				
 				if(characters[row][col] != null) {
 					characters[row][col].setX(col*Controller.CHARACTER_DIMS);
@@ -118,6 +118,10 @@ public class Model {
 					food[row][col].setX(col*Controller.CHARACTER_DIMS);
 					food[row][col].setY(row*Controller.CHARACTER_DIMS);
 					world.add(food[row][col]);
+				}
+				
+				if(arr[col].equals("O")) { //letter O, this square should be marked out of bounds
+					characters[row][col] = new OutOfBounds();
 				}
  			}
 			
@@ -139,6 +143,12 @@ public class Model {
 	public void setCharacterAt(int row, int col, Character c) {
 		if(row >= 0 && row < characters.length && col >= 0 && col < characters[row].length) {
 			characters[row][col] = c;
+		}
+	}
+	
+	public void setFoodAt(int row, int col, Food f) {
+		if(row >= 0 && row < food.length && col >= 0 && col < food[row].length) {
+			food[row][col] = f;
 		}
 	}
 	
