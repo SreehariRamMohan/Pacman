@@ -92,10 +92,14 @@ public class Ghost extends Character {
 			int currRow = ghostPos[0];
 			int currCol = ghostPos[1];
 
-			int[] pacManPos = Character.getRowCol(this.getWorld().getPacman().getX() + this.getWorld().getPacman().getWidth()/2, this.getWorld().getPacman().getY() + this.getWorld().getPacman().getHeight()/2);
 
+			int[] pacManPos = Character.getRowCol(this.getWorld().getPacman().getX() + this.getWorld().getPacman().getWidth()/2, this.getWorld().getPacman().getY() + this.getWorld().getPacman().getHeight()/2);
+			//forceRowColInBounds(pacManPos);
+			
 			int pacmanRow = pacManPos[0];
 			int pacmanCol = pacManPos[1];
+			
+			
 			
 			if(currRow == pacmanRow && currCol == pacmanCol) {
 				// we are at the pacman, so we should stop and allow the pacman to detect us.
@@ -106,7 +110,7 @@ public class Ghost extends Character {
 				currentPath = (ShortestPathUtils.getPaths(currRow, currCol, pacmanRow, pacmanCol, this.getWorld().getModel()));
 				//remove the first node in the list because it is where we are currently
 				
-				if(currentPath == null || currentPath.size() == 0) {					
+				if(currentPath == null || currentPath.size() == 0) {										
 					return;
 				}
 
@@ -182,16 +186,17 @@ public class Ghost extends Character {
 		}
 	}
 
-	private void forceRowColInBounds(int[] ghostPos) {		
-		if(!ShortestPathUtils.isInBounds(ghostPos[0], ghostPos[1], this.getWorld().getModel())) {
-			if(ghostPos[1] >= this.getWorld().getModel().getNumCols()) {
-				ghostPos[0] = 0;
+	private void forceRowColInBounds(int[] pos) {		
+		if(!ShortestPathUtils.isInBounds(pos[0], pos[1], this.getWorld().getModel())) {
+			if(pos[1] >= this.getWorld().getModel().getNumCols()) {
+				pos[1] = 1;
 			} else {
-				ghostPos[0] = this.getWorld().getModel().getNumCols() - 1;
+				pos[1] = this.getWorld().getModel().getNumCols() - 1;
 			}
 		}
 		
 	}
+
 	
 	public void clearPathList() {
 		if(this.currentPath != null) {

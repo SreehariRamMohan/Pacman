@@ -19,11 +19,18 @@ public class ShortestPathUtils {
 		
 		ArrayList<int[]> oneOfThePaths = new ArrayList<>();
 		oneOfThePaths.add(new int[]{ghostCurrRow, ghostCurrCol});
-				
+		
 		shortestPath(ghostCurrRow, ghostCurrCol, pacmanRow, pacmanCol, visitedList, m, oneOfThePaths);
 		
 		ArrayList<int[]> optimalPath = findMostOptimal(allPaths);
-				
+		
+		if(optimalPath == null) {
+			System.out.println("ghost row = " + ghostCurrRow + " ghost col = " + ghostCurrCol);
+			System.out.println("pacman row = " + pacmanRow + " pacman col " + pacmanCol);
+			
+			
+		}
+		
 		return optimalPath;
 	}
 	

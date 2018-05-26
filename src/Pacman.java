@@ -48,7 +48,7 @@ public class Pacman extends Character{
 	private int numMovesMade = 0;
 	
 	private int numSquaresMoved = 0;
-	
+		
 	private int numSquaresMovedUntilNextCherry = 0; //between 10 and 50
 	
 	private boolean hasCherryBeenSpawned = false;
@@ -93,14 +93,6 @@ public class Pacman extends Character{
 
 	}
 
-
-	private void setNextCherrySpawn() {
-		int random = 10 + (int)(Math.random()*41); //10 - 50
-		this.numSquaresMovedUntilNextCherry = random;
-	}
-
-
-
 	public Pacman(int lives) {
 		this.setImage(pacManClosed);
 		this.lives = lives;
@@ -111,6 +103,11 @@ public class Pacman extends Character{
 		
 		setNextCherrySpawn();
 
+	}
+	
+	private void setNextCherrySpawn() {
+		int random = 10 + (int)(Math.random()*41); //10 - 50
+		this.numSquaresMovedUntilNextCherry = random * Controller.CHARACTER_DIMS;
 	}
 	
 	private void loadDeathAnimationImagePaths() {
@@ -127,6 +124,8 @@ public class Pacman extends Character{
 		animateMouth();
 		detectFood();
 		detectGhosts();
+		
+		//edgeLoop();
 		mainMovement();
 		edgeLoop();
 
@@ -192,10 +191,10 @@ public class Pacman extends Character{
 	private void mainMovement() {
 
 		orientCorrectly(this.getDirection());
-		
+
 		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) 
 				&& this.isInCenter()) {
-			
+
 			this.setDirection(this.getQueuedDirection());
 			this.removeQueuedDirection();
 			this.safeMove(this.getDirection());
@@ -204,15 +203,24 @@ public class Pacman extends Character{
 		} else {
 			this.safeMove(this.getDirection());
 			this.numMovesMade++;
-			
+
 			this.numSquaresMoved = this.numMovesMade/(Controller.CHARACTER_DIMS/this.getSpeed());
 			
-			if(this.numSquaresMoved > 0 && this.numSquaresMoved%this.numSquaresMovedUntilNextCherry == 0) {
-				//spawn next cherry
-				spawnCherry();
-				setNextCherrySpawn();
-			}
-		}
+			if(!this.hasCherryBeenSpawned) {
+				this.numSquaresMovedUntilNextCherry -= this.getSpeed();
+				this.numSquaresMovedUntilNextCherry = Math.max(this.numSquaresMovedUntilNextCherry, 0);
+			}			
+			
+			if(!this.hasCherryBeenSpawned) {
+				if(this.numSquaresMovedUntilNextCherry == 0) {
+					//spawn next cherry	
+					spawnCherry();
+					setNextCherrySpawn();
+				} 
+			} 
+
+		} 
+
 	}
 	
 	private void spawnCherry() {
@@ -221,12 +229,15 @@ public class Pacman extends Character{
 			
 			int row;
 			int col;
+			int numTimesWhileLoopRan = 0;
 			do {
 				row = (int) (Math.random() * this.getWorld().getModel().getNumRows());
 				col = (int) (Math.random() * this.getWorld().getModel().getNumCols());
-				System.out.println("row = " + row + " col = " + col);
-				
-			} while(this.getWorld().getModel().getFoodAt(row, col) instanceof Food || this.getWorld().getModel().objectAt(row, col) instanceof Wall || this.getWorld().getModel().objectAt(row, col) instanceof OutOfBounds);
+				numTimesWhileLoopRan++;
+			} while(this.getWorld().getModel().getFoodAt(row, col) instanceof Food || 
+					this.getWorld().getModel().objectAt(row, col) instanceof Wall ||
+					this.getWorld().getModel().objectAt(row, col) instanceof OutOfBounds);
+						
 			
 			Food cherry = new Cherry();
 			cherry.setX(col * Controller.CHARACTER_DIMS);
@@ -532,13 +543,15 @@ public class Pacman extends Character{
 
 	}
 
-	private void edgeLoop() {
+	public void edgeLoop() {			
 		//allow the pacman to edge loop
-		if(this.getX() > getWorld().getWidth()) {
+		if( (this.getX() + this.getWidth()) > Controller.SCREEN_WIDTH) {
 			this.setCoordinate(0, this.getY());
-		} else if((this.getX()) <= 0) {
-			this.setCoordinate(this.getWorld().getWidth() - this.getWidth(), this.getY());
-		}		
+			this.removeQueuedDirection();
+		} else if((this.getX()) < 0) {
+			this.setCoordinate(Controller.SCREEN_WIDTH - this.getWidth() - 1, this.getY());
+			this.removeQueuedDirection();
+		}				
 	}
 
 	public static void setTrackPoint(int p) {
@@ -807,7 +820,8 @@ public class Pacman extends Character{
 
 	public void setHasCherryBeenSpawned(boolean hasCherryBeenSpawned) {
 		this.hasCherryBeenSpawned = hasCherryBeenSpawned;
-	}	
+	}
+
 	
 	
 	
