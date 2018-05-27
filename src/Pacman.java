@@ -61,6 +61,8 @@ public class Pacman extends Character{
 	
 	private AudioClip levelStartSound = new AudioClip(new File("src/sounds/pacman_beginning.wav").toURI().toString());
 	
+	private AudioClip pacmanDeathSound = new AudioClip(new File("src/sounds/pacman_death.wav").toURI().toString());
+	
 	public void playEatSound() {
 		if(!eatSound.isPlaying()) {
 			eatSound.play();
@@ -82,6 +84,12 @@ public class Pacman extends Character{
 	private void playLevelStartSound() {
 		if(!levelStartSound.isPlaying()) {
 			levelStartSound.play();
+		}
+	}
+	
+	private void playPacmanDeathSound() {
+		if(!pacmanDeathSound.isPlaying()) {
+			pacmanDeathSound.play();
 		}
 	}
 	
@@ -563,8 +571,8 @@ public class Pacman extends Character{
 
 		decrementLives();
 		getWorld().pause();
-		SoundUtils.playPacmanDeath();
-
+		playPacmanDeathSound();
+		
 		if(this.getLives() > 0) { 
 			
 			for(Actor a : this.getWorld().getGhosts()) {
