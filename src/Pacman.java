@@ -23,9 +23,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-/**
- *
- */
 public class Pacman extends Character{
 
 	private int lives;
@@ -36,6 +33,7 @@ public class Pacman extends Character{
 	private Image pacManOpen = new Image("imgs/pacMan2.png");
 	private int openCloseMouthCounter = 0;
 	
+	//images for death animation.
 	private String[] deathImageFilePaths = new String[11];
 		
 	boolean isPlaying = false;
@@ -44,6 +42,7 @@ public class Pacman extends Character{
 	
 	private boolean shouldAnimateMouth = true;
 	
+	//number of seconds ghosts are edible for. 
 	public final static int GHOST_EDIBLE_SECONDS = 6;
 	
 	private int numMovesMade = 0;
@@ -112,11 +111,17 @@ public class Pacman extends Character{
 
 	}
 	
+	/**
+	 * Method to determine in how many moves the next cherry should spawn in.
+	 */
 	private void setNextCherrySpawn() {
 		int random = 10 + (int)(Math.random()*41); //10 - 50
 		this.numSquaresMovedUntilNextCherry = random * Controller.CHARACTER_DIMS;
 	}
 	
+	/**
+	 * Loads the death animation.
+	 */
 	private void loadDeathAnimationImagePaths() {
 		for(int i = 0; i < 11; i++) {
 			String path = "imgs/pacmanDeathSequence/pacdeath"+(i+1)+".png";

@@ -2,6 +2,10 @@ import javafx.animation.Transition;
 import javafx.scene.image.Image;
 import javafx.util.Duration;
 
+/**
+ * This class is used as a custom transition for the ghost death animation to allow us to swap an image of the pacman.
+ * We can then put this transition in a timeline for easy use.
+ */
 public class ImageSwapper extends Transition {
 
 	private Character toAnimate;

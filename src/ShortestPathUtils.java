@@ -47,7 +47,6 @@ public class ShortestPathUtils {
 		return toPick;
 	}
 
-
 	public static void shortestPath(int currentRow, int currentCol, int destinationRow, int destinationCol, boolean[][] visited, Model m, ArrayList<int[]> oneOfThePaths)  {
 		
 		if(numPathsFound >= NUMBER_OF_PATHS_TO_FIND_IN_DFS) {

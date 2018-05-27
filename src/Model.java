@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * The core "backend" of our game stores where/what everything is. Allows for map loading.
+ */
 public class Model {
 	
 	private int horizontalCells;
@@ -203,18 +206,12 @@ public class Model {
 		return (Food) food[r][c];
 	}
 	
-	
-	
 	public int getNumRows() {
 		return this.characters.length;
 	}
 	
 	public int getNumCols() {
 		return this.characters[0].length;
-	}
-	
-	public void saveState() {
-		
 	}
 	
 	public int getNumFoodParticles() {

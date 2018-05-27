@@ -34,21 +34,22 @@ import javafx.util.Duration;
 
 public class Controller extends Application {
 
+	//game CONSTANTS
 	public int NUM_GHOSTS = 5;
 	public static int SCREEN_HEIGHT = 680;
 	public static int SCREEN_WIDTH = 630;
 	public static int CHARACTER_DIMS = 30;
 	private PacManWorld world;
 	
+	//Labels/Scores for the HUD
 	private Text scoreText;
-	
 	private Image pacmanImage = new Image("imgs/pacMan.png");
-	//characters
-	
+
 	private Stage stage;
 	
-	/**
-	 * Reset constants for ghosts
+	/*
+	 * Reset constants for ghosts. These variables indicate how often the ghosts will recalculate their paths. 
+	 * (The smaller the numbers, the more accurate these ghosts will be). 
 	 */
 	public static final int PINKY_RESET = 10;
 	public static final int BLINKY_RESET = 20;
@@ -74,6 +75,10 @@ public class Controller extends Application {
 		stage.show();
 	}
 	
+	/**
+	 * Layout Manager method which can swap screens for us.
+	 * @param sceneName the name of the scene to swap to. 
+	 */
 	public void swapScenes(String sceneName) {
 		if(sceneName.equals("title")) {
 			stage.setMaxWidth(630);
@@ -102,7 +107,7 @@ public class Controller extends Application {
 		root.setCenter(world);
 		Scene scene = new Scene(root);
 	
-		/**
+		/*
 		 * Code to create the top HUD (top row of information about the game).
 		 */
 		
@@ -156,11 +161,9 @@ public class Controller extends Application {
 					((Pacman)world.getPacman()).queueTurn("RIGHT");
 				}
 				
-				
-				
 				/**
-				 * This code is a more robust way to turn so that you can queue in the direction you are moving
-				 * LEAVE THIS COMMENTED FOR NOW, UNCOMMENT after TESTING A LOT
+				 * UNSTABLE
+				 * Code below is a more robust way to turn so that you can queue in the direction you are moving
 				 */
 				//Code to make direction be queued based on current queued direction as opposed to the above where
 				//direction queue is based on current direction
@@ -272,10 +275,6 @@ public class Controller extends Application {
 					newRoot.setLeft(button);
 					
 					stage.setScene(webScene);
-					
-					
-					
-					
 				} catch (URISyntaxException e) {
 					e.printStackTrace();
 				}
@@ -291,8 +290,6 @@ public class Controller extends Application {
 			}
 			
 		});
-		
-		
 		
 		pacmanTitle.setX(scene.getWidth()/2 - title.getWidth()/2);
 		pacmanTitle.setY(scene.getHeight()/6);

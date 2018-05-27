@@ -21,20 +21,21 @@ public class EatGhostPowerUp extends Food {
 	@Override
 	public void onEat() {
 		
-		
+		//prevent method from being called multiple times for the same food particle.
 		if(hasEaten) {
 			return;
 		} else {
 			hasEaten = true;
 		}
 		
-		//update number of food particles pacman has eaten
+		//update number of food particles Pacman has eaten
 		((Pacman)getWorld().getPacman()).setPacmanFoodParticlesEaten(((Pacman)getWorld().getPacman()).getPacmanFoodParticlesEaten() + 1);
 		((Pacman)this.getWorld().getPacman()).playPowerUpSound();
 		
 		List<Actor> list = getWorld().getGhosts();
 		int size = list.size();
 		
+		//make all the ghosts edible.
 		for(int i=0; i<size; i++) {
 			Ghost ghost = (Ghost) list.get(i);
 			ghost.setEdible(true);
@@ -45,8 +46,6 @@ public class EatGhostPowerUp extends Food {
 		
 		EatGhostPowerUp myself = this;
 
-
-		
 		/*
 		 * For first 3/4 of the time the ghosts are blue, then for the remaining 1/4 of the time they flash indicating that
 		 * they will turn back to normal soon
@@ -72,8 +71,6 @@ public class EatGhostPowerUp extends Food {
 		/*
 		 * Indicates ghost will turn back to normal soon
 		 */
-		
-		
 		Timeline timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(Pacman.GHOST_EDIBLE_SECONDS * 1000)));
 		timeline.setOnFinished(new EventHandler<ActionEvent>() {
@@ -122,6 +119,9 @@ public class EatGhostPowerUp extends Food {
 		this.hasEaten = hasEaten;
 	}
 	
+	/**
+	 * Method to allow the ghost to flash between opacity 1 and 0.4. It changes its image to a white ghost. 
+	 */
 	public void flashGhost() {
 		List<Actor> list = getWorld().getGhosts();
 		int size = list.size();
@@ -152,9 +152,9 @@ public class EatGhostPowerUp extends Food {
 			
 			int oneCycleTime = blinkOnTime + blinkOffTime;
 			
-			double numCycle = (0.25 * Pacman.GHOST_EDIBLE_SECONDS * 1000)/oneCycleTime;
+			double numCycle = (0.25 * Pacman.GHOST_EDIBLE_SECONDS * 1000)/oneCycleTime; //figure out exactly how many blinkOn and blinkOff cycles we have in the time allotted.
 			
-			Timeline ghostBlinkTimeline = new Timeline(blinkOn, blinkOff);
+			Timeline ghostBlinkTimeline = new Timeline(blinkOn, blinkOff); //timeline made up of blinkOn, and blinkOff KeyFrames, which alternate to create blinking effect.
 			ghostBlinkTimeline.setCycleCount((int) Math.floor(numCycle)); //better to underestimate cycles than underestimate, so we ensure
 																		//that the ghosts stop blinking and turn back to normal correctly
 			ghostBlinkTimeline.play();
