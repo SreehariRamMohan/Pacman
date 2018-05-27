@@ -142,7 +142,10 @@ public class Pacman extends Character{
 		edgeLoop();
 
 	}
-
+	
+	/**
+	 * Determines if the game is over and if it is, shows the popup saying that the player has won with the option to restart the game.
+	 */
 	private void hasPacmanWon() {
 		if(this.getPacmanFoodParticlesEaten() == this.getWorld().getModel().getNumFoodParticles()) {
 			this.getWorld().pause();
@@ -191,8 +194,7 @@ public class Pacman extends Character{
 				}
 				
 			});
-		} else {
-			//System.out.println("food eaten -> " + ((Pacman)this.getWorld().getPacman()).getPacmanFoodParticlesEaten() + " total ->  " + this.getWorld().getModel().getNumFoodParticles());
+		} else {	
 			
 		}
 		
@@ -202,10 +204,10 @@ public class Pacman extends Character{
 
 	private void mainMovement() {
 
-		orientCorrectly(this.getDirection());
+		orientCorrectly(this.getDirection()); //sets the correct image for pacman based on the direction he is facing. 
 
-		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) 
-				&& this.isInCenter()) {
+		if( (this.hasQueue() && this.canMove(this.getQueuedDirection())) //adaptive turning check.
+				&& this.isInCenter()) { //if a path is open and we have a queue then move pacman in that direction. 
 
 			this.setDirection(this.getQueuedDirection());
 			this.removeQueuedDirection();
@@ -224,7 +226,7 @@ public class Pacman extends Character{
 			}			
 			
 			if(!this.hasCherryBeenSpawned) {
-				if(this.numSquaresMovedUntilNextCherry == 0) {
+				if(this.numSquaresMovedUntilNextCherry == 0) { //have we moved enough to get our next cherry?
 					//spawn next cherry	
 					spawnCherry();
 					setNextCherrySpawn();
@@ -235,6 +237,9 @@ public class Pacman extends Character{
 
 	}
 	
+	/**
+	 * This method puts the cherry on the screen, and updates it position in the model. 
+	 */
 	private void spawnCherry() {
 		if(!hasCherryBeenSpawned) {
 			hasCherryBeenSpawned = true;
@@ -242,7 +247,7 @@ public class Pacman extends Character{
 			int row;
 			int col;
 			int numTimesWhileLoopRan = 0;
-			do {
+			do { //find a spot to put the cherry which is clear of all other stuff and can be eaten by the player.
 				row = (int) (Math.random() * this.getWorld().getModel().getNumRows());
 				col = (int) (Math.random() * this.getWorld().getModel().getNumCols());
 				numTimesWhileLoopRan++;
@@ -255,7 +260,7 @@ public class Pacman extends Character{
 			cherry.setX(col * Controller.CHARACTER_DIMS);
 			cherry.setY(row * Controller.CHARACTER_DIMS);
 			this.getWorld().add(cherry);
-			this.getWorld().getModel().setFoodAt(row, col, cherry);
+			this.getWorld().getModel().setFoodAt(row, col, cherry); //update position in the model.
 
 		} else {
 			return;
@@ -264,7 +269,10 @@ public class Pacman extends Character{
 	}
 
 
-
+	/**
+	 * Places the correct image on pacman corresponding to the direction.
+	 * @param direction
+	 */
 	private void orientCorrectly(String direction) {
 				
 		if(this.getDirection().equals(Character.RIGHT)) {	
@@ -278,6 +286,9 @@ public class Pacman extends Character{
 		}
 	}
 
+	/**
+	 * Makes pacman mouth open and close.
+	 */
 	private void animateMouth() {
 		
 		if(!shouldAnimateMouth()) {
@@ -302,8 +313,8 @@ public class Pacman extends Character{
 	
 	
 	/**
-	 * To ensure accuracy with ghost collisions, to ensure collision in our game we check for both graphical collision 
-	 * and collision in our model (2D Array)
+	 * Determines if we collided with ghosts.
+	 * To ensure accuracy with ghost collisions in our game we check for both graphical collision and collision in our model (2D Array)
 	 * In order for a collision to be detected, the ghosts must collide with pacman both graphically and internally with our data structure. 
 	 */
 	private void detectGhosts() {
@@ -343,16 +354,14 @@ public class Pacman extends Character{
 						this.getWorld().removeGhost(ghost);
 						getWorld().remove(ghost);
 						
-						/**
-						 * TODO: Make these values dependent upon the ghost eaten, for now hard-coded 
-						 */
+						//adds the fading animation to tell the user how many points they got. 
 						addScoreAnimation(point, 500, row, col);
 						
 						playGhostDeathSound();
 						
-						/**
+						/*
 						 * Determine which kind of Ghost we ate
-						 **/
+						 */
 						String whoDoTheseEyesBelongTo = "";
 						if(g instanceof Blinky) {
 							whoDoTheseEyesBelongTo = "Blinky";
@@ -378,6 +387,14 @@ public class Pacman extends Character{
 
 	}
 
+	/**
+	 * Creates the eyes which zip back home and respawn.
+	 * @param row
+	 * @param col
+	 * @param initialGhostRow
+	 * @param initialGhostCol
+	 * @param whoDoTheseEyesBelongTo
+	 */
 	private void spawnEyesGoingBackToHome(int row, int col, int initialGhostRow, int initialGhostCol, String whoDoTheseEyesBelongTo) {
 		
 		ArrayList<int[]> pathToHome = (ShortestPathUtils.getPaths(row, col, initialGhostRow, initialGhostCol, this.getWorld().getModel()));
@@ -391,8 +408,14 @@ public class Pacman extends Character{
 		//make the eyes go back to the home before they re-spawn into a new ghost.
 	}
 
-
-
+	/**
+	 * creates score animation which fades out.
+	 * @param points
+	 * @param fadeout time before score label fades.
+	 * @param row
+	 * @param col
+	 * Precondition: we have the image corresponding to the points.
+	 */
 	public void addScoreAnimation(int points, int fadeout, int row, int col) {
 		//add the score to this row, and col
 		Image i = new Image("imgs/point" + points + ".png");
@@ -421,6 +444,10 @@ public class Pacman extends Character{
 		scoreEndTimeline.play();
 	}
 
+	/**
+	 * Method to detect collision with all subclasses of Food.
+	 * To ensure accuracy we check for graphical and internal collision.
+	 */
 	private void detectFood() {
 		if(this.getIntersectingObjects(RegFood.class).size() != 0) { //graphical collision check
 
@@ -494,6 +521,9 @@ public class Pacman extends Character{
 
 	}
 
+	/**
+	 * Loops the pacman from left-right and right-left after going through tunnel on right and left side of the board.
+	 */
 	public void edgeLoop() {			
 		//allow the pacman to edge loop
 		if( (this.getX() + this.getWidth()) > Controller.SCREEN_WIDTH) {
@@ -528,10 +558,6 @@ public class Pacman extends Character{
 		this.lives = lives;
 	}
 
-	public void onEat() {
-		//Does something when something is eaten
-	}
-
 	@Override
 	public void die() {
 
@@ -539,7 +565,7 @@ public class Pacman extends Character{
 		getWorld().pause();
 		SoundUtils.playPacmanDeath();
 
-		if(this.getLives() > 0) { //TODO Make the Pacman Death Animation
+		if(this.getLives() > 0) { 
 			
 			for(Actor a : this.getWorld().getGhosts()) {
 				Ghost g = (Ghost) a;
@@ -591,6 +617,9 @@ public class Pacman extends Character{
 		
 	}
 
+	/**
+	 * Give player chance to restart game after they die.
+	 */
 	private void showPacmanDeathAlert() {	
 		Alert deathAlert = new Alert(AlertType.CONFIRMATION);
 		deathAlert.setTitle("You lose!");
@@ -642,6 +671,9 @@ public class Pacman extends Character{
 		
 	}
 	
+	/**
+	 * Puts all food back on board, so player can start fresh.
+	 */
 	public void resetFood() {		
 		//add back any food which isn't on the screen
 		for(int r = 0; r < this.getWorld().getModel().getNumRows(); r++) {
@@ -680,6 +712,9 @@ public class Pacman extends Character{
 
 
 
+	/**
+	 * Resets most aspects of game, so players can restart from a clean slate.
+	 */
 	public void resetGame() {
 
 		getWorld().pause();
