@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -53,30 +54,36 @@ public class Pacman extends Character{
 	
 	private boolean hasCherryBeenSpawned = false;
 	
+	private AudioClip eatSound = new AudioClip(new File("src/sounds/pacman_chomp.wav").toURI().toString());
+
+	private AudioClip deathSound = new AudioClip(new File("src/sounds/pacman_eatghost.wav").toURI().toString());
+	
+	private AudioClip powerUpSound = new AudioClip(new File("src/sounds/pacman_powerup.wav").toURI().toString());
+	
+	private AudioClip levelStartSound = new AudioClip(new File("src/sounds/pacman_beginning.wav").toURI().toString());
 	
 	public void playEatSound() {
-		
-		//We don't want sounds to overlap each other
-		if(isPlaying) {
-			return;
-		} else {
-			isPlaying = true;
+		if(!eatSound.isPlaying()) {
+			eatSound.play();
+		}			
+	}
+	
+	private void playGhostDeathSound() {
+		if(!deathSound.isPlaying()) {
+			deathSound.play();
 		}
-		
-		Media eatingSound = new Media(new File("src/sounds/pacman_chomp.wav").toURI().toString());
-		MediaPlayer chompPlayer = new MediaPlayer(eatingSound);
-		
-		chompPlayer.play();
-		chompPlayer.setOnEndOfMedia(new Runnable() {
-
-			@Override
-			public void run() {
-				isPlaying = false;
-				
-				chompPlayer.dispose();
-			}
-			
-		});
+	}
+	
+	public void playPowerUpSound() {
+		if(!powerUpSound.isPlaying()) {
+			powerUpSound.play();
+		}
+	}
+	
+	private void playLevelStartSound() {
+		if(!levelStartSound.isPlaying()) {
+			levelStartSound.play();
+		}
 	}
 	
 	
@@ -409,66 +416,6 @@ public class Pacman extends Character{
 		scoreEndTimeline.play();
 	}
 
-
-
-	private void playGhostDeathSound() {
-		
-		Media eatingSound = new Media(new File("src/sounds/pacman_eatghost.wav").toURI().toString());
-		MediaPlayer ghostDeathPlayer = new MediaPlayer(eatingSound);
-		ghostDeathPlayer.setOnEndOfMedia(new Runnable() {
-
-			@Override
-			public void run() {
-				isPlaying = false;
-				ghostDeathPlayer.dispose();
-			}
-			
-		});
-		ghostDeathPlayer.play();		
-	}
-	
-	public void playPowerUpSound() {
-		
-		Media powerUpSound = new Media(new File("src/sounds/pacman_powerup.wav").toURI().toString());
-		MediaPlayer player = new MediaPlayer(powerUpSound);
-		player.setOnEndOfMedia(new Runnable() {
-
-			@Override
-			public void run() {
-				isPlaying = false;
-				player.dispose();
-			}
-			
-		});
-		player.play();
-		
-		
-	}
-	
-	private void playLevelStartSound() {
-		if(isPlaying) {
-			return;
-		} else {
-			isPlaying = true;
-		}
-		Media startSound = new Media(new File("src/sounds/pacman_beginning.wav").toURI().toString());
-		MediaPlayer soundPlayer = new MediaPlayer(startSound);
-		
-		soundPlayer.play();
-		soundPlayer.setOnEndOfMedia(new Runnable() {
-
-			@Override
-			public void run() {
-				isPlaying = false;
-				soundPlayer.dispose();
-			}
-			
-		});
-		
-	}
-
-
-
 	private void detectFood() {
 		if(this.getIntersectingObjects(RegFood.class).size() != 0) { //graphical collision check
 
@@ -507,7 +454,6 @@ public class Pacman extends Character{
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
-					//playPowerUpSound();
 					food.onEat();
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
@@ -530,7 +476,7 @@ public class Pacman extends Character{
 
 				if(row == myRow && col == myCol) {
 					//pacman has now eaten this food.
-					//playPowerUpSound();
+					playPowerUpSound();
 					food.onEat();
 					//can now safely break out since we are only allowing one eat() per act();
 					break;
