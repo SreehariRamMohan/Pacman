@@ -64,7 +64,7 @@ public class Controller extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		
-		stage.setTitle("Pac Man");
+		stage.setTitle("Pacman");
 		this.stage = stage;
 		
 		Scene titleScene = createTitleUI();

@@ -83,16 +83,7 @@ public class PacManWorld extends World {
 	public void setLevel(int level) {
 		this.level = level;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	/**
 	 * Methods for updating the lives
